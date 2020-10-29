@@ -1,6 +1,9 @@
 object MasterMind {
 
+  def main(args:Array[String]): Unit ={
 
+    println(gamelayout())
+  }
   def gamelayout(): String = {
     val title = "\t\t\t\tMaster Mind"
     val gameboard ="""
@@ -34,8 +37,5 @@ object MasterMind {
     val colorselection = "colors: " + colors
     title + gameboard + colorselection
   }
-  def main(args:Array[String]): Unit ={
 
-    println(gamelayout())
-  }
 }
