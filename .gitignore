@@ -1,4 +1,4 @@
 .idea
 .bsp
 target
-src/main/scala/mastermind/main.sc
+src/main/scala/main.sc
