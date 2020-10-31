@@ -18,35 +18,67 @@ object MasterMind {
   }
 
   def gameFieldString(gamefield: Vector[Vector[String]]): String = {
-    val title = "\t\t\t\tMaster Mind\n"
     var gameboard = ""
-    gameboard = gameboard.concat(title)
-
+    gameboard = concatTitle(gameboard)
+    gameboard = concatLineBreak(gameboard)
     gamefield.foreach(gamefieldSlot => {
-      gameboard = gameboard.concat("------------------------------------------------\n")
-      for (i <- 1 to 4) {
-        gameboard = gameboard.concat("|")
-        gameboard = gameboard.concat("          ")
-        gameboard = gameboard.concat("|")
-      }
-      gameboard = gameboard.concat(" Correct Colors: 0")
-      gameboard = gameboard.concat("\n")
+      gameboard = concatHorizontalLine(gameboard)
+      gameboard = concatLineBreak(gameboard)
+      gameboard = concatSlotPadding(gameboard)
+      gameboard = concatCorrectColors(gameboard)
+      gameboard = concatLineBreak(gameboard)
       gamefieldSlot.foreach(slot => {
-        gameboard = gameboard.concat("|")
+        gameboard = concatVerticalLine(gameboard)
         gameboard = gameboard.concat(slot)
-        gameboard = gameboard.concat("|")
+        gameboard = concatVerticalLine(gameboard)
       })
-      gameboard = gameboard.concat("\n")
-      for (i <- 1 to 4) {
-        gameboard = gameboard.concat("|")
-        gameboard = gameboard.concat("          ")
-        gameboard = gameboard.concat("|")
-      }
-      gameboard = gameboard.concat(" Correct Positions: 0\n")
-      gameboard = gameboard.concat("------------------------------------------------\n")
+      gameboard = concatLineBreak(gameboard)
+      gameboard = concatSlotPadding(gameboard)
+      gameboard = concatCorrectPositions(gameboard)
+      gameboard = concatLineBreak(gameboard)
+      gameboard = concatHorizontalLine(gameboard)
+      gameboard = concatLineBreak(gameboard)
     })
-
     gameboard
+  }
+
+  def concatSlotPadding(gameboard: String): String = {
+    var gameboardCopy = gameboard
+    for (i <- 1 to 4) {
+      gameboardCopy = concatVerticalLine(gameboardCopy)
+      gameboardCopy = concatEmptySpace(gameboardCopy)
+      gameboardCopy = concatVerticalLine(gameboardCopy)
+    }
+    gameboardCopy
+  }
+
+  def concatTitle(gameboard: String): String = {
+    val title = "\t\t\t\tMaster Mind"
+    gameboard.concat(title)
+  }
+
+  def concatVerticalLine(gameboard: String): String = {
+    gameboard.concat("|")
+  }
+
+  def concatHorizontalLine(gameboard: String): String = {
+    gameboard.concat("------------------------------------------------")
+  }
+
+  def concatLineBreak(gameboard: String): String = {
+    gameboard.concat("\n")
+  }
+
+  def concatEmptySpace(gameboard: String): String = {
+    gameboard.concat("          ")
+  }
+
+  def concatCorrectPositions(gameboard: String): String = {
+    gameboard.concat(" Correct Positions: 0")
+  }
+
+  def concatCorrectColors(gameboard: String): String = {
+    gameboard.concat(" Correct Colors: 0")
   }
 
 }
