@@ -3,7 +3,7 @@ package mastermind
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class MasterMindTest extends AnyWordSpec with Matchers{
+class MasterMindSpec extends AnyWordSpec with Matchers{
 
   "The gameboard" when {
     var gameboard = ""
