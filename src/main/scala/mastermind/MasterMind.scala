@@ -4,8 +4,11 @@ object MasterMind {
 
   def main(args: Array[String]): Unit = {
     println("Welcome to MasterMind!")
-    val gamefield = gameFieldString(gameField())
-    println(gamefield)
+    val gb = Gameboard(gameField(), "").gameFieldString()
+
+    println(gb.gamefield)
+   /* val gamefield = gameFieldString(gameField())
+    println(gamefield)*/
   }
 
   def gameField(): Vector[Vector[String]] = {
@@ -16,6 +19,7 @@ object MasterMind {
     }
     gamefield
   }
+/*
 
   def gameFieldString(gamefield: Vector[Vector[String]]): String = {
     var gameboard = ""
@@ -41,8 +45,9 @@ object MasterMind {
     })
     gameboard
   }
+*/
 
-  def concatSlotPadding(gameboard: String): String = {
+ /* def concatSlotPadding(gameboard: String): String = {
     var gameboardCopy = gameboard
     for (i <- 1 to 4) {
       gameboardCopy = concatVerticalLine(gameboardCopy)
@@ -79,6 +84,6 @@ object MasterMind {
 
   def concatCorrectColors(gameboard: String): String = {
     gameboard.concat(" Correct Colors: 0")
-  }
+  }*/
 
 }
