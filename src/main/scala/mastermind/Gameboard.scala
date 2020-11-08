@@ -2,11 +2,6 @@ package mastermind
 
 case class Gameboard(gamedata: Vector[Vector[String]], gamefield: String) {
 
-
-
-
-
-
   def gameFieldString(): Gameboard = {
     Gameboard(gamedata, gamefield).
       concatTitle().
@@ -14,7 +9,9 @@ case class Gameboard(gamedata: Vector[Vector[String]], gamefield: String) {
       .concatGamefield()
   }
  def forEachSlotfield(sf: Int, s: Int): Gameboard = {
-   Gameboard(gamedata, gamefield).concatHorizontalLine().concatLineBreak().concatSlotPadding().concatCorrectColors().concatLineBreak().forEachSlot(sf,s)
+   Gameboard(gamedata, gamefield).concatHorizontalLine().
+      concatLineBreak().concatSlotPadding().concatCorrectColors().concatLineBreak()
+     .forEachSlot(sf,s)
      .concatLineBreak()
      .concatSlotPadding()
      .concatCorrectPositions()
@@ -40,7 +37,6 @@ case class Gameboard(gamedata: Vector[Vector[String]], gamefield: String) {
       .concatVerticalLine().addString(gamedata(sf)(s+1)).concatVerticalLine()
       .concatVerticalLine().addString(gamedata(sf)(s+2)).concatVerticalLine()
       .concatVerticalLine().addString(gamedata(sf)(s+3)).concatVerticalLine()
-
   }
 
   def concatSlotPadding(): Gameboard = {
@@ -49,7 +45,6 @@ case class Gameboard(gamedata: Vector[Vector[String]], gamefield: String) {
         .concatVerticalLine().concatEmptySpace().concatVerticalLine()
         .concatVerticalLine().concatEmptySpace().concatVerticalLine()
         .concatVerticalLine().concatEmptySpace().concatVerticalLine()
-
   }
 
   def addString(string: String): Gameboard = {
