@@ -11,6 +11,11 @@ class GameDataSpec extends AnyWordSpec with Matchers{
         GameData().attempts shouldBe a [Vector[_]]
       }
     }
+    "initialized empty" should {
+      "contain empty 10 Attemps" in {
+        GameData().initializeEmpty().attempts.size shouldBe (10)
+      }
+    }
     "a attempt is added" should {
       "contain that attempt" in {
         GameData().addAttempt(Attempt()).attempts.size shouldBe (1)
