@@ -1,4 +1,4 @@
-package mastermind
+package mastermind.model
 
 case class GameBoard(gamedata: GameData, gamefield: String) {
 
