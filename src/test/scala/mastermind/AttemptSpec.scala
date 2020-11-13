@@ -3,7 +3,7 @@ package mastermind
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class AttemptSpec extends AnyWordSpec with Matchers{
+class AttemptSpec extends AnyWordSpec with Matchers {
   "A Attempt" when {
     "created" should {
       "contain 4 fields" in {
@@ -15,16 +15,12 @@ class AttemptSpec extends AnyWordSpec with Matchers{
         Attempt().userPickedColors(2) shouldBe "          "
         Attempt().userPickedColors(3) shouldBe "          "
       }
-    }
-    "updated" should {
-      "update the field" in {
-        Attempt().updateColor(0, "red").userPickedColors(0) shouldBe "red"
-      }
-    }
-    "updated all" should {
-      "update all fields" in {
-        val colors = Vector("blue", "green", "red", "yellow")
-        Attempt().updateAllColor(colors).userPickedColors shouldBe Vector[String]("      blue", "     green", "       red", "    yellow")
+      "contain the parameter fields" in {
+        val testAttempt = Attempt(Vector("test1", "test2", "test3", "test4"))
+        testAttempt.userPickedColors(0) shouldBe "test1"
+        testAttempt.userPickedColors(1) shouldBe "test2"
+        testAttempt.userPickedColors(2) shouldBe "test3"
+        testAttempt.userPickedColors(3) shouldBe "test4"
       }
     }
   }
