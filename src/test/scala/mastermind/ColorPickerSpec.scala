@@ -8,12 +8,12 @@ class ColorPickerSpec extends AnyWordSpec with Matchers {
   "A Color Picker" when {
     "created" should {
       "contain colors" in {
-        ColorPicker().colors.size shouldBe 8
+        ColorPicker().getAllColors().size shouldBe 8
       }
     }
     "colors are picked" should {
       "return random colors" in {
-        ColorPicker().pickSolution() should contain atLeastOneElementOf ColorPicker().colors
+        ColorPicker().pickSolution() should contain atLeastOneElementOf ColorPicker().getAllColors()
       }
     }
   }

@@ -1,19 +1,26 @@
 package mastermind.controller
 
+import mastermind.model.Color
+
 import scala.util.Random
 
-case class ColorPicker(colors: Vector[String] = Vector("red", "blue", "green", "yellow", "violett", "cyan", "black", "white")) {
+case class ColorPicker() {
+  val allColors = Vector("red", "blue", "green", "yellow", "black", "white", "orange", "brown")
 
-  def pickSolution(): Vector[String] = {
+  def getAllColors(): Vector[Color] = {
+    allColors.map(colorString => Color(colorString))
+  }
+
+  def pickSolution(): Vector[Color] = {
     addRandomColor(addRandomColor(addRandomColor(addRandomColor(Vector()))))
   }
 
-  def addRandomColor(current: Vector[String]): Vector[String] = {
+  def addRandomColor(current: Vector[Color]): Vector[Color] = {
     current :+ pickRandomColor(current)
   }
 
-  def pickRandomColor(alreadyPickedColors: Vector[String]): String = {
-    colors.filterNot(color => alreadyPickedColors.contains(color))(Random.nextInt(colors.size - alreadyPickedColors.size))
+  def pickRandomColor(alreadyPickedColors: Vector[Color]): Color = {
+    getAllColors().filterNot(color => alreadyPickedColors.contains(color))(Random.nextInt(allColors.size - alreadyPickedColors.size))
   }
 
 }
