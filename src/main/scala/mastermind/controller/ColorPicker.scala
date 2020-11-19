@@ -1,4 +1,4 @@
-package mastermind
+package mastermind.controller
 
 import scala.util.Random
 

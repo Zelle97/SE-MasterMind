@@ -1,7 +1,9 @@
 package mastermind
 
+import mastermind.model.{Attempt, GameData}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+
 import scala.collection.immutable.Vector
 
 class GameDataSpec extends AnyWordSpec with Matchers {

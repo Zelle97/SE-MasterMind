@@ -1,5 +1,6 @@
 package mastermind
 
+import mastermind.controller.ColorPicker
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
