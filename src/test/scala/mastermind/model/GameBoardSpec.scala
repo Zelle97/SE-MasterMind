@@ -1,7 +1,7 @@
-package mastermind
+package mastermind.model
 
 import mastermind.controller.ColorPicker
-import mastermind.model.{GameBoard, GameData}
+import mastermind.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

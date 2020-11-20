@@ -5,7 +5,7 @@ import mastermind.util.Observable
 
 class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
   def quitGame(): Unit = {
-
+    System.exit(0);
   }
 
   def addAttempt(input: String): Unit = {
@@ -20,4 +20,5 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
   def gameToString(): String = {
     gameData.toString
   }
+
 }
