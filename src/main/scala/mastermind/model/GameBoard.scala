@@ -32,12 +32,12 @@ case class GameBoard(gamedata: GameData, gamefield: String) {
       .concatHorizontalLine()
       .concatLineBreak()
       .concatSlotPadding()
-      .concatCorrectColors()
+      .concatCorrectColors(slotField)
       .concatLineBreak()
       .forEachSlot(slotField)
       .concatLineBreak()
       .concatSlotPadding()
-      .concatCorrectPositions()
+      .concatCorrectPositions(slotField)
       .concatLineBreak()
       .concatHorizontalLine()
       .concatLineBreak()
@@ -45,10 +45,10 @@ case class GameBoard(gamedata: GameData, gamefield: String) {
 
   def forEachSlot(slotField: Int): GameBoard = {
     GameBoard(gamedata, gamefield)
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(0)).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(1)).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(2)).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(3)).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(0).color).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(1).color).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(2).color).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(3).color).concatVerticalLine()
   }
 
   def concatSlotPadding(): GameBoard = {
@@ -78,11 +78,11 @@ case class GameBoard(gamedata: GameData, gamefield: String) {
     GameBoard(gamedata, gamefield.concat("          "))
   }
 
-  def concatCorrectPositions(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat(" Correct Positions: 0"))
+  def concatCorrectPositions(slotField: Int): GameBoard = {
+    GameBoard(gamedata, gamefield.concat(" Correct Positions: " + gamedata.attempts(slotField).getCorrectPositions(gamedata.solution)))
   }
 
-  def concatCorrectColors(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat(" Correct Colors: 0"))
+  def concatCorrectColors(slotField: Int): GameBoard = {
+    GameBoard(gamedata, gamefield.concat(" Correct Colors: " + gamedata.attempts(slotField).getCorrectColors(gamedata.solution)))
   }
 }
