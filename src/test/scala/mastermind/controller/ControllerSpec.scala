@@ -15,8 +15,10 @@ class ControllerSpec extends AnyWordSpec with Matchers{
       }
     }
     "created" should {
+      val c = new Controller(GameData(solution = solution))
       "add a attempt" in {
-        val c = new Controller(GameData(solution = solution)).addAttempt("red")
+        c.addAttempt("red")
+        c.gameData.attempts(9).userPickedColors(0).getColor() shouldBe "       red"
       }
     }
   }

@@ -1,7 +1,5 @@
 package mastermind.model
 
-import mastermind.controller.ColorPicker
-
 case class GameData(attempts: Vector[Attempt] = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt()),
                    solution: Vector[Color]) {
   def addAttempt(attempt: Attempt): GameData = {
