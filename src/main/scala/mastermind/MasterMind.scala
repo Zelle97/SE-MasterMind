@@ -20,7 +20,7 @@ object MasterMind {
     do {
       input = readLine()
       tui.processInput(input)
-    } while (input != "q")
+    } while (input != "exit")
 
     println("Goodbye!")
   }
