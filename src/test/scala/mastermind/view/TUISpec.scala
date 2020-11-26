@@ -6,21 +6,31 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class TUISpec extends AnyWordSpec with Matchers {
-  "A TUI" when {
-    val solution = ColorPicker().pickSolution()
-    val controller = new Controller(GameData(solution = solution))
-    val tui = new TUI(controller)
-    "print out a TUI" should {
-      "return true" in {
-        tui.update shouldBe true
+  "The TUI" when {
+    "created" should {
+      val solution = ColorPicker().pickSolution()
+      val controller = new Controller(GameData(solution = solution))
+      "have a controller" in {
+        new TUI(controller)
       }
     }
-/*    "get a input" should {
-      "add blue to attempt" in {
-        tui.processInput("blue")
-        tui.getController().gameData.attempts(9).userPickedColors(0).getColor() shouldBe "      blue"
+    val solution = ColorPicker().pickSolution()
+    val controller = new Controller(GameData(solution = solution))
+    val testTUI = new TUI(controller)
+    "input exit is given" should {
+      "exit the game" in {
+        testTUI.processInput("exit")
       }
-    }*/
+    }
+    "any other input is given" should {
+      "process the input" in {
+        testTUI.processInput("a b c d")
+      }
+    }
+    "print out a TUI" should {
+      "return true" in {
+        testTUI.update shouldBe true
+      }
+    }
   }
-
 }

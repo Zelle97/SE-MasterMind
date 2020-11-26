@@ -14,9 +14,7 @@ class TUI(controller: Controller) extends Observer {
     }
   }
 
-  def getController(): Controller = {
-    controller
+  override def update: Boolean = {
+    println(controller.gameToString()); true
   }
-
-  override def update: Boolean = {println(controller.gameToString()); true}
 }
