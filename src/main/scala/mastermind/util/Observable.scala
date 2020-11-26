@@ -1,10 +1,10 @@
 package mastermind.util
 
 trait Observer {
-  def update: Unit
+  def update: Boolean
 }
 
-trait Observable {
+class Observable {
   var subscribers: Vector[Observer] = Vector()
 
   def add(s: Observer): Unit = subscribers = subscribers :+ s
