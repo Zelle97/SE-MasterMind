@@ -16,8 +16,11 @@ object MasterMind {
   def main(args: Array[String]): Unit = {
     println("Welcome to MasterMind!")
     var input: String = ""
-
-    do {
+    if(args.length != 0) {
+      input = args(0)
+      tui.processInput(input)
+    }
+    else do {
       input = readLine()
       tui.processInput(input)
     } while (input != "exit")
