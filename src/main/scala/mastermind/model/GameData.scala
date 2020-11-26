@@ -1,7 +1,7 @@
 package mastermind.model
 
 case class GameData(attempts: Vector[Attempt] = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt()),
-                   solution: Vector[Color]) {
+                    solution: Vector[Color]) {
   def addAttempt(attempt: Attempt): GameData = {
     GameData(attempts :+ attempt, solution)
   }

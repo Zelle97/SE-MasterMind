@@ -16,7 +16,7 @@ class AttemptSpec extends AnyWordSpec with Matchers {
         Attempt().userPickedColors(3).color shouldBe "          "
       }
       "contain the parameter fields" in {
-        val testAttempt = Attempt(Vector(Color("test1"),Color("test2"), Color("test3"), Color("test4")))
+        val testAttempt = Attempt(Vector(Color("test1"), Color("test2"), Color("test3"), Color("test4")))
         testAttempt.userPickedColors(0).color shouldBe "test1"
         testAttempt.userPickedColors(1).color shouldBe "test2"
         testAttempt.userPickedColors(2).color shouldBe "test3"

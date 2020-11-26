@@ -21,7 +21,7 @@ class GameDataSpec extends AnyWordSpec with Matchers {
     }
     "a attempt is added" should {
       "contain that attempt" in {
-        GameData(Vector(),solution = solution).addAttempt(Attempt()).attempts.size shouldBe 1
+        GameData(Vector(), solution = solution).addAttempt(Attempt()).attempts.size shouldBe 1
       }
     }
     "a attempt is updated" should {
