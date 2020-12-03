@@ -9,7 +9,6 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
     val colors = input.split(" ").toVector
     val attempt = Attempt(colors.map(color => ColorFactory.getColor(color)))
     gameData = gameData.updateAttempt(gameData.attempts.size - turn - 1, attempt)
-    print(gameData.solution)
     turn = turn + 1
     notifyObservers
   }
