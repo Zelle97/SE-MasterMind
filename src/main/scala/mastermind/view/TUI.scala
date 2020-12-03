@@ -9,7 +9,6 @@ class TUI(controller: Controller) extends Observer {
 
   def processInput(input: String): Unit = {
     input match {
-      case "exit" => controller.quitGame()
       case _ => controller.addAttempt(input)
     }
   }

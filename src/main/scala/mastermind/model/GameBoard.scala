@@ -45,10 +45,10 @@ case class GameBoard(gamedata: GameData, gamefield: String) {
 
   def forEachSlot(slotField: Int): GameBoard = {
     GameBoard(gamedata, gamefield)
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(0).color).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(1).color).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(2).color).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(3).color).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(0).getColor()).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(1).getColor()).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(2).getColor()).concatVerticalLine()
+      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(3).getColor()).concatVerticalLine()
   }
 
   def concatSlotPadding(): GameBoard = {
