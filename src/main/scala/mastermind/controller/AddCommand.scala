@@ -13,17 +13,17 @@ class AddCommand(gameData: GameData, attempt: Attempt, controller: Controller) e
     gameData.updateAttempt(index, attempt)
   }
 
-  override def doStep: Unit = {
+  override def doStep(): Unit = {
     controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1)
     controller.turn = controller.turn + 1
   }
 
-  override def undoStep: Unit = {
+  override def undoStep(): Unit = {
     controller.turn = controller.turn - 1
     controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1, Attempt())
   }
 
-  override def redoStep: Unit = {
+  override def redoStep(): Unit = {
     controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1)
     controller.turn = controller.turn + 1
   }

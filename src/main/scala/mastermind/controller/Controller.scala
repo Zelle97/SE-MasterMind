@@ -27,13 +27,13 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
 
   }
 
-  def undo: Unit = {
-    undoManager.undoStep
+  def undo(): Unit = {
+    undoManager.undoStep()
     notifyObservers
   }
 
-  def redo: Unit = {
-    undoManager.redoStep
+  def redo(): Unit = {
+    undoManager.redoStep()
     notifyObservers
   }
 
