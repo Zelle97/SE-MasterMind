@@ -1,88 +1,79 @@
 package mastermind.model
 
-case class GameBoard(gamedata: GameData, gamefield: String) {
+case class GameBoard(gamedata: GameData, gamefield: Vector[String] = Vector[String]("")) {
 
-  def gameFieldString(): GameBoard = {
-    GameBoard(gamedata, gamefield)
-      .concatTitle()
-      .concatLineBreak()
-      .concatGamefield()
+
+
+  def gameToString(): GameBoard = {
+    GameBoard(gamedata, gamefield :+ concatEachSlotField())
   }
 
-  def concatLineBreak(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat("\n"))
+
+  def concatEachSlotField(): String = {
+    var v = ""
+    for (i <- gamedata.attempts.indices) {
+      v += concatHorizontalLine()
+      v += concatLineBreak()
+      v += concatSlotPadding()
+      v += concatCorrectColors(i)
+      v += concatLineBreak()
+      v += forEachSlot(i)
+      v += concatLineBreak()
+      v += concatSlotPadding()
+      v += concatCorrectPositions(i)
+      v += concatLineBreak()
+      v += concatHorizontalLine()
+      v += concatLineBreak()
+    }
+    v
   }
 
-  def concatGamefield(): GameBoard = {
-    GameBoard(gamedata, gamefield)
-      .forEachSlotfield(0)
-      .forEachSlotfield(1)
-      .forEachSlotfield(2)
-      .forEachSlotfield(3)
-      .forEachSlotfield(4)
-      .forEachSlotfield(5)
-      .forEachSlotfield(6)
-      .forEachSlotfield(7)
-      .forEachSlotfield(8)
-      .forEachSlotfield(9)
+  def forEachSlot(slotField: Int): String = {
+    var v = ""
+    for (i <- 0 to 3) {
+      v += concatVerticalLine()
+      v += gamedata.attempts(slotField).userPickedColors(i).getColor()
+      v += concatVerticalLine()
+    }
+    v
   }
 
-  def forEachSlotfield(slotField: Int): GameBoard = {
-    GameBoard(gamedata, gamefield)
-      .concatHorizontalLine()
-      .concatLineBreak()
-      .concatSlotPadding()
-      .concatCorrectColors(slotField)
-      .concatLineBreak()
-      .forEachSlot(slotField)
-      .concatLineBreak()
-      .concatSlotPadding()
-      .concatCorrectPositions(slotField)
-      .concatLineBreak()
-      .concatHorizontalLine()
-      .concatLineBreak()
+  def concatSlotPadding(): String = {
+    var v = ""
+    for (i <- 0 to 3) {
+      v += concatVerticalLine()
+      v += concatEmptySpace()
+      v += concatVerticalLine()
+    }
+    v
   }
 
-  def forEachSlot(slotField: Int): GameBoard = {
-    GameBoard(gamedata, gamefield)
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(0).getColor()).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(1).getColor()).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(2).getColor()).concatVerticalLine()
-      .concatVerticalLine().addString(gamedata.attempts(slotField).userPickedColors(3).getColor()).concatVerticalLine()
+
+  def concatTitle(): String = {
+    "\t\t\t\tMaster Mind"
   }
 
-  def concatSlotPadding(): GameBoard = {
-    GameBoard(gamedata, gamefield).concatVerticalLine().concatEmptySpace().concatVerticalLine()
-      .concatVerticalLine().concatEmptySpace().concatVerticalLine()
-      .concatVerticalLine().concatEmptySpace().concatVerticalLine()
-      .concatVerticalLine().concatEmptySpace().concatVerticalLine()
+  def concatVerticalLine(): String = {
+    "|"
   }
 
-  def addString(stringToConcat: String): GameBoard = {
-    GameBoard(gamedata, gamefield.concat(stringToConcat))
+  def concatHorizontalLine(): String = {
+    "------------------------------------------------"
   }
 
-  def concatTitle(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat("\t\t\t\tMaster Mind"))
+  def concatEmptySpace(): String = {
+    "          "
   }
 
-  def concatVerticalLine(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat("|"))
+  def concatCorrectPositions(slotField: Int): String = {
+    " Correct Positions: " + gamedata.attempts(slotField).getCorrectPositions(gamedata.solution)
   }
 
-  def concatHorizontalLine(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat("------------------------------------------------"))
+  def concatCorrectColors(slotField: Int): String = {
+    " Correct Colors: " + gamedata.attempts(slotField).getCorrectColors(gamedata.solution)
   }
 
-  def concatEmptySpace(): GameBoard = {
-    GameBoard(gamedata, gamefield.concat("          "))
-  }
-
-  def concatCorrectPositions(slotField: Int): GameBoard = {
-    GameBoard(gamedata, gamefield.concat(" Correct Positions: " + gamedata.attempts(slotField).getCorrectPositions(gamedata.solution)))
-  }
-
-  def concatCorrectColors(slotField: Int): GameBoard = {
-    GameBoard(gamedata, gamefield.concat(" Correct Colors: " + gamedata.attempts(slotField).getCorrectColors(gamedata.solution)))
+  def concatLineBreak(): String = {
+    "\n"
   }
 }

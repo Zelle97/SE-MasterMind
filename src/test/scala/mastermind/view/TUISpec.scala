@@ -1,21 +1,24 @@
 package mastermind.view
 
+import mastermind.MasterMind.{attempts, difficulty, solution}
 import mastermind.controller.{ColorPicker, Controller}
-import mastermind.model.GameData
+import mastermind.model.{DifficultyStrategy, GameData}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
+
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI" when {
+    val attempts = DifficultyStrategy.getAttampts(difficulty)
+    val solution = ColorPicker().pickSolution()
     "created" should {
-      val solution = ColorPicker().pickSolution()
-      val controller = new Controller(GameData(solution = solution))
+
+      val controller = new Controller(GameData(attempts, solution))
       "have a controller" in {
         new TUI(controller)
       }
     }
-    val solution = ColorPicker().pickSolution()
-    val controller = new Controller(GameData(solution = solution))
+    val controller = new Controller(GameData(attempts, solution))
     val testTUI = new TUI(controller)
     "input exit is given" should {
       "exit the game" in {
