@@ -16,9 +16,7 @@ object GameState {
 
   def inGame = "I am in Game"
 
-
   def win = "!!Win!! You are a true Mastermind!!!"
-
 
   def gameOver = "!!Game over!! You are a looser!!!"
 

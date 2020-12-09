@@ -24,6 +24,7 @@ class AddCommand(gameData: GameData, attempt: Attempt, controller: Controller) e
   }
 
   override def redoStep(): Unit = {
+    controller.turn = controller.turn - 1
     controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1)
     controller.turn = controller.turn + 1
   }

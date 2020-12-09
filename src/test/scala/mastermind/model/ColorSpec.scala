@@ -3,7 +3,7 @@ package mastermind.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class ShadeSpec extends AnyWordSpec with Matchers {
+class ColorSpec extends AnyWordSpec with Matchers {
   "A Color" when {
     "created" should {
       "only allow specified colors" in {
@@ -22,6 +22,11 @@ class ShadeSpec extends AnyWordSpec with Matchers {
       "compare to String" should {
         "return false" in {
           Color("red").colorString.equals("blue") shouldBe false
+        }
+      }
+      "compare to something else" should {
+        "return false" in {
+          Color("red").equals("blue") shouldBe false
         }
       }
     }
