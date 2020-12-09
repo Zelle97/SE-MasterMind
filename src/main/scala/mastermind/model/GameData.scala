@@ -10,7 +10,7 @@ case class GameData(attempts: Vector[Attempt],
     GameData(attempts.updated(index, attempt), solution)
   }
 
-  override def toString: String = {
-    GameBoard(GameData(attempts, solution)).gameToString().gamefield.mkString
+  override def toString(): String = {
+    GameBoard(GameData(attempts, solution)).gameToString().gamefield
   }
 }

@@ -1,11 +1,10 @@
 package mastermind.model
 
-case class GameBoard(gamedata: GameData, gamefield: Vector[String] = Vector[String]("")) {
-
+case class GameBoard(gamedata: GameData, gamefield: String = "") {
 
 
   def gameToString(): GameBoard = {
-    GameBoard(gamedata, gamefield :+ concatEachSlotField())
+    GameBoard(gamedata, concatTitle() +  concatLineBreak() +concatEachSlotField())
   }
 
 
@@ -47,7 +46,6 @@ case class GameBoard(gamedata: GameData, gamefield: Vector[String] = Vector[Stri
     }
     v
   }
-
 
   def concatTitle(): String = {
     "\t\t\t\tMaster Mind"

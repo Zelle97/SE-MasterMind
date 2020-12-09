@@ -9,7 +9,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI" when {
-    val attempts = DifficultyStrategy.getAttampts("easy")
+    val attempts = DifficultyStrategy.getAttempts("easy")
     val solution = ColorPicker().pickSolution()
     "created" should {
 

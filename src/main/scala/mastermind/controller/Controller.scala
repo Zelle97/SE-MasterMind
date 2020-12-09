@@ -9,7 +9,6 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
   private val undoManager = new UndoManager
 
   def addAttempt(input: String): Unit = {
-    //GameState.handle(InGame())
     val colors = input.split(" ").toVector
     val attempt = Attempt(colors.map(color => Shade.apply(color)))
     undoManager.doStep(new AddCommand(gameData, attempt, this))

@@ -10,7 +10,7 @@ import scala.collection.immutable.Vector
 class GameDataSpec extends AnyWordSpec with Matchers {
   "The Game Data" when {
     val solution = ColorPicker().pickSolution()
-    val attempts = DifficultyStrategy.getAttampts("easy")
+    val attempts = DifficultyStrategy.getAttempts("easy")
 
     "created" should {
       "have an empty Vector" in {
@@ -38,5 +38,4 @@ class GameDataSpec extends AnyWordSpec with Matchers {
       }
     }
   }
-
 }
