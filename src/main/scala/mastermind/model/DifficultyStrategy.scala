@@ -2,7 +2,7 @@ package mastermind.model
 
 object DifficultyStrategy {
 
-  def getAttampts(difficulty: String) = difficulty match {
+  def getAttempts(difficulty: String) = difficulty match {
     case "easy" => strategy1
     case "medium" => strategy2
     case "mastermind" => strategy3
