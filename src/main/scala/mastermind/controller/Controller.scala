@@ -1,6 +1,7 @@
 package mastermind.controller
 
-import mastermind.model.{Attempt, Color, ColorFactory, GameData}
+import mastermind.model.Color.Shade
+import mastermind.model.{Attempt, GameData}
 import mastermind.util.{GameOver, InGame, Observable, UndoManager, Win}
 
 class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
@@ -10,7 +11,7 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
   def addAttempt(input: String): Unit = {
     //GameState.handle(InGame())
     val colors = input.split(" ").toVector
-    val attempt = Attempt(colors.map(color => ColorFactory.getColor(color)))
+    val attempt = Attempt(colors.map(color => Shade.apply(color)))
     undoManager.doStep(new AddCommand(gameData, attempt, this))
     notifyObservers
 
@@ -36,7 +37,7 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
     notifyObservers
   }
 
-  def gameToString(): String = {
+  def gameToString: String = {
     gameData.toString
   }
 

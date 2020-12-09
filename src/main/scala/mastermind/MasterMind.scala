@@ -1,7 +1,8 @@
 package mastermind
 
 import mastermind.controller.{ColorPicker, Controller}
-import mastermind.model.{Attempt, Color, DifficultyStrategy, GameData}
+import mastermind.model.Color.Shade
+import mastermind.model.{Attempt, DifficultyStrategy, GameData}
 import mastermind.view.TUI
 
 import scala.io.StdIn.readLine
@@ -11,7 +12,7 @@ object MasterMind {
   val difficulty: String = readLine("Player enter your difficulty level (easy, medium, mastermind): ")
   val attempts: Vector[Attempt] = DifficultyStrategy.getAttampts(difficulty)
 
-  val solution: Vector[Color] = ColorPicker().pickSolution()
+  val solution: Vector[Shade] = ColorPicker().pickSolution()
   println(solution.toString)
   val controller = new Controller(GameData(attempts, solution))
   val tui = new TUI(controller)

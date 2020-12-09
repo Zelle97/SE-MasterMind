@@ -3,9 +3,9 @@ package mastermind.controller
 import mastermind.util.{Event, GameOver, InGame, Win}
 
 object GameState {
-  var state = inGame
+  var state: String = inGame
 
-  def handle(e: Event) = {
+  def handle(e: Event): String = {
     e match {
       case d: InGame => state = inGame
       case w: Win => state = win

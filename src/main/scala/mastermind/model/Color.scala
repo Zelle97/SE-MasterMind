@@ -1,14 +1,31 @@
 package mastermind.model
 
-case class Color(color: String = "          ") {
-  def getColor(): String = {
-    f"$color%10s"
-  }
+object Color {
+  val allColors = Vector("red", "blue", "green", "yellow", "black", "white", "orange", "brown")
 
-  override def equals(that: Any): Boolean = {
-    that match {
-      case that: Color => that.getColor().equals(f"$color%10s")
-      case _ => false
+  def apply(colorString: String): Shade = {
+    if (allColors.contains(colorString)) {
+      Shade(colorString)
+    } else {
+      Shade()
     }
   }
+
+  def getAllColors: Vector[Shade] = {
+    allColors.map(colorString => Shade(colorString))
+  }
+
+  case class Shade(colorString: String = "          ") {
+    def getColor: String = {
+      f"$colorString%10s"
+    }
+
+    override def equals(that: Any): Boolean = {
+      that match {
+        case that: Shade => that.getColor.equals(f"$colorString%10s")
+        case _ => false
+      }
+    }
+  }
+
 }

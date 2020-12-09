@@ -1,7 +1,7 @@
 package mastermind.model
 
 case class GameData(attempts: Vector[Attempt],
-                    solution: Vector[Color]) {
+                    solution: Vector[Color.Shade]) {
   def addAttempt(attempt: Attempt): GameData = {
     GameData(attempts :+ attempt, solution)
   }
@@ -10,7 +10,7 @@ case class GameData(attempts: Vector[Attempt],
     GameData(attempts.updated(index, attempt), solution)
   }
 
-  override def toString(): String = {
+  override def toString: String = {
     GameBoard(GameData(attempts, solution)).gameToString().gamefield.mkString
   }
 }
