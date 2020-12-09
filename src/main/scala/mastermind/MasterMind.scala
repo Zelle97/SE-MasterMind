@@ -9,7 +9,7 @@ import scala.io.StdIn.readLine
 object MasterMind {
   println("Welcome to MasterMind!")
   val difficulty: String = readLine("Player enter your difficulty level (easy, medium, mastermind): ")
-  val attempts: Vector[Attempt] = DifficultyStrategy.getAttampts(difficulty)
+  val attempts: Vector[Attempt] = DifficultyStrategy.getAttempts(difficulty)
 
   val solution: Vector[Color] = ColorPicker().pickSolution()
   println(solution.toString)
