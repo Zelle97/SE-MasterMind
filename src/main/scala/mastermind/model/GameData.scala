@@ -11,6 +11,6 @@ case class GameData(attempts: Vector[Attempt],
   }
 
   override def toString(): String = {
-    GameBoard(GameData(attempts, solution)).gameToString().gamefield.mkString
+    GameBoard(GameData(attempts, solution)).gameToString().gamefield
   }
 }
