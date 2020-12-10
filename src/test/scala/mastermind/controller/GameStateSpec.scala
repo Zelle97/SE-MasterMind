@@ -9,7 +9,7 @@ class GameStateSpec extends AnyWordSpec with Matchers {
     "chosen GameOver" should {
       "return 'Game over'" in {
         GameState.handle(GameOver()) shouldBe
-          "!!Game over!! You are a looser!!!"
+          "!!Game over!! You are a loser!!!"
       }
     }
     "chosen Win" should {

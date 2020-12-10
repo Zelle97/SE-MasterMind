@@ -18,6 +18,6 @@ object GameState {
 
   def win = "!!Win!! You are a true Mastermind!!!"
 
-  def gameOver = "!!Game over!! You are a looser!!!"
+  def gameOver = "!!Game over!! You are a loser!!!"
 
 }

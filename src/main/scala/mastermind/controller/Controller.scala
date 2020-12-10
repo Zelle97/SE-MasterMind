@@ -16,12 +16,12 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
 
     if (gameData.attempts(gameData.attempts.size - turn).getCorrectPositions(gameData.solution) == 4) {
       println(GameState.handle(Win()))
-      System.exit(1)
+      //System.exit(1)
     }
 
     if (turn == gameData.attempts.size) {
       println(GameState.handle(GameOver()))
-      System.exit(1)
+      //System.exit(1)
     }
 
   }
@@ -37,7 +37,7 @@ class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
   }
 
   def gameToString: String = {
-    gameData.toString
+    gameData.toString()
   }
 
 }

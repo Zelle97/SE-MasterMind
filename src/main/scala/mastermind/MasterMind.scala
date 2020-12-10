@@ -13,7 +13,6 @@ object MasterMind {
   val attempts: Vector[Attempt] = DifficultyStrategy.getAttempts(difficulty)
 
   val solution: Vector[Shade] = ColorPicker().pickSolution()
-  println(solution.toString)
   val controller = new Controller(GameData(attempts, solution))
   val tui = new TUI(controller)
   controller.notifyObservers
