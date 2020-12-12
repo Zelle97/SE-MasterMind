@@ -1,29 +1,38 @@
 package mastermind.controller
 
-import mastermind.model.Color.Shade
-import mastermind.model.{Attempt, GameData}
-import mastermind.util.{GameOver, InGame, Observable, UndoManager, Win}
+import mastermind.model.{Attempt, Color, GameData}
+import mastermind.util.{GameOver, Observable, UndoManager, Win}
+
+import scala.util.{Failure, Success, Try}
 
 class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
 
   private val undoManager = new UndoManager
 
   def addAttempt(input: String): Unit = {
+
     val colors = input.split(" ").toVector
-    val attempt = Attempt(colors.map(color => Shade.apply(color)))
-    undoManager.doStep(new AddCommand(gameData, attempt, this))
-    notifyObservers
 
-    if (gameData.attempts(gameData.attempts.size - turn).getCorrectPositions(gameData.solution) == 4) {
-      println(GameState.handle(Win()))
-      //System.exit(1)
+    Try(Attempt(colors.map(color => Color.apply(color).get))) match {
+      case Success(filledSuccess) =>
+        undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
+        notifyObservers
+
+        if (gameData.attempts(gameData.attempts.size - turn).getCorrectPositions(gameData.solution) == 4) {
+          println(GameState.handle(Win()))
+          //System.exit(1)
+        }
+
+        if (turn == gameData.attempts.size) {
+          println(GameState.handle(GameOver()))
+          //System.exit(1)
+        }
+      case Failure(exception) =>
+        print("Invalid Input\n")
+        print("Please use those colors: ")
+        Color.getAllColors.foreach(shade => print(shade + " "))
+        print("\n")
     }
-
-    if (turn == gameData.attempts.size) {
-      println(GameState.handle(GameOver()))
-      //System.exit(1)
-    }
-
   }
 
   def undo(): Unit = {

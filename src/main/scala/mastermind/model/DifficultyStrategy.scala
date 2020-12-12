@@ -6,7 +6,6 @@ object DifficultyStrategy {
     case "easy" => strategy1
     case "medium" => strategy2
     case "mastermind" => strategy3
-    case _ => strategy1
   }
 
   def strategy1 = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())

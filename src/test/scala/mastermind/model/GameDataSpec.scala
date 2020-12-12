@@ -1,6 +1,5 @@
 package mastermind.model
 
-import mastermind.MasterMind.{attempts, difficulty}
 import mastermind.controller.ColorPicker
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -29,7 +28,7 @@ class GameDataSpec extends AnyWordSpec with Matchers {
     }
     "a attempt is updated" should {
       "contain the updated attempt" in {
-        GameData(attempts, solution).addAttempt(Attempt()).updateAttempt(0, Attempt(Vector(Color("red")))).attempts(0).userPickedColors(0).getColor shouldBe "       red"
+        GameData(attempts, solution).addAttempt(Attempt()).updateAttempt(0, Attempt(Vector(Color("red").get))).attempts(0).userPickedColors(0).getColor shouldBe "       red"
       }
     }
     "using toString" should {

@@ -1,13 +1,14 @@
 package mastermind.model
 
+
 object Color {
   val allColors = Vector("red", "blue", "green", "yellow", "black", "white", "orange", "brown")
 
-  def apply(colorString: String): Shade = {
+  def apply(colorString: String): Option[Shade] = {
     if (allColors.contains(colorString)) {
-      Shade(colorString)
+      Some(Shade(colorString))
     } else {
-      Shade()
+      None
     }
   }
 
@@ -19,6 +20,8 @@ object Color {
     def getColor: String = {
       f"$colorString%10s"
     }
+
+    override def toString: String = colorString
 
     override def equals(that: Any): Boolean = {
       that match {

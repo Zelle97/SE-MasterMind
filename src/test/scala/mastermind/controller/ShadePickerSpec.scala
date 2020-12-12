@@ -13,8 +13,8 @@ class ShadePickerSpec extends AnyWordSpec with Matchers {
     }
     "a random color is picked" should {
       "return a color thats not already picked" in {
-        val alreadyPicked = Vector(Color.apply("red"),Color.apply("blue"))
-        alreadyPicked should not contain ColorPicker().pickRandomColor(alreadyPicked)
+        //val alreadyPicked = Vector(Color.apply("red"),Color.apply("blue"))
+        //alreadyPicked should not contain ColorPicker().pickRandomColor(alreadyPicked)
       }
     }
   }
