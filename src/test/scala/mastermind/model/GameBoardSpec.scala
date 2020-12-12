@@ -9,7 +9,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class GameBoardSpec extends AnyWordSpec with Matchers {
   val solution = ColorPicker().pickSolution()
-  val attempts = DifficultyStrategy.getAttampts("easy")
+  val attempts = DifficultyStrategy.getAttempts("easy")
   "The gameboard" when {
     "concating Title" should {
       "have a Title" in {

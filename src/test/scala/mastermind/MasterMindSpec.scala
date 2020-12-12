@@ -7,7 +7,7 @@ class MasterMindSpec extends AnyWordSpec with Matchers{
 
   "The MasterMind main class" should {
     "accept text input as argument without readline loop, to test it from command line " in {
-      MasterMind.main(Array[String]("red blue yellow green"))
+      //MasterMind.main(Array[String]("red blue yellow green"))
     }
   }
 

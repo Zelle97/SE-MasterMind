@@ -31,7 +31,7 @@ case class GameBoard(gamedata: GameData, gamefield: String = "") {
     var v = ""
     for (i <- 0 to 3) {
       v += concatVerticalLine()
-      v += gamedata.attempts(slotField).userPickedColors(i).getColor()
+      v += gamedata.attempts(slotField).userPickedColors(i).getColor
       v += concatVerticalLine()
     }
     v

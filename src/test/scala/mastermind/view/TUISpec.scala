@@ -9,7 +9,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI" when {
-    val attempts = DifficultyStrategy.getAttempts(difficulty)
+    val attempts = DifficultyStrategy.getAttempts("easy")
     val solution = ColorPicker().pickSolution()
     "created" should {
 
@@ -23,6 +23,19 @@ class TUISpec extends AnyWordSpec with Matchers {
     "input exit is given" should {
       "exit the game" in {
         //testTUI.processInput("exit")
+      }
+    }
+    "input z is given" should {
+      "undo the last action" in {
+        controller.addAttempt("red blue green yellow")
+        testTUI.processInput("z")
+        controller.gameData.attempts(9).userPickedColors(0).getColor shouldBe "          "
+      }
+    }
+    "input y is given" should {
+      "redo the last action" in {
+        testTUI.processInput("y")
+        controller.gameData.attempts(9).userPickedColors(0).getColor shouldBe "       red"
       }
     }
     "any other input is given" should {

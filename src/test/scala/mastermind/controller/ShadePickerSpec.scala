@@ -1,10 +1,10 @@
 package mastermind.controller
 
-import mastermind.model.{Color, ColorFactory}
+import mastermind.model.Color
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class ColorPickerSpec extends AnyWordSpec with Matchers {
+class ShadePickerSpec extends AnyWordSpec with Matchers {
   "A Color Picker" when {
     "a solution is picked" should {
       "pick a solution with 4 colors" in {
@@ -13,8 +13,8 @@ class ColorPickerSpec extends AnyWordSpec with Matchers {
     }
     "a random color is picked" should {
       "return a color thats not already picked" in {
-        val alreadyPicked = Vector(ColorFactory.getColor("red"),ColorFactory.getColor("blue"))
-        alreadyPicked should not contain ColorPicker().pickRandomColor(alreadyPicked)
+        //val alreadyPicked = Vector(Color.apply("red"),Color.apply("blue"))
+        //alreadyPicked should not contain ColorPicker().pickRandomColor(alreadyPicked)
       }
     }
   }
