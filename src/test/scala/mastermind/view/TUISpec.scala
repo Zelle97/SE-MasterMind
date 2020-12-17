@@ -1,6 +1,5 @@
 package mastermind.view
 
-import mastermind.MasterMind.{attempts, difficulty, solution}
 import mastermind.controller.{ColorPicker, Controller}
 import mastermind.model.{DifficultyStrategy, GameData}
 import org.scalatest.matchers.should.Matchers
@@ -41,11 +40,6 @@ class TUISpec extends AnyWordSpec with Matchers {
     "any other input is given" should {
       "process the input" in {
         testTUI.processInput("a b c d")
-      }
-    }
-    "print out a TUI" should {
-      "return true" in {
-        testTUI.update shouldBe true
       }
     }
   }

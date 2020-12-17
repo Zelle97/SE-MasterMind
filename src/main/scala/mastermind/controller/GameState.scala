@@ -1,6 +1,8 @@
 package mastermind.controller
 
-import mastermind.util.{Event, GameOver, InGame, Win}
+import mastermind.util.{GameOver, InGame, Win}
+
+import scala.swing.event.Event
 
 object GameState {
   var state: String = inGame
