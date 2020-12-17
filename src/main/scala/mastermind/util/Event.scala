@@ -1,9 +1,10 @@
 package mastermind.util
 
-trait Event
+import scala.swing.event.Event
 
-case class InGame() extends Event
 
-case class Win() extends Event
+class InGame extends Event
 
-case class GameOver() extends Event
+class Win extends Event
+
+class GameOver extends Event

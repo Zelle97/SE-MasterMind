@@ -7,7 +7,7 @@ import scala.util.matching.Regex
 
 class TUI(controller: Controller) extends Observer {
 
-  controller.add(this)
+  //controller.add(this)
 
   val difficultyPattern: Regex = "(d )(.*)".r
 

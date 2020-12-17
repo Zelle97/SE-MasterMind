@@ -1,8 +1,9 @@
 package mastermind.controller
 
 import mastermind.model.{Attempt, Color, DifficultyStrategy, GameData}
-import mastermind.util.{GameOver, Observable, UndoManager, Win}
+import mastermind.util.{GameOver, InGame, Observable, UndoManager, Win}
 
+import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
 class Controller(var gameData: GameData =
@@ -10,7 +11,7 @@ class Controller(var gameData: GameData =
                    DifficultyStrategy.getAttempts("easy"),
                    ColorPicker().pickSolution()
                  ),
-                 var turn: Int = 0) extends Observable {
+                 var turn: Int = 0) extends Publisher {
 
   private val undoManager = new UndoManager
 
@@ -28,7 +29,7 @@ class Controller(var gameData: GameData =
       case Success(newGameDate) =>
         gameData = newGameDate
         turn = 0
-        notifyObservers
+        publish(new InGame)
       case Failure(exception) =>
         print("Invalid Difficulty\n")
         print("Please use easy, medium or mastermind")
@@ -41,13 +42,13 @@ class Controller(var gameData: GameData =
     Try(Attempt(colors.map(color => Color.apply(color).get))) match {
       case Success(filledSuccess) =>
         undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-        notifyObservers
+        publish(new InGame)
         if (gameData.attempts(gameData.attempts.size - turn).getCorrectPositions(gameData.solution) == 4) {
-          println(GameState.handle(Win()))
+          publish(new Win)
           //System.exit(1)
         }
         if (turn == gameData.attempts.size) {
-          println(GameState.handle(GameOver()))
+          publish(new GameOver)
           //System.exit(1)
         }
       case Failure(exception) =>
@@ -60,12 +61,12 @@ class Controller(var gameData: GameData =
 
   def undo(): Unit = {
     undoManager.undoStep()
-    notifyObservers
+    publish(new InGame)
   }
 
   def redo(): Unit = {
     undoManager.redoStep()
-    notifyObservers
+    publish(new InGame)
   }
 
   def gameToString: String = {
