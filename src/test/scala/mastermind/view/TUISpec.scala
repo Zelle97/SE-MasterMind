@@ -42,10 +42,5 @@ class TUISpec extends AnyWordSpec with Matchers {
         testTUI.processInput("a b c d")
       }
     }
-    "print out a TUI" should {
-      "return true" in {
-        testTUI.update shouldBe true
-      }
-    }
   }
 }

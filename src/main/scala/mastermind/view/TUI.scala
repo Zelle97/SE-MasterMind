@@ -1,13 +1,14 @@
 package mastermind.view
 
-import mastermind.controller.Controller
-import mastermind.util.Observer
+import mastermind.controller.{Controller, GameState}
+import mastermind.util.{GameOver, InGame, Win}
 
+import scala.swing.Reactor
 import scala.util.matching.Regex
 
-class TUI(controller: Controller) extends Observer {
+class TUI(controller: Controller) extends Reactor {
 
-  //controller.add(this)
+  listenTo(controller)
 
   val difficultyPattern: Regex = "(d )(.*)".r
 
@@ -21,7 +22,10 @@ class TUI(controller: Controller) extends Observer {
     }
   }
 
-  override def update: Boolean = {
-    println(controller.gameToString); true
+  reactions += {
+    case event: InGame =>  println(controller.gameToString)
+    case event: Win =>  println(GameState.win)
+    case event: GameOver =>  println(GameState.gameOver)
   }
+
 }

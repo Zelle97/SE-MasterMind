@@ -1,7 +1,7 @@
 package mastermind.controller
 
 import mastermind.model.{Attempt, Color, DifficultyStrategy, GameData}
-import mastermind.util.{GameOver, InGame, Observable, UndoManager, Win}
+import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}

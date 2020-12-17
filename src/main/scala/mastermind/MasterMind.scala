@@ -10,18 +10,17 @@ object MasterMind {
   def main(args: Array[String]): Unit = {
     println("Welcome to MasterMind!")
     val controller = new Controller()
-    //val tui = new TUI(controller)
-    //controller.notifyObservers
+    val tui = new TUI(controller)
     val gui = new GUI(controller)
 
     var input: String = ""
     if (args.length != 0) {
       input = args(0)
-      //tui.processInput(input)
+      tui.processInput(input)
     }
     else do {
       input = readLine()
-      //tui.processInput(input)
+      tui.processInput(input)
     } while (input != "exit")
 
     println("Goodbye!")
