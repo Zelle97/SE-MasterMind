@@ -1,6 +1,5 @@
 package mastermind.view
 
-import mastermind.MasterMind.{attempts, difficulty, solution}
 import mastermind.controller.{ColorPicker, Controller}
 import mastermind.model.{DifficultyStrategy, GameData}
 import org.scalatest.matchers.should.Matchers

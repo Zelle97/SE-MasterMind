@@ -23,11 +23,5 @@ class DifficultyStrategySpec extends AnyWordSpec with Matchers {
           Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
       }
     }
-    "chose nothing or wrong" should {
-      "return 10 Attempst" in {
-        DifficultyStrategy.getAttempts("wrong") shouldBe
-          Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
-      }
-    }
   }
 }

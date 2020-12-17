@@ -16,7 +16,7 @@ class ColorSpec extends AnyWordSpec with Matchers {
       }
       "compare to another Color" should {
         "return true" in {
-          Color("red").get.equals(Color("red")) shouldBe true
+          Color("red").get.equals(Color("red").get) shouldBe true
         }
       }
       "compare to String" should {
