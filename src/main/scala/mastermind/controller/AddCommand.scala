@@ -1,9 +1,9 @@
 package mastermind.controller
 
-import mastermind.model.{Attempt, GameData}
+import mastermind.model.{Attempt, AttemptInterface, GameData, GameDataInterface}
 import mastermind.util.Command
 
-class AddCommand(gameData: GameData, attempt: Attempt, controller: Controller) extends Command {
+class AddCommand(gameData: GameDataInterface, attempt: AttemptInterface, controller: Controller) extends Command {
 
   private def updateGameData(index: Int): GameData = {
     gameData.updateAttempt(index, attempt)
@@ -14,17 +14,17 @@ class AddCommand(gameData: GameData, attempt: Attempt, controller: Controller) e
   }
 
   override def doStep(): Unit = {
-    controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1)
+    controller.gameData = updateGameData(gameData.getAttemptSize()- controller.turn - 1)
     controller.turn = controller.turn + 1
   }
 
   override def undoStep(): Unit = {
     controller.turn = controller.turn - 1
-    controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1, Attempt())
+    controller.gameData = updateGameData(gameData.getAttemptSize() - controller.turn - 1, Attempt())
   }
 
   override def redoStep(): Unit = {
-    controller.gameData = updateGameData(gameData.attempts.size - controller.turn - 1)
+    controller.gameData = updateGameData(gameData.getAttemptSize()- controller.turn - 1)
     controller.turn = controller.turn + 1
   }
 }

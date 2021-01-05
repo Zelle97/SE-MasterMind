@@ -20,7 +20,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       val c = new Controller(GameData(attempts, solution))
       "add a attempt" in {
         c.addAttempt("red")
-        c.gameData.attempts(9).userPickedColors(0).getColor shouldBe "       red"
+        c.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "       red"
       }
       "increase the turn" in {
         val before = c.turn
@@ -39,7 +39,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "adding an Attempt and turns are over" should {
       val c = new Controller(GameData(attempts, solution))
       "set the GameStatus on GameOver" in {
-        c.turn = c.gameData.attempts.size -1
+        c.turn = c.gameData.getAttemptSize()-1
         c.addAttempt("red green yellow blue")
         GameState.state shouldBe "!!Game over!! You are a loser!!!"
       }
@@ -58,7 +58,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "undo the attempt" in {
         val before = c.turn
         c.undo()
-        c.gameData.attempts(9).userPickedColors(0).getColor shouldBe "          "
+        c.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "          "
         before-1 shouldBe c.turn
       }
     }
@@ -70,8 +70,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         c.undo()
         c.redo()
         print(c.turn)
-        print(c.gameData.attempts)
-        c.gameData.attempts(c.gameData.attempts.size - c.turn).userPickedColors(0).getColor shouldBe "       red"
+        print(c.gameData.getAllAttempts())
+        c.gameData.getAttempt(c.gameData.getAttemptSize() - c.turn).getUserPickedColor(0).getColor shouldBe "       red"
         before shouldBe c.turn
       }
     }

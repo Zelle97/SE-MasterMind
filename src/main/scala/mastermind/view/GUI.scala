@@ -60,21 +60,21 @@ class GUI(controller: Controller) extends Frame {
     contents += color4
   }
 
-  var gameboard: GridPanel = new GridPanel(controller.gameData.attempts.size, 1) {
+  var gameboard: GridPanel = new GridPanel(controller.gameData.getAttemptSize(), 1) {
     for {
-      outerRow <- controller.gameData.attempts.indices
+      outerRow <- controller.gameData.getAllAttempts().indices
     } {
       contents += new GridPanel(1, 5) {
         for {
-          innerRow <- controller.gameData.attempts(0).userPickedColors.indices
+          innerRow <- controller.gameData.getAttempt(0).getAllUserColors().indices
         } {
           contents += new Label {
             border = LineBorder(java.awt.Color.BLACK, 1)
-            text = controller.gameData.attempts(outerRow).userPickedColors(innerRow).colorString
+            text = controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString
             listenTo(controller)
             reactions += {
               case _: InGame =>
-                text = controller.gameData.attempts(outerRow).userPickedColors(innerRow).colorString
+                text = controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString
             }
           }
         }
@@ -82,18 +82,18 @@ class GUI(controller: Controller) extends Frame {
       contents += new Label {
         border = LineBorder(java.awt.Color.BLACK, 1)
         text = "<html>Correct Positions: "
-          .concat(controller.gameData.attempts(outerRow).getCorrectPositions(controller.gameData.solution).toString)
+          .concat(controller.gameData.getAttempt(outerRow).getCorrectPositions(controller.gameData.getSolution()).toString)
           .concat("<br>")
           .concat("Correct Colors: ")
-          .concat(controller.gameData.attempts(outerRow).getCorrectColors(controller.gameData.solution).toString)
+          .concat(controller.gameData.getAttempt(outerRow).getCorrectColors(controller.gameData.getSolution()).toString)
         listenTo(controller)
         reactions += {
           case _: InGame =>
             text = "<html>Correct Positions: "
-              .concat(controller.gameData.attempts(outerRow).getCorrectPositions(controller.gameData.solution).toString)
+              .concat(controller.gameData.getAttempt(outerRow).getCorrectPositions(controller.gameData.getSolution()).toString)
               .concat("<br>")
               .concat("Correct Colors: ")
-              .concat(controller.gameData.attempts(outerRow).getCorrectColors(controller.gameData.solution).toString)
+              .concat(controller.gameData.getAttempt(outerRow).getCorrectColors(controller.gameData.getSolution()).toString)
         }
       }
     }

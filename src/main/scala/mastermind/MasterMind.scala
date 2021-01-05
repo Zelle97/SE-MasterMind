@@ -1,6 +1,7 @@
 package mastermind
 
-import mastermind.controller.Controller
+import mastermind.controller.{ColorPicker, Controller}
+import mastermind.model.{DifficultyStrategy, GameData}
 import mastermind.view.{GUI, TUI}
 
 import scala.io.StdIn.readLine
@@ -9,7 +10,8 @@ object MasterMind {
 
   def main(args: Array[String]): Unit = {
     println("Welcome to MasterMind!")
-    val controller = new Controller()
+
+    val controller = new Controller(GameData(DifficultyStrategy.getAttempts(), ColorPicker().pickSolution()))
     val tui = new TUI(controller)
     val gui = new GUI(controller)
 

@@ -28,13 +28,13 @@ class TUISpec extends AnyWordSpec with Matchers {
       "undo the last action" in {
         controller.addAttempt("red blue green yellow")
         testTUI.processInput("z")
-        controller.gameData.attempts(9).userPickedColors(0).getColor shouldBe "          "
+        controller.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "          "
       }
     }
     "input y is given" should {
       "redo the last action" in {
         testTUI.processInput("y")
-        controller.gameData.attempts(9).userPickedColors(0).getColor shouldBe "       red"
+        controller.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "       red"
       }
     }
     "any other input is given" should {

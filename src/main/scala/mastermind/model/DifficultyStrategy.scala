@@ -1,17 +1,21 @@
 package mastermind.model
 
-object DifficultyStrategy {
+object DifficultyStrategy  {
 
-  def getAttempts(difficulty: String) = difficulty match {
+  def getAttempts(): Vector[Attempt] = {
+    strategy1
+  }
+
+  def getAttempts(difficulty: String): Vector[Attempt] = difficulty match {
     case "easy" => strategy1
     case "medium" => strategy2
     case "mastermind" => strategy3
   }
 
-  def strategy1 = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+  def strategy1: Vector[Attempt] = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
 
-  def strategy2 = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+  def strategy2: Vector[Attempt] = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
 
-  def strategy3 = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+  def strategy3: Vector[Attempt] = Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
 
 }
