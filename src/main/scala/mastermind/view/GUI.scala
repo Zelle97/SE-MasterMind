@@ -4,7 +4,23 @@ import mastermind.controller.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Swing.LineBorder
-import scala.swing.{BorderPanel, BoxPanel, Button, ComboBox, Dimension, FlowPanel, Frame, GridPanel, Label, Orientation}
+import scala.swing.{Action, BorderPanel, BoxPanel, Button, ComboBox, Dimension, FlowPanel, Frame, GridPanel, Label, Menu, MenuBar, MenuItem, Orientation}
+
+class Manual extends Frame {
+  title = "Manual"
+  resizable = false
+  visible = true
+  preferredSize = new Dimension(600, 250)
+  contents = new Label {
+    text = "<html><p>You are the codebreaker: <br><br>Trie to guess the pattern in order and color. <br>" +
+      "There are three different difficulties: <br>" +
+      "easy -> 10 turns <br>medium -> 8 turns <br> mastermind -> 7turns<br>" +
+      "Each guess is made by placing a row of code pegs on the decoding board. " +
+      "Once placed, you provide some feedback on the right side of the row with your guess. <br><br>" +
+      "Good Luck!!</p></html>"
+  }
+  centerOnScreen()
+}
 
 class PopUp(titleString: String, label: String) extends Frame {
   title = titleString
@@ -64,21 +80,30 @@ class GUI(controller: Controller) extends Frame {
         }
       }
       contents += new Label {
-        text = "Correct Positions: "
+        border = LineBorder(java.awt.Color.BLACK, 1)
+        text = "<html>Correct Positions: "
           .concat(controller.gameData.attempts(outerRow).getCorrectPositions(controller.gameData.solution).toString)
-          .concat("\n")
+          .concat("<br>")
           .concat("Correct Colors: ")
           .concat(controller.gameData.attempts(outerRow).getCorrectColors(controller.gameData.solution).toString)
         listenTo(controller)
         reactions += {
           case _: InGame =>
-            text = "Correct Positions: "
+            text = "<html>Correct Positions: "
               .concat(controller.gameData.attempts(outerRow).getCorrectPositions(controller.gameData.solution).toString)
-              .concat("\n")
+              .concat("<br>")
               .concat("Correct Colors: ")
               .concat(controller.gameData.attempts(outerRow).getCorrectColors(controller.gameData.solution).toString)
         }
       }
+    }
+  }
+
+  menuBar = new MenuBar {
+    contents += new Menu("readMe") {
+      contents += new MenuItem(Action("manual") {
+        new Manual
+      })
     }
   }
 
