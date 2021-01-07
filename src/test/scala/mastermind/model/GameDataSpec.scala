@@ -1,6 +1,6 @@
 package mastermind.model
 
-import mastermind.controller.ColorPicker
+import mastermind.controller.DifficultyStrategy
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -8,7 +8,7 @@ import scala.collection.immutable.Vector
 
 class GameDataSpec extends AnyWordSpec with Matchers {
   "The Game Data" when {
-    val solution = ColorPicker().pickSolution()
+    val solution = Color.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
 
     "created" should {
@@ -21,14 +21,9 @@ class GameDataSpec extends AnyWordSpec with Matchers {
         GameData(attempts, solution).attempts.size shouldBe 10
       }
     }
-    "a attempt is added" should {
-      "contain that attempt" in {
-        GameData(Vector(), solution = solution).addAttempt(Attempt()).attempts.size shouldBe 1
-      }
-    }
     "a attempt is updated" should {
       "contain the updated attempt" in {
-        GameData(attempts, solution).addAttempt(Attempt()).updateAttempt(0, Attempt(Vector(Color("red").get))).attempts(0).userPickedColors(0).getColor shouldBe "       red"
+        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(Color("red").get))).attempts(0).getUserPickedColor(0).getColor shouldBe "       red"
       }
     }
     "using toString" should {
