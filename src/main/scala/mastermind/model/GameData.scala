@@ -1,7 +1,9 @@
 package mastermind.model
 
+import mastermind.model.Color.Shade
+
 case class GameData(attempts: Vector[AttemptInterface],
-                    solution: Vector[Color.Shade]) extends GameDataInterface {
+                    solution: Vector[Shade]) extends GameDataInterface {
 
   override def updateAttempt(index: Int, attempt: AttemptInterface): GameData = {
     GameData(attempts.updated(index, attempt), solution)
@@ -19,7 +21,7 @@ case class GameData(attempts: Vector[AttemptInterface],
     attempts(index)
   }
 
-  override def getSolution(): Vector[Color.Shade] = {
+  override def getSolution(): Vector[Shade] = {
     solution
   }
 

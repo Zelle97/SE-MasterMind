@@ -1,12 +1,13 @@
 package mastermind.controller
 
-import mastermind.model.{Attempt, Color, DifficultyStrategy, GameData, GameDataInterface}
+import mastermind.model.{Attempt, Color, ColorInterface, GameData, GameDataInterface}
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
 class Controller(var gameData: GameDataInterface,
+                 var color: ColorInterface,
                  var turn: Int = 0) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
@@ -21,7 +22,7 @@ class Controller(var gameData: GameDataInterface,
   def setDifficulty(difficultyInput: String): Unit = {
     val difficulty = difficultyMatcher(difficultyInput)
 
-    Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), ColorPicker().pickSolution())) match {
+    Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), color.pickSolution())) match {
       case Success(newGameDate) =>
         gameData = newGameDate
         turn = 0
@@ -35,22 +36,22 @@ class Controller(var gameData: GameDataInterface,
 
   override def addAttempt(input: String): Unit = {
     val colors = input.split(" ").toVector
-    Try(Attempt(colors.map(color => Color.apply(color).get))) match {
+    Try(Attempt(colors.map(colorInput => color.apply(colorInput).get))) match {
       case Success(filledSuccess) =>
         undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-        publish(new InGame)
         if (gameData.getAttempt(gameData.getAttemptSize() - turn).getCorrectPositions(gameData.getSolution()) == 4) {
           publish(new Win)
           //System.exit(1)
-        }
-        if (turn == gameData.getAttemptSize()) {
+        } else if (turn == gameData.getAttemptSize()) {
           publish(new GameOver)
           //System.exit(1)
+        } else {
+          publish(new InGame)
         }
       case Failure(exception) =>
         print("Invalid Input\n")
         print("Please use those colors: ")
-        Color.getAllColors.foreach(shade => print(shade + " "))
+        color.getAllColors.foreach(shade => print(shade + " "))
         print("\n")
     }
   }

@@ -15,7 +15,7 @@ class TUI(controller: Controller) extends Reactor {
   def processInput(input: String): Unit = {
     input match {
       case "exit" =>
-      case difficultyPattern(_,param) => controller.setDifficulty(param)
+      case difficultyPattern(_, param) => controller.setDifficulty(param)
       case "z" => controller.undo()
       case "y" => controller.redo()
       case _ => controller.addAttempt(input)
@@ -23,9 +23,18 @@ class TUI(controller: Controller) extends Reactor {
   }
 
   reactions += {
-    case event: InGame =>  println(controller.gameToString)
-    case event: Win =>  println(GameState.win)
-    case event: GameOver =>  println(GameState.gameOver)
+    case event: InGame => {
+      GameState.handle(new InGame)
+      println(controller.gameToString)
+    }
+    case event: Win => {
+      GameState.handle(new Win)
+      println(GameState.state)
+    }
+    case event: GameOver => {
+      GameState.handle(new GameOver)
+      println(GameState.state)
+    }
   }
 
 }

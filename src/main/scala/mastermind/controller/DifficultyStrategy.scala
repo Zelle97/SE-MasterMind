@@ -1,6 +1,8 @@
-package mastermind.model
+package mastermind.controller
 
-object DifficultyStrategy  {
+import mastermind.model.Attempt
+
+object DifficultyStrategy {
 
   def getAttempts(): Vector[Attempt] = {
     strategy1

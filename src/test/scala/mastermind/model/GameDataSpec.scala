@@ -1,6 +1,6 @@
 package mastermind.model
 
-import mastermind.controller.ColorPicker
+import mastermind.controller.DifficultyStrategy
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -8,7 +8,7 @@ import scala.collection.immutable.Vector
 
 class GameDataSpec extends AnyWordSpec with Matchers {
   "The Game Data" when {
-    val solution = ColorPicker().pickSolution()
+    val solution = Color.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
 
     "created" should {
