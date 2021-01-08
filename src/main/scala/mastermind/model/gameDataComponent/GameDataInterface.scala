@@ -1,7 +1,7 @@
 package mastermind.model.gameDataComponent
 
 import mastermind.model.attemptComponent.AttemptInterface
-import mastermind.model.colorComponent.colorBaseImpl.Color.Shade
+import mastermind.model.colorComponent.colorBaseImpl.Shade
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 
 trait GameDataInterface {

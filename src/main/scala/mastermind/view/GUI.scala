@@ -2,6 +2,7 @@ package mastermind.view
 
 import java.awt.Color
 
+import mastermind.controllerComponent.ControllerInterface
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
@@ -52,7 +53,7 @@ class PopUpEnd(titleString: String, label: String) extends Frame {
   centerOnScreen()
 }
 
-class GUI(controller: Controller) extends Frame {
+class GUI(controller: ControllerInterface) extends Frame {
 
   listenTo(controller)
 
@@ -86,24 +87,24 @@ class GUI(controller: Controller) extends Frame {
     contents += color4
   }
 
-  var gameboard: GridPanel = new GridPanel(controller.gameData.getAttemptSize(), 1) {
+  var gameboard: GridPanel = new GridPanel(controller.getGameData().getAttemptSize(), 1) {
     for {
-      outerRow <- controller.gameData.getAllAttempts().indices
+      outerRow <- controller.getGameData().getAllAttempts().indices
     } {
       contents += new GridPanel(1, 5) {
         for {
-          innerRow <- controller.gameData.getAttempt(0).getAllUserColors().indices
+          innerRow <- controller.getGameData().getAttempt(0).getAllUserColors().indices
         } {
           contents += new Label {
             border = LineBorder(java.awt.Color.BLACK, 1)
-            text = controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString
+            text = controller.getGameData().getAttempt(outerRow).getUserPickedColor(innerRow).colorString
             background = new Color(204,204,204)
             opaque = true
             listenTo(controller)
             reactions += {
               case _: InGame =>
                 //text = controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString
-                controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString match{
+                controller.getGameData().getAttempt(outerRow).getUserPickedColor(innerRow).colorString match{
                   case "red" => background = new Color(255, 0, 0)
                   case "blue" => background = new Color(51,153,255)
                   case "green" => background = new Color(0,204,0)
@@ -123,18 +124,18 @@ class GUI(controller: Controller) extends Frame {
         background = new Color(255,204,51)
         opaque = true
         text = "<html>Correct Positions: "
-          .concat(controller.gameData.getAttempt(outerRow).getCorrectPositions(controller.gameData.getSolution()).toString)
+          .concat(controller.getGameData().getAttempt(outerRow).getCorrectPositions(controller.getGameData().getSolution()).toString)
           .concat("<br>")
           .concat("Correct Colors: ")
-          .concat(controller.gameData.getAttempt(outerRow).getCorrectColors(controller.gameData.getSolution()).toString)
+          .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
         listenTo(controller)
         reactions += {
           case _: InGame =>
             text = "<html>Correct Positions: "
-              .concat(controller.gameData.getAttempt(outerRow).getCorrectPositions(controller.gameData.getSolution()).toString)
+              .concat(controller.getGameData().getAttempt(outerRow).getCorrectPositions(controller.getGameData().getSolution()).toString)
               .concat("<br>")
               .concat("Correct Colors: ")
-              .concat(controller.gameData.getAttempt(outerRow).getCorrectColors(controller.gameData.getSolution()).toString)
+              .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
         }
       }
     }
