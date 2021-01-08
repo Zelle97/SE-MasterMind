@@ -1,22 +1,40 @@
 package mastermind.view
 
-import mastermind.controller.Controller
-import mastermind.util.Observer
+import mastermind.controller.{Controller, GameState}
+import mastermind.util.{GameOver, InGame, Win}
 
-class TUI(controller: Controller) extends Observer {
+import scala.swing.Reactor
+import scala.util.matching.Regex
 
-  controller.add(this)
+class TUI(controller: Controller) extends Reactor {
+
+  listenTo(controller)
+
+  val difficultyPattern: Regex = "(d )(.*)".r
 
   def processInput(input: String): Unit = {
     input match {
       case "exit" =>
+      case difficultyPattern(_, param) => controller.setDifficulty(param)
       case "z" => controller.undo()
       case "y" => controller.redo()
       case _ => controller.addAttempt(input)
     }
   }
 
-  override def update: Boolean = {
-    println(controller.gameToString); true
+  reactions += {
+    case event: InGame => {
+      GameState.handle(new InGame)
+      println(controller.gameToString)
+    }
+    case event: Win => {
+      GameState.handle(new Win)
+      println(GameState.state)
+    }
+    case event: GameOver => {
+      GameState.handle(new GameOver)
+      println(GameState.state)
+    }
   }
+
 }

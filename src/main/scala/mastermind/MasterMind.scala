@@ -1,39 +1,20 @@
 package mastermind
 
-import mastermind.controller.{ColorPicker, Controller}
-import mastermind.model.Color.Shade
-import mastermind.model.{Attempt, Color, DifficultyStrategy, GameData}
-import mastermind.view.TUI
+import mastermind.controller.{Controller, DifficultyStrategy}
+import mastermind.model.{Color, GameData}
+import mastermind.view.{GUI, TUI}
 
 import scala.io.StdIn.readLine
 
 object MasterMind {
 
-  def difficultyMatcher(difficulty: String) = difficulty match {
-    case "easy" => Some("easy")
-    case "medium" => Some("medium")
-    case "mastermind" => Some("mastermind")
-    case _ => None
-  }
-
   def main(args: Array[String]): Unit = {
     println("Welcome to MasterMind!")
 
-    val difficultyInput: String = readLine("Player enter your difficulty level (easy, medium, mastermind): ")
-    val difficulty = difficultyMatcher(difficultyInput)
-
-    var attempts: Vector[Attempt] = Vector()
-
-    if (difficulty.isDefined) {
-      attempts = DifficultyStrategy.getAttempts(difficulty.get)
-    } else {
-      attempts = DifficultyStrategy.getAttempts("easy")
-    }
-
-    val solution: Vector[Shade] = ColorPicker().pickSolution()
-    val controller = new Controller(GameData(attempts, solution))
+    val color = Color
+    val controller = new Controller(GameData(DifficultyStrategy.getAttempts(), color.pickSolution()), color)
     val tui = new TUI(controller)
-    controller.notifyObservers
+    val gui = new GUI(controller)
 
     var input: String = ""
     if (args.length != 0) {

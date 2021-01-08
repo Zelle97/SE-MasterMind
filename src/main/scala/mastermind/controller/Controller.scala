@@ -1,48 +1,69 @@
 package mastermind.controller
 
-import mastermind.model.{Attempt, Color, GameData}
-import mastermind.util.{GameOver, Observable, UndoManager, Win}
+import mastermind.model.{Attempt, Color, ColorInterface, GameData, GameDataInterface}
+import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
+import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
-class Controller(var gameData: GameData, var turn: Int = 0) extends Observable {
+class Controller(var gameData: GameDataInterface,
+                 var color: ColorInterface,
+                 var turn: Int = 0) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
 
-  def addAttempt(input: String): Unit = {
+  def difficultyMatcher(difficulty: String): Option[String] = difficulty match {
+    case "easy" => Some("easy")
+    case "medium" => Some("medium")
+    case "mastermind" => Some("mastermind")
+    case _ => None
+  }
 
-    val colors = input.split(" ").toVector
+  def setDifficulty(difficultyInput: String): Unit = {
+    val difficulty = difficultyMatcher(difficultyInput)
 
-    Try(Attempt(colors.map(color => Color.apply(color).get))) match {
-      case Success(filledSuccess) =>
-        undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-        notifyObservers
-
-        if (gameData.attempts(gameData.attempts.size - turn).getCorrectPositions(gameData.solution) == 4) {
-          println(GameState.handle(Win()))
-          //System.exit(1)
-        }
-
-        if (turn == gameData.attempts.size) {
-          println(GameState.handle(GameOver()))
-          //System.exit(1)
-        }
+    Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), color.pickSolution())) match {
+      case Success(newGameDate) =>
+        gameData = newGameDate
+        turn = 0
+        publish(new InGame)
       case Failure(exception) =>
-        print("Invalid Input\n")
-        print("Please use those colors: ")
-        Color.getAllColors.foreach(shade => print(shade + " "))
+        print("Invalid Difficulty\n")
+        print("Please use easy, medium or mastermind")
         print("\n")
     }
   }
 
-  def undo(): Unit = {
-    undoManager.undoStep()
-    notifyObservers
+  override def addAttempt(input: String): Unit = {
+    val colors = input.split(" ").toVector
+    Try(Attempt(colors.map(colorInput => color.apply(colorInput).get))) match {
+      case Success(filledSuccess) =>
+        undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
+        if (gameData.getAttempt(gameData.getAttemptSize() - turn).getCorrectPositions(gameData.getSolution()) == 4) {
+          publish(new Win)
+          //System.exit(1)
+        } else if (turn == gameData.getAttemptSize()) {
+          publish(new GameOver)
+          //System.exit(1)
+        } else {
+          publish(new InGame)
+        }
+      case Failure(exception) =>
+        print("Invalid Input\n")
+        print("Please use those colors: ")
+        color.getAllColors.foreach(shade => print(shade + " "))
+        print("\n")
+    }
   }
 
-  def redo(): Unit = {
+  override def undo(): Unit = {
+    undoManager.undoStep()
+    publish(new InGame)
+  }
+
+  override def redo(): Unit = {
     undoManager.redoStep()
-    notifyObservers
+    publish(new InGame)
   }
 
   def gameToString: String = {

@@ -1,10 +1,17 @@
-package mastermind.model
+package mastermind.controller
 
+import mastermind.model.Attempt
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class DifficultyStrategySpec extends AnyWordSpec with Matchers {
   "A Strategy" when {
+    "chosen nothing" should {
+      "return 10 Attempst" in{
+        DifficultyStrategy.getAttempts() shouldBe
+          Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+      }
+    }
     "chosen easy" should {
       "return 10 Attempst" in{
         DifficultyStrategy.getAttempts("easy") shouldBe
@@ -21,12 +28,6 @@ class DifficultyStrategySpec extends AnyWordSpec with Matchers {
       "return 7 Attempst" in {
         DifficultyStrategy.getAttempts("mastermind") shouldBe
           Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
-      }
-    }
-    "chose nothing or wrong" should {
-      "return 10 Attempst" in {
-        DifficultyStrategy.getAttempts("wrong") shouldBe
-          Vector[Attempt](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
       }
     }
   }

@@ -1,14 +1,13 @@
 
 package mastermind.model
 
-
-import mastermind.controller.ColorPicker
+import mastermind.controller.DifficultyStrategy
 import mastermind.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class GameBoardSpec extends AnyWordSpec with Matchers {
-  val solution = ColorPicker().pickSolution()
+  val solution = Color.pickSolution()
   val attempts = DifficultyStrategy.getAttempts("easy")
   "The gameboard" when {
     "concating Title" should {

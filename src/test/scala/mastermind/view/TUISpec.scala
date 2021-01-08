@@ -1,8 +1,7 @@
 package mastermind.view
 
-import mastermind.MasterMind.{attempts, difficulty, solution}
-import mastermind.controller.{ColorPicker, Controller}
-import mastermind.model.{DifficultyStrategy, GameData}
+import mastermind.controller.{Controller, DifficultyStrategy, GameState}
+import mastermind.model.{Color, GameData}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -10,15 +9,16 @@ import org.scalatest.wordspec.AnyWordSpec
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI" when {
     val attempts = DifficultyStrategy.getAttempts("easy")
-    val solution = ColorPicker().pickSolution()
+    val color = Color
+    val solution = color.pickSolution()
     "created" should {
 
-      val controller = new Controller(GameData(attempts, solution))
+      val controller = new Controller(GameData(attempts, solution),color)
       "have a controller" in {
         new TUI(controller)
       }
     }
-    val controller = new Controller(GameData(attempts, solution))
+    val controller = new Controller(GameData(attempts, solution),color)
     val testTUI = new TUI(controller)
     "input exit is given" should {
       "exit the game" in {
@@ -29,13 +29,13 @@ class TUISpec extends AnyWordSpec with Matchers {
       "undo the last action" in {
         controller.addAttempt("red blue green yellow")
         testTUI.processInput("z")
-        controller.gameData.attempts(9).userPickedColors(0).getColor shouldBe "          "
+        controller.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "          "
       }
     }
     "input y is given" should {
       "redo the last action" in {
         testTUI.processInput("y")
-        controller.gameData.attempts(9).userPickedColors(0).getColor shouldBe "       red"
+        controller.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "       red"
       }
     }
     "any other input is given" should {
@@ -43,9 +43,19 @@ class TUISpec extends AnyWordSpec with Matchers {
         testTUI.processInput("a b c d")
       }
     }
-    "print out a TUI" should {
-      "return true" in {
-        testTUI.update shouldBe true
+    "adding an Attempt and turns are over" should {
+      "set the GameStatus on GameOver" in {
+        controller.turn = controller.gameData.getAttemptSize()-1
+        controller.addAttempt("red green yellow blue")
+        GameState.state shouldBe "!!Game over!! You are a loser!!!"
+      }
+    }
+    "adding an Attempt and game is Won" should {
+      "set the GameStatus on GameOver" in {
+        controller.turn = 9
+        val solutionAttempt = solution(0).colorString + " " + solution(1).colorString + " " + solution(2).colorString + " " + solution(3).colorString
+        controller.addAttempt(solutionAttempt)
+        GameState.state shouldBe "!!Win!! You are a true Mastermind!!!"
       }
     }
   }
