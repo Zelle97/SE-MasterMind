@@ -1,6 +1,10 @@
-package mastermind.controller
+package mastermind.controllerComponent.controllerBaseImpl
 
-import mastermind.model.{Attempt, Color, ColorInterface, GameData, GameDataInterface}
+import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
+import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.model.colorComponent.ColorInterface
+import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
 import scala.swing.Publisher

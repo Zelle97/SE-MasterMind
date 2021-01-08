@@ -1,6 +1,7 @@
-package mastermind.model
+package mastermind.model.attemptComponent.attemptBaseImpl
 
-import mastermind.model.Color.Shade
+import mastermind.model.attemptComponent.AttemptInterface
+import mastermind.model.colorComponent.colorBaseImpl.Color.Shade
 
 case class Attempt(userPickedColors: Vector[Shade] = Vector(Shade(), Shade(), Shade(), Shade())) extends AttemptInterface {
 
@@ -12,7 +13,7 @@ case class Attempt(userPickedColors: Vector[Shade] = Vector(Shade(), Shade(), Sh
     solution.zip(userPickedColors).map(t => t._1.equals(t._2)).count(e => e)
   }
 
-  override def getUserPickedColor(index:Int): Shade = {
+  override def getUserPickedColor(index: Int): Shade = {
     userPickedColors(index)
   }
 

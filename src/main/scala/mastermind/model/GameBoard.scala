@@ -1,5 +1,7 @@
 package mastermind.model
 
+import mastermind.model.gameDataComponent.GameDataInterface
+
 case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
 
 

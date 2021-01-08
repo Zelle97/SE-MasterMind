@@ -1,6 +1,9 @@
-package mastermind.controller
+package mastermind.controllerComponent.controllerBaseImpl
 
-import mastermind.model.{Attempt, AttemptInterface, GameData, GameDataInterface}
+import mastermind.model.attemptComponent.AttemptInterface
+import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.model.gameDataComponent.GameDataInterface
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.Command
 
 class AddCommand(gameData: GameDataInterface, attempt: AttemptInterface, controller: Controller) extends Command {

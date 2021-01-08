@@ -1,4 +1,4 @@
-package mastermind.controller
+package mastermind.controllerComponent
 
 import mastermind.util.{GameOver, InGame, Win}
 

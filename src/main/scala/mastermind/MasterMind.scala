@@ -1,7 +1,9 @@
 package mastermind
 
-import mastermind.controller.{Controller, DifficultyStrategy}
-import mastermind.model.{Color, GameData}
+import mastermind.controllerComponent.DifficultyStrategy
+import mastermind.controllerComponent.controllerBaseImpl.Controller
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.view.{GUI, TUI}
 
 import scala.io.StdIn.readLine

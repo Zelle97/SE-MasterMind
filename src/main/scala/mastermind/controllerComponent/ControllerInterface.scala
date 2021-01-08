@@ -1,4 +1,4 @@
-package mastermind.controller
+package mastermind.controllerComponent
 
 import scala.swing.Publisher
 

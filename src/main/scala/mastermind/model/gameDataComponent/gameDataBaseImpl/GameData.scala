@@ -1,6 +1,9 @@
-package mastermind.model
+package mastermind.model.gameDataComponent.gameDataBaseImpl
 
-import mastermind.model.Color.Shade
+import mastermind.model.attemptComponent.AttemptInterface
+import mastermind.model.colorComponent.colorBaseImpl.Color.Shade
+import mastermind.model.GameBoard
+import mastermind.model.gameDataComponent.GameDataInterface
 
 case class GameData(attempts: Vector[AttemptInterface],
                     solution: Vector[Shade]) extends GameDataInterface {

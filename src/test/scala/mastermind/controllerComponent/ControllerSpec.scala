@@ -1,9 +1,11 @@
-package mastermind.controller
+package mastermind.controllerComponent
 
 
 
 
-import mastermind.model.{Color, GameData}
+import mastermind.controllerComponent.controllerBaseImpl.Controller
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.GameOver
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

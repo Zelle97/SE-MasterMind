@@ -1,6 +1,7 @@
 package mastermind.view
 
-import mastermind.controller.{Controller, GameState}
+import mastermind.controllerComponent.GameState
+import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Reactor

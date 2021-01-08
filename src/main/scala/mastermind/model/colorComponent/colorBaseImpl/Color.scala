@@ -1,7 +1,8 @@
-package mastermind.model
+package mastermind.model.colorComponent.colorBaseImpl
+
+import mastermind.model.colorComponent.ColorInterface
 
 import scala.util.Random
-
 
 object Color extends ColorInterface {
   val allColors = Vector("red", "blue", "green", "yellow", "black", "white", "orange", "brown")

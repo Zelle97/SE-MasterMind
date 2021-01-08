@@ -1,7 +1,9 @@
 package mastermind.view
 
-import mastermind.controller.{Controller, DifficultyStrategy, GameState}
-import mastermind.model.{Color, GameData}
+import mastermind.controllerComponent.controllerBaseImpl.Controller
+import mastermind.controllerComponent.{DifficultyStrategy, GameState}
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

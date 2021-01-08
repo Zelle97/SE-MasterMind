@@ -1,8 +1,10 @@
 
 package mastermind.model
 
-import mastermind.controller.DifficultyStrategy
+import mastermind.controllerComponent.DifficultyStrategy
 import mastermind.model
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

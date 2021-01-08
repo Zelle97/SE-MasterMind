@@ -2,7 +2,7 @@ package mastermind.view
 
 import java.awt.Color
 
-import mastermind.controller.Controller
+import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Swing.LineBorder
