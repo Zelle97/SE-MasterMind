@@ -38,15 +38,19 @@ class Controller(var gameData: GameDataInterface,
     val colors = input.split(" ").toVector
     Try(Attempt(colors.map(colorInput => color.apply(colorInput).get))) match {
       case Success(filledSuccess) =>
-        undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-        if (gameData.getAttempt(gameData.getAttemptSize() - turn).getCorrectPositions(gameData.getSolution()) == 4) {
-          publish(new Win)
-          //System.exit(1)
-        } else if (turn == gameData.getAttemptSize()) {
-          publish(new GameOver)
-          //System.exit(1)
+        if(filledSuccess.userPickedColors.size < 4) {
+          print("Invalid Input\n")
         } else {
-          publish(new InGame)
+          undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
+          if (gameData.getAttempt(gameData.getAttemptSize() - turn).getCorrectPositions(gameData.getSolution()) == 4) {
+            publish(new Win)
+            //System.exit(1)
+          } else if (turn == gameData.getAttemptSize()) {
+            publish(new GameOver)
+            //System.exit(1)
+          } else {
+            publish(new InGame)
+          }
         }
       case Failure(exception) =>
         print("Invalid Input\n")

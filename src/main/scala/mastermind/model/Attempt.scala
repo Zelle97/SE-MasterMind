@@ -5,7 +5,7 @@ import mastermind.model.Color.Shade
 case class Attempt(userPickedColors: Vector[Shade] = Vector(Shade(), Shade(), Shade(), Shade())) extends AttemptInterface {
 
   override def getCorrectColors(solution: Vector[Shade]): Int = {
-    userPickedColors.map(userColor => solution.contains(userColor)).count(e => e)
+    solution.map(solutionColor => userPickedColors.contains(solutionColor)).count(e => e)
   }
 
   override def getCorrectPositions(solution: Vector[Shade]): Int = {
