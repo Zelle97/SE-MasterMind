@@ -21,12 +21,12 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "adding an Attempt" should {
       val c = new Controller(GameData(attempts, solution), color)
       "add a attempt" in {
-        c.addAttempt("red")
+        c.addAttempt("red blue yellow green")
         c.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "       red"
       }
       "increase the turn" in {
         val before = c.turn
-        c.addAttempt("red")
+        c.addAttempt("red blue yellow green")
         before+1 shouldBe c.turn
       }
     }
@@ -34,7 +34,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       val c = new Controller(GameData(attempts, solution), color)
       "increase the turn" in {
         val before = c.turn
-        c.addAttempt("red")
+        c.addAttempt("red blue yellow green")
         before+1 shouldBe c.turn
       }
     }
@@ -55,7 +55,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     }
     "executing undo" should {
       val c = new Controller(GameData(attempts, solution), color)
-      c.addAttempt("red")
+      c.addAttempt("red blue yellow green")
       "undo the attempt" in {
         val before = c.turn
         c.undo()
