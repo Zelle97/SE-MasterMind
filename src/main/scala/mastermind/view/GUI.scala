@@ -141,9 +141,17 @@ class GUI(controller: Controller) extends Frame {
   }
 
   menuBar = new MenuBar {
-    contents += new Menu("readMe") {
-      contents += new MenuItem(Action("manual") {
+    contents += new Menu("ReadMe") {
+      contents += new MenuItem(Action("Manual") {
         new Manual
+      })
+    }
+    contents += new Menu("Actions") {
+      contents += new MenuItem(Action("Undo") {
+        controller.undo()
+      })
+      contents += new MenuItem(Action("Redo") {
+        controller.undo()
       })
     }
   }
