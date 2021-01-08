@@ -18,7 +18,7 @@ class Manual extends Frame {
       "There are three different difficulties: <br>" +
       "easy -> 10 turns <br>medium -> 8 turns <br> mastermind -> 7turns<br>" +
       "Each guess is made by placing a row of code pegs on the decoding board. " +
-      "Once placed, you provide some feedback on the right side of the row with your guess. <br><br>" +
+      "Once placed, you are provided with some feedback on the right side of the row with your guess. <br><br>" +
       "Good Luck!!</p></html>"
   }
   centerOnScreen()
@@ -57,7 +57,7 @@ class GUI(controller: Controller) extends Frame {
   listenTo(controller)
 
   title = "HTWG Mastermind"
-  preferredSize = new Dimension(320 * 2, 240 * 4)
+  preferredSize = new Dimension(400 * 2, 240 * 4)
 
   val items = List(
     "Wähle eine Farbe",
@@ -151,7 +151,7 @@ class GUI(controller: Controller) extends Frame {
         controller.undo()
       })
       contents += new MenuItem(Action("Redo") {
-        controller.undo()
+        controller.redo()
       })
     }
   }
@@ -162,8 +162,8 @@ class GUI(controller: Controller) extends Frame {
       add(colorSelectPanel, BorderPanel.Position.Center)
       add(new GridPanel(1, 2) {
         contents += Button("submit") {
-          if(color1.selection.item == "Wähle eine Farbe" || color2.selection.item == "Wähle eine Farbe"
-            || color3.selection.item == "Wähle eine Farbe"|| color4.selection.item == "Wähle eine Farbe"){
+          if(color1.selection.item == "Choose a color" || color2.selection.item == "Choose a color"
+            || color3.selection.item == "Choose a color"|| color4.selection.item == "Choose a color"){
             new Warning
           }else {
             controller.addAttempt(
