@@ -7,7 +7,7 @@ import mastermind.controllerComponent.GameState
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
-import scala.swing.Swing.{LineBorder}
+import scala.swing.Swing.LineBorder
 import scala.swing.{Action, BorderPanel, Button, ComboBox, Dialog, Dimension, FlowPanel, Frame, GridPanel, Label, Menu, MenuBar, MenuItem}
 import scala.util.{Failure, Success, Try}
 
@@ -38,42 +38,47 @@ class Warning extends Dialog {
   centerOnScreen()
 }
 
-class PopUpEnd(titleString: String, label: String, controller: Controller) extends Dialog {
+class PopUpEnd(titleString: String, label: String, controller: Controller, parentFrame: Frame) extends Frame{
+  val frame: PopUpEnd = this
+  parentFrame.visible = false
   title = titleString
   resizable = false
   visible = true
-  preferredSize = new Dimension(400, 80)
-  modal = true
+  preferredSize = new Dimension(500, 100)
   contents = new FlowPanel() {
     contents += new Label(label)
     contents += Button("Exit") {
       sys.exit(0)
     }
     contents += Button("New Game") {
-      new PopUpNewGame(controller)
+      new PopUpNewGame(controller, parentFrame)
       close()
     }
   }
   centerOnScreen()
 }
 
-class PopUpNewGame(controller: Controller)extends Dialog {
+class PopUpNewGame(controller: Controller, parentFrame: Frame)extends Frame {
+  parentFrame.visible = false
   title = "new Game"
   resizable = false
   visible = true
-  preferredSize = new Dimension(400, 80)
+  preferredSize = new Dimension(500, 100)
   contents = new FlowPanel() {
     contents += new Label("Chose your difficulty")
     contents += Button("easy") {
       controller.setDifficulty("easy")
+      parentFrame.visible = true
       close()
     }
     contents += Button("medium") {
       controller.setDifficulty("medium")
+      parentFrame.visible = true
       close()
     }
     contents += Button("mastermind") {
       controller.setDifficulty("mastermind")
+      parentFrame.visible = true
       close()
     }
   }
@@ -82,7 +87,7 @@ class PopUpNewGame(controller: Controller)extends Dialog {
 
 class GUI(controller: Controller) extends Frame {
   listenTo(controller)
-
+  val frame: GUI = this
   title = "HTWG Mastermind"
   preferredSize = new Dimension(400 * 2, 240 * 4)
   val items = List(
@@ -115,6 +120,7 @@ class GUI(controller: Controller) extends Frame {
     contents += color4
     background = backgroundColor
   }
+
 
   var gameboard: GridPanel = new GridPanel(controller.gameData.getAttemptSize(), 1) {
     background = backgroundColor
@@ -204,9 +210,15 @@ class GUI(controller: Controller) extends Frame {
         controller.redo()
       })
     }
-    contents += new Menu("Game") {
-      contents += new MenuItem(Action("new Game") {
-        new PopUpNewGame(controller)
+    contents += new Menu("new Game") {
+      contents += new MenuItem(Action("easy") {
+        controller.setDifficulty("easy")
+      })
+      contents += new MenuItem(Action("medium") {
+        controller.setDifficulty("medium")
+      })
+      contents += new MenuItem(Action("mastermind") {
+        controller.setDifficulty("mastermind")
       })
     }
   }
@@ -240,20 +252,18 @@ class GUI(controller: Controller) extends Frame {
     }, BorderPanel.Position.South)
     background = backgroundColor
   }
-  new PopUpNewGame(controller)
   centerOnScreen()
-  visible = true
   resizable = false
-  redraw
-
+  redraw()
+  new PopUpNewGame(controller, frame)
 
   reactions += {
-    case event: InGame => redraw
-    case event: Win => new PopUpEnd("Congratulations", "You won!", this.controller)
-    case event: GameOver => new PopUpEnd("Game Over", "It seems like you lost... loser!", this.controller)
+    case event: InGame => redraw()
+    case event: Win => new PopUpEnd("Congratulations", "You won!", this.controller, frame)
+    case event: GameOver => new PopUpEnd("Game Over", "It seems like you lost... loser!", this.controller, frame)
   }
 
-  def redraw = {
+  def redraw(): Unit = {
     repaint
   }
 
