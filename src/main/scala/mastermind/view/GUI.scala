@@ -12,10 +12,10 @@ import scala.swing.{Action, BorderPanel, Button, ComboBox, Dialog, Dimension, Fl
 import scala.util.{Failure, Success, Try}
 
 class Manual extends Frame {
-  title = "Manual"
+  title = "MasterMind - Manual"
   resizable = false
   visible = true
-  preferredSize = new Dimension(600, 250)
+  preferredSize = new Dimension(300, 300)
   contents = new Label {
     text = "<html><p>You are the codebreaker: <br><br>Try to guess the pattern in order and color. <br>" +
       "There are three different difficulties: <br>" +
@@ -28,59 +28,74 @@ class Manual extends Frame {
 }
 
 class Warning extends Dialog {
-  title = "Warning"
+  title = "MasterMind - Warning"
   resizable = false
   visible = true
   preferredSize = new Dimension(300, 150)
   contents = new Label {
-    text = "<html><p> <h2 style=\"color: rgb(255, 0  , 0  )\"> Chose all four colors <br> Good Luck!!</p></html>"
+    text = "<html><p> <h2 style=\"color: rgb(255, 0  , 0  )\"> Choose all four colors before you submit! <br> Good Luck!</p></html>"
   }
   centerOnScreen()
 }
 
-class PopUpEnd(titleString: String, label: String, controller: Controller, parentFrame: Frame) extends Frame{
+class PopUpEnd(titleString: String, label: String, controller: Controller, parentFrame: Frame) extends Frame {
   val frame: PopUpEnd = this
   parentFrame.visible = false
   title = titleString
   resizable = false
   visible = true
   preferredSize = new Dimension(500, 100)
-  contents = new FlowPanel() {
+  contents = new GridPanel(2, 1) {
     contents += new Label(label)
-    contents += Button("Exit") {
-      sys.exit(0)
-    }
+    contents += new GridPanel(1, 2)
     contents += Button("New Game") {
       new PopUpNewGame(controller, parentFrame)
       close()
     }
+    contents += Button("Exit") {
+      sys.exit(0)
+    }
+
   }
   centerOnScreen()
 }
 
 class PopUpNewGame(controller: Controller, parentFrame: Frame)extends Frame {
   parentFrame.visible = false
-  title = "new Game"
+  title = "New Game"
   resizable = false
   visible = true
-  preferredSize = new Dimension(500, 100)
-  contents = new FlowPanel() {
-    contents += new Label("Chose your difficulty")
-    contents += Button("easy") {
-      controller.setDifficulty("easy")
-      parentFrame.visible = true
-      close()
-    }
-    contents += Button("medium") {
-      controller.setDifficulty("medium")
-      parentFrame.visible = true
-      close()
-    }
-    contents += Button("mastermind") {
-      controller.setDifficulty("mastermind")
-      parentFrame.visible = true
-      close()
-    }
+  preferredSize = new Dimension(200, 250)
+
+  val buttonEasy: Button = Button("Easy"){
+    controller.setDifficulty("easy")
+    parentFrame.visible = true
+    close()
+  }
+  buttonEasy.background = new Color(173, 255, 47)
+
+  val buttonMedium :Button = Button("Medium") {
+    controller.setDifficulty("medium")
+    parentFrame.visible = true
+    close()
+  }
+  buttonMedium.background = new Color(0, 255, 0)
+
+  val buttonMasterMind :Button = Button("MasterMind") {
+    controller.setDifficulty("mastermind")
+    parentFrame.visible = true
+    close()
+  }
+  buttonMasterMind.background = new Color(50, 205, 50)
+
+
+
+  contents = new GridPanel(4, 1) {
+    contents += new Label("What's your Level?")
+
+      contents += buttonEasy
+      contents += buttonMedium
+      contents += buttonMasterMind
   }
   centerOnScreen()
 }
@@ -88,10 +103,10 @@ class PopUpNewGame(controller: Controller, parentFrame: Frame)extends Frame {
 class GUI(controller: Controller) extends Frame {
   listenTo(controller)
   val frame: GUI = this
-  title = "HTWG Mastermind"
-  preferredSize = new Dimension(400 * 2, 240 * 4)
+  title = "MasterMind"
+  preferredSize = new Dimension(600, 600)
   val items = List(
-    "Chose a color",
+    "Choose a color",
     "<html><h2 style=\"background-color: rgb(255, 0  , 0  ); color: rgb(255, 0  , 0  )\"> &emsp &emsp &emsp red",
     "<html><h2 style=\"background-color: rgb(51 , 153, 255); color: rgb(51 , 153, 255)\"> &emsp &emsp &emsp blu",
     "<html><h2 style=\"background-color: rgb(0  , 204, 0  ); color: rgb(0  , 204, 0  )\"> &emsp &emsp &emsp gre",
@@ -210,14 +225,14 @@ class GUI(controller: Controller) extends Frame {
         controller.redo()
       })
     }
-    contents += new Menu("new Game") {
-      contents += new MenuItem(Action("easy") {
+    contents += new Menu("New Game") {
+      contents += new MenuItem(Action("Easy") {
         controller.setDifficulty("easy")
       })
-      contents += new MenuItem(Action("medium") {
+      contents += new MenuItem(Action("Medium") {
         controller.setDifficulty("medium")
       })
-      contents += new MenuItem(Action("mastermind") {
+      contents += new MenuItem(Action("MasterMind") {
         controller.setDifficulty("mastermind")
       })
     }
@@ -231,8 +246,8 @@ class GUI(controller: Controller) extends Frame {
         background = backgroundColor
         contents += Button("submit") {
           enabled = true
-          if (color1.selection.item == "Chose a color" || color2.selection.item == "Chose a color" ||
-            color3.selection.item == "Chose a color" || color4.selection.item == "Chose a color") {
+          if (color1.selection.item == "Choose a color" || color2.selection.item == "Choose a color" ||
+            color3.selection.item == "Choose a color" || color4.selection.item == "Choose a color") {
             new Warning
           } else if (GameState.state.equals("I am in Game")) {
             controller.addAttempt(
@@ -259,8 +274,8 @@ class GUI(controller: Controller) extends Frame {
 
   reactions += {
     case event: InGame => redraw()
-    case event: Win => new PopUpEnd("Congratulations", "You won!", this.controller, frame)
-    case event: GameOver => new PopUpEnd("Game Over", "It seems like you lost... loser!", this.controller, frame)
+    case event: Win => new PopUpEnd("Congratulations", "You are a true MasterMind!!", this.controller, frame)
+    case event: GameOver => new PopUpEnd("Game Over", "You lost the game!! try again?", this.controller, frame)
   }
 
   def redraw(): Unit = {
