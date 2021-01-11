@@ -40,7 +40,9 @@ class Warning extends Dialog {
 
 class PopUpEnd(titleString: String, label: String, controller: Controller, parentFrame: Frame) extends Frame {
   val frame: PopUpEnd = this
-  parentFrame.visible = false
+  for(content <- parentFrame.menuBar.contents){
+    content.enabled = false
+  }
   title = titleString
   resizable = false
   visible = true
@@ -51,6 +53,9 @@ class PopUpEnd(titleString: String, label: String, controller: Controller, paren
     contents += Button("New Game") {
       new PopUpNewGame(controller, parentFrame)
       close()
+      for(content <- parentFrame.menuBar.contents){
+        content.enabled = true
+      }
     }
     contents += Button("Exit") {
       sys.exit(0)
@@ -217,6 +222,7 @@ class GUI(controller: Controller) extends Frame {
         new Manual
       })
     }
+
     contents += new Menu("Actions") {
       contents += new MenuItem(Action("Undo") {
         controller.undo()
