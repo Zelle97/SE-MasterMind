@@ -22,7 +22,6 @@ class TUI(controller: Controller) extends Reactor {
       case _ => controller.addAttempt(input)
     }
   }
-
   reactions += {
     case event: InGame => {
       GameState.handle(new InGame)
@@ -30,12 +29,13 @@ class TUI(controller: Controller) extends Reactor {
     }
     case event: Win => {
       GameState.handle(new Win)
+      println(controller.gameToString)
       println(GameState.state)
     }
     case event: GameOver => {
       GameState.handle(new GameOver)
+      println(controller.gameToString)
       println(GameState.state)
     }
   }
-
 }
