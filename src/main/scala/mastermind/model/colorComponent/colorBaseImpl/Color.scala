@@ -1,5 +1,6 @@
 package mastermind.model.colorComponent.colorBaseImpl
 
+import com.google.inject.Inject
 import mastermind.model.colorComponent.ColorInterface
 
 import scala.util.Random
@@ -33,7 +34,7 @@ case class Color() extends ColorInterface {
 
 }
 
-case class Shade(colorString: String = "          ") {
+case class Shade @Inject() (colorString: String = "          ") {
   def getColor: String = {
     f"$colorString%10s"
   }

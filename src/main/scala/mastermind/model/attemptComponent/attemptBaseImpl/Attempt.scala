@@ -1,7 +1,6 @@
 package mastermind.model.attemptComponent.attemptBaseImpl
 
 import com.google.inject.Inject
-import com.google.inject.name.Named
 import mastermind.model.attemptComponent.AttemptInterface
 import mastermind.model.colorComponent.colorBaseImpl.Shade
 
