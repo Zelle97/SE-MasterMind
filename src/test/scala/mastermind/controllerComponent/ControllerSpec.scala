@@ -12,7 +12,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class ControllerSpec extends AnyWordSpec with Matchers {
   "A Controller" when {
-    val color = Color
+    val color = Color()
     val solution = color.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
     "created" should {

@@ -1,6 +1,7 @@
 package mastermind.model.attemptComponent
 
-import mastermind.model.colorComponent.colorBaseImpl.Color.Shade
+import mastermind.model.colorComponent.colorBaseImpl.Shade
+
 
 trait AttemptInterface {
   def getUserPickedColor(index: Int): Shade

@@ -3,7 +3,7 @@ package mastermind.view
 import java.awt.Color
 
 import javax.swing.border.Border
-import mastermind.controllerComponent.GameState
+import mastermind.controllerComponent.{ControllerInterface, GameState}
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
@@ -38,7 +38,7 @@ class Warning extends Dialog {
   centerOnScreen()
 }
 
-class PopUpEnd(titleString: String, label: String, controller: Controller, parentFrame: Frame) extends Frame {
+class PopUpEnd(titleString: String, label: String, controller: ControllerInterface, parentFrame: Frame) extends Frame {
   val frame: PopUpEnd = this
   for(content <- parentFrame.menuBar.contents){
     content.enabled = false
@@ -65,7 +65,7 @@ class PopUpEnd(titleString: String, label: String, controller: Controller, paren
   centerOnScreen()
 }
 
-class PopUpNewGame(controller: Controller, parentFrame: Frame)extends Frame {
+class PopUpNewGame(controller: ControllerInterface, parentFrame: Frame)extends Frame {
   parentFrame.visible = false
   title = "New Game"
   resizable = false
@@ -105,7 +105,7 @@ class PopUpNewGame(controller: Controller, parentFrame: Frame)extends Frame {
   centerOnScreen()
 }
 
-class GUI(controller: Controller) extends Frame {
+class GUI(controller: ControllerInterface) extends Frame {
   listenTo(controller)
   val frame: GUI = this
   title = "MasterMind"
@@ -142,25 +142,25 @@ class GUI(controller: Controller) extends Frame {
   }
 
 
-  var gameboard: GridPanel = new GridPanel(controller.gameData.getAttemptSize(), 1) {
+  var gameboard: GridPanel = new GridPanel(controller.getGameData().getAttemptSize(), 1) {
     background = backgroundColor
     for {
-      outerRow <- controller.gameData.getAllAttempts().indices   //size-1 to 0 by -1
+      outerRow <- controller.getGameData().getAllAttempts().indices   //size-1 to 0 by -1
     } {
       contents += new GridPanel(1, 5) {
         background = backgroundColor
         for {
-          innerRow <- controller.gameData.getAttempt(0).getAllUserColors().indices  //size-1 to 0 by -1
+          innerRow <- controller.getGameData().getAttempt(0).getAllUserColors().indices  //size-1 to 0 by -1
         } {
           contents += new Label {
-            text = controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString
+            text = controller.getGameData().getAttempt(outerRow).getUserPickedColor(innerRow).colorString
             background = new Color(240, 240, 240)
             border = borderColor
             opaque = true
             listenTo(controller)
             reactions += {
               case _: InGame | _: Win | _: GameOver =>
-                Try(controller.gameData.getAttempt(outerRow).getUserPickedColor(innerRow).colorString) match {
+                Try(controller.getGameData().getAttempt(outerRow).getUserPickedColor(innerRow).colorString) match {
                   case Success(color) =>
                     background = new Color(240, 240, 240)
                     border = borderColor
@@ -189,23 +189,23 @@ class GUI(controller: Controller) extends Frame {
         border = borderColor
         opaque = true
         text = "<html>Correct Positions: "
-          .concat(controller.gameData.getAttempt(outerRow).getCorrectPositions(controller.gameData.getSolution()).toString)
+          .concat(controller.getGameData().getAttempt(outerRow).getCorrectPositions(controller.getGameData().getSolution()).toString)
           .concat("<br>")
           .concat("Correct Colors: ")
-          .concat(controller.gameData.getAttempt(outerRow).getCorrectColors(controller.gameData.getSolution()).toString)
+          .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
         listenTo(controller)
         reactions += {
           case _: InGame =>
-            Try(controller.gameData.getAttempt(outerRow).getUserPickedColor(0).colorString) match {
+            Try(controller.getGameData().getAttempt(outerRow).getUserPickedColor(0).colorString) match {
               case Success(color) =>
                 background = new Color(255, 204, 51)
                 foreground = java.awt.Color.BLACK
                 border = borderColor
                 text = "<html>Correct Positions: "
-                  .concat(controller.gameData.getAttempt(outerRow).getCorrectPositions(controller.gameData.getSolution()).toString)
+                  .concat(controller.getGameData().getAttempt(outerRow).getCorrectPositions(controller.getGameData().getSolution()).toString)
                   .concat("<br>")
                   .concat("Correct Colors: ")
-                  .concat(controller.gameData.getAttempt(outerRow).getCorrectColors(controller.gameData.getSolution()).toString)
+                  .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
               case Failure(exception) =>
                 background = backgroundColor
                 foreground = backgroundColor

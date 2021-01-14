@@ -1,9 +1,10 @@
 package mastermind.model.attemptComponent.attemptBaseImpl
 
+import com.google.inject.Inject
 import mastermind.model.attemptComponent.AttemptInterface
-import mastermind.model.colorComponent.colorBaseImpl.Color.Shade
+import mastermind.model.colorComponent.colorBaseImpl.Shade
 
-case class Attempt(userPickedColors: Vector[Shade] = Vector(Shade(), Shade(), Shade(), Shade())) extends AttemptInterface {
+case class Attempt @Inject() (userPickedColors: Vector[Shade] = Vector(Shade(), Shade(), Shade(), Shade())) extends AttemptInterface {
 
   override def getCorrectColors(solution: Vector[Shade]): Int = {
     solution.map(solutionColor => userPickedColors.contains(solutionColor)).count(e => e)

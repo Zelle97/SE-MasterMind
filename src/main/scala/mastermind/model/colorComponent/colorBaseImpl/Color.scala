@@ -1,10 +1,11 @@
 package mastermind.model.colorComponent.colorBaseImpl
 
+import com.google.inject.Inject
 import mastermind.model.colorComponent.ColorInterface
 
 import scala.util.Random
 
-object Color extends ColorInterface {
+case class Color() extends ColorInterface {
   val allColors = Vector("red", "blue", "green", "yellow", "black", "white", "orange", "brown")
 
   def apply(colorString: String): Option[Shade] = {
@@ -28,22 +29,22 @@ object Color extends ColorInterface {
   }
 
   def pickRandomColor(alreadyPickedColors: Vector[Shade]): Shade = {
-    Color.getAllColors.filterNot(color => alreadyPickedColors.contains(color))(Random.nextInt(Color.allColors.size - alreadyPickedColors.size))
+    this.getAllColors.filterNot(color => alreadyPickedColors.contains(color))(Random.nextInt(this.allColors.size - alreadyPickedColors.size))
   }
 
-  case class Shade(colorString: String = "          ") {
-    def getColor: String = {
-      f"$colorString%10s"
-    }
+}
 
-    override def toString: String = colorString
-
-    override def equals(that: Any): Boolean = {
-      that match {
-        case that: Shade => that.getColor.equals(f"$colorString%10s")
-        case _ => false
-      }
-    }
+case class Shade @Inject() (colorString: String = "          ") {
+  def getColor: String = {
+    f"$colorString%10s"
   }
 
+  override def toString: String = colorString
+
+  override def equals(that: Any): Boolean = {
+    that match {
+      case that: Shade => that.getColor.equals(f"$colorString%10s")
+      case _ => false
+    }
+  }
 }

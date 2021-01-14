@@ -1,5 +1,6 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
+import com.google.inject.Inject
 import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
@@ -10,7 +11,7 @@ import mastermind.util.{GameOver, InGame, UndoManager, Win}
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
-class Controller(var gameData: GameDataInterface,
+class Controller @Inject()(var gameData: GameDataInterface,
                  var color: ColorInterface,
                  var turn: Int = 0) extends ControllerInterface with Publisher {
 
@@ -72,6 +73,10 @@ class Controller(var gameData: GameDataInterface,
   override def redo(): Unit = {
     undoManager.redoStep()
     publish(new InGame)
+  }
+
+  override def getGameData(): GameDataInterface = {
+    gameData
   }
 
   def gameToString: String = {

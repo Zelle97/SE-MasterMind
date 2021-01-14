@@ -1,11 +1,13 @@
 package mastermind.model.gameDataComponent.gameDataBaseImpl
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
 import mastermind.model.attemptComponent.AttemptInterface
-import mastermind.model.colorComponent.colorBaseImpl.Color.Shade
 import mastermind.model.GameBoard
+import mastermind.model.colorComponent.colorBaseImpl.Shade
 import mastermind.model.gameDataComponent.GameDataInterface
 
-case class GameData(attempts: Vector[AttemptInterface],
+case class GameData @Inject() ( attempts: Vector[AttemptInterface],
                     solution: Vector[Shade]) extends GameDataInterface {
 
   override def updateAttempt(index: Int, attempt: AttemptInterface): GameData = {

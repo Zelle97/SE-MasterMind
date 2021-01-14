@@ -15,23 +15,23 @@ class AttemptSpec extends AnyWordSpec with Matchers {
         Attempt().userPickedColors(3).getColor shouldBe "          "
       }
       "contain the parameter fields" in {
-        val testAttempt = Attempt(Vector(Color("red").get, Color("green").get, Color("blue").get, Color("yellow").get))
+        val testAttempt = Attempt(Vector(Color().apply("red").get, Color().apply("green").get, Color().apply("blue").get, Color().apply("yellow").get))
         testAttempt.userPickedColors(0).getColor shouldBe "       red"
         testAttempt.userPickedColors(1).getColor shouldBe "     green"
         testAttempt.userPickedColors(2).getColor shouldBe "      blue"
         testAttempt.userPickedColors(3).getColor shouldBe "    yellow"
       }
       "contain 4 fields" in {
-        val testAttempt = Attempt(Vector(Color("red").get, Color("green").get, Color("blue").get, Color("yellow").get))
+        val testAttempt = Attempt(Vector(Color().apply("red").get, Color().apply("green").get, Color().apply("blue").get, Color().apply("yellow").get))
         testAttempt.getAllUserColors().size shouldBe 4
       }
       "get the correct number of colors" in {
-        val testAttempt = Attempt(Vector(Color("green").get, Color("red").get, Color("yellow").get, Color("blue").get))
-        testAttempt.getCorrectColors(Vector(Color("red").get, Color("green").get, Color("blue").get, Color("yellow").get)) shouldBe 4
+        val testAttempt = Attempt(Vector(Color().apply("green").get, Color().apply("red").get, Color().apply("yellow").get, Color().apply("blue").get))
+        testAttempt.getCorrectColors(Vector(Color().apply("red").get, Color().apply("green").get, Color().apply("blue").get, Color().apply("yellow").get)) shouldBe 4
       }
       "get the correct number of positions" in {
-        val testAttempt = Attempt(Vector(Color("red").get, Color("green").get, Color("blue").get, Color("yellow").get))
-        testAttempt.getCorrectColors(Vector(Color("red").get, Color("green").get, Color("blue").get, Color("yellow").get)) shouldBe 4
+        val testAttempt = Attempt(Vector(Color().apply("red").get, Color().apply("green").get, Color().apply("blue").get, Color().apply("yellow").get))
+        testAttempt.getCorrectColors(Vector(Color().apply("red").get, Color().apply("green").get, Color().apply("blue").get, Color().apply("yellow").get)) shouldBe 4
       }
     }
     "created with invalid colors" should {

@@ -1,13 +1,13 @@
 package mastermind.view
 
-import mastermind.controllerComponent.GameState
+import mastermind.controllerComponent.{ControllerInterface, GameState}
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Reactor
 import scala.util.matching.Regex
 
-class TUI(controller: Controller) extends Reactor {
+class TUI(controller: ControllerInterface) extends Reactor {
 
   listenTo(controller)
 

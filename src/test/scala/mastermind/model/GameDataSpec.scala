@@ -11,7 +11,7 @@ import scala.collection.immutable.Vector
 
 class GameDataSpec extends AnyWordSpec with Matchers {
   "The Game Data" when {
-    val solution = Color.pickSolution()
+    val solution = Color().pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
 
     "created" should {
@@ -26,7 +26,7 @@ class GameDataSpec extends AnyWordSpec with Matchers {
     }
     "a attempt is updated" should {
       "contain the updated attempt" in {
-        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(Color("red").get))).attempts(0).getUserPickedColor(0).getColor shouldBe "       red"
+        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(Color().apply("red").get))).attempts(0).getUserPickedColor(0).getColor shouldBe "       red"
       }
     }
     "using toString" should {
