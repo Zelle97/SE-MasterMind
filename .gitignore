@@ -2,3 +2,4 @@
 .bsp
 target
 src/main/scala/main.sc
+gameData.json
