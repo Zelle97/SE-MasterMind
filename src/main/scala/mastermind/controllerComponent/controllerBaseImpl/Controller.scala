@@ -1,10 +1,12 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
-import com.google.inject.Inject
+import com.google.inject.{Guice, Inject}
+import mastermind.MasterMindModule
 import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.model.colorComponent.ColorInterface
+import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
@@ -16,6 +18,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
                  var turn: Int = 0) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
+
 
   def difficultyMatcher(difficulty: String): Option[String] = difficulty match {
     case "easy" => Some("easy")
@@ -37,6 +40,20 @@ class Controller @Inject()(var gameData: GameDataInterface,
         print("Please use easy, medium or mastermind")
         print("\n")
     }
+  }
+
+  def save(): Unit = {
+     val injector = Guice.createInjector(new MasterMindModule)
+     val io = injector.getInstance(classOf[FileIOInterface])
+    io.save(gameData)
+  }
+
+  def load(): Unit = {
+     val injector = Guice.createInjector(new MasterMindModule)
+     val io = injector.getInstance(classOf[FileIOInterface])
+    gameData = io.load
+    turn = gameData.getTurn()
+    publish(new InGame)
   }
 
   override def addAttempt(input: String): Unit = {

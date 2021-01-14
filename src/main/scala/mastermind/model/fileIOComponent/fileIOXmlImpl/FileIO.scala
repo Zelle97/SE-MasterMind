@@ -1,5 +1,6 @@
 package mastermind.model.fileIOComponent.fileIOXmlImpl
 
+import com.google.inject.Inject
 import mastermind.controllerComponent.DifficultyStrategy
 import mastermind.model.attemptComponent.AttemptInterface
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
@@ -12,7 +13,7 @@ import scala.io.Source
 import scala.xml.NodeSeq.seqToNodeSeq
 import scala.xml.{NodeSeq, PrettyPrinter}
 
-class FileIo extends FileIOInterface {
+class FileIO  @Inject() extends FileIOInterface {
   override def load: GameDataInterface = {
     val file = scala.xml.XML.loadFile("gameData.xml")
     val attemptSeq = (file \\ "attempt")
@@ -24,6 +25,7 @@ class FileIo extends FileIOInterface {
       case 10 => attempts = DifficultyStrategy.getAttempts("easy")
     }
     var i = 0
+    var turn = 0
     for(attempt <- attemptSeq) {
       var attemptVector = Vector[Shade]()
       val colorSeq = (attempt \\ "color")
@@ -36,6 +38,7 @@ class FileIo extends FileIOInterface {
       }
       if(attemptVector.nonEmpty) {
         attempts = attempts.updated(i, Attempt(attemptVector))
+        turn= turn + 1
       } else {
         attempts = attempts.updated(i, Attempt())
       }
@@ -47,8 +50,7 @@ class FileIo extends FileIOInterface {
       val c = Color().apply(color.text.replaceAll(" ", ""))
       solutionVector = solutionVector:+ c.get
     }
-
-    GameData(attempts.reverse,solutionVector)
+    GameData(attempts,solutionVector, turn)
   }
 
   override def save(gameData: GameDataInterface): Unit = {

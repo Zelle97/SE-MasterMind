@@ -230,6 +230,12 @@ class GUI(controller: ControllerInterface) extends Frame {
       contents += new MenuItem(Action("Redo") {
         controller.redo()
       })
+      contents += new MenuItem(Action("Save") {
+        controller.save()
+      })
+      contents += new MenuItem(Action("Load") {
+        controller.load()
+      })
     }
     contents += new Menu("New Game") {
       contents += new MenuItem(Action("Easy") {
