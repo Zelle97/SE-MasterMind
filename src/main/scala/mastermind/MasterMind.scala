@@ -6,6 +6,7 @@ import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.model.colorComponent.colorBaseImpl.Color
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.view.{GUI, TUI}
+import mastermind.model.fileIOComponent.fileIOXmlImpl.FileIo
 
 import scala.io.StdIn.readLine
 
@@ -18,6 +19,9 @@ object MasterMind {
     val controller = injector.getInstance(classOf[ControllerInterface])
     val tui = new TUI(controller)
     val gui = new GUI(controller)
+    val io = new FileIo
+    io.save(controller.getGameData())
+
 
     var input: String = ""
     if (args.length != 0) {

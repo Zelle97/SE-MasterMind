@@ -49,7 +49,7 @@ class TUISpec extends AnyWordSpec with Matchers {
       "set the GameStatus on GameOver" in {
         controller.turn = controller.gameData.getAttemptSize()-1
         controller.addAttempt("red green yellow blue")
-        GameState.state shouldBe "!!Game over!! You are a loser!!!"
+        GameState.state shouldBe "!!Game over!! You lost the game!!!"
       }
     }
     "adding an Attempt and game is Won" should {
@@ -57,7 +57,7 @@ class TUISpec extends AnyWordSpec with Matchers {
         controller.turn = 9
         val solutionAttempt = solution(0).colorString + " " + solution(1).colorString + " " + solution(2).colorString + " " + solution(3).colorString
         controller.addAttempt(solutionAttempt)
-        GameState.state shouldBe "!!Win!! You are a true Mastermind!!!"
+        GameState.state shouldBe "!!Win!! You are a true MasterMind!!!"
       }
     }
   }
