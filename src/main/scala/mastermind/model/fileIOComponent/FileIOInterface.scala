@@ -1,8 +1,9 @@
 package mastermind.model.fileIOComponent
 
+import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 
 trait FileIOInterface {
-  def load: GameData
-  def save(gameData: GameData): Unit
+  def load: GameDataInterface
+  def save(gameData: GameDataInterface): Unit
 }

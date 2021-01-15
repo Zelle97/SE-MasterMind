@@ -17,17 +17,17 @@ class AddCommand(gameData: GameDataInterface, attempt: AttemptInterface, control
   }
 
   override def doStep(): Unit = {
-    controller.gameData = updateGameData(gameData.getAttemptSize()- controller.turn - 1)
-    controller.turn = controller.turn + 1
+    controller.gameData = updateGameData(gameData.getAttemptSize()- controller.gameData.getTurn() - 1)
+    controller.gameData.setTurn(controller.gameData.getTurn()+1)
   }
 
   override def undoStep(): Unit = {
-    controller.turn = controller.turn - 1
-    controller.gameData = updateGameData(gameData.getAttemptSize() - controller.turn - 1, Attempt())
+    controller.gameData.setTurn(controller.gameData.getTurn()-1)
+    controller.gameData = updateGameData(gameData.getAttemptSize() - controller.gameData.getTurn() - 1, Attempt())
   }
 
   override def redoStep(): Unit = {
-    controller.gameData = updateGameData(gameData.getAttemptSize()- controller.turn - 1)
-    controller.turn = controller.turn + 1
+    controller.gameData = updateGameData(gameData.getAttemptSize()- controller.gameData.getTurn() - 1)
+    controller.gameData.setTurn(controller.gameData.getTurn()+1)
   }
 }

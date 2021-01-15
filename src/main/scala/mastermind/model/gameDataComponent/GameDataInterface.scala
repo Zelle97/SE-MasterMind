@@ -14,4 +14,8 @@ trait GameDataInterface {
   def getAttempt(index: Int): AttemptInterface
 
   def getSolution(): Vector[Shade]
+
+  def getTurn(): Int
+
+  def setTurn(turn: Int): Unit
 }

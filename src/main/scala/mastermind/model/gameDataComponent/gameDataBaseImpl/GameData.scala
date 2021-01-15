@@ -8,14 +8,14 @@ import mastermind.model.colorComponent.colorBaseImpl.Shade
 import mastermind.model.gameDataComponent.GameDataInterface
 
 case class GameData @Inject() ( attempts: Vector[AttemptInterface],
-                    solution: Vector[Shade]) extends GameDataInterface {
+                    solution: Vector[Shade],private var turn: Int = 0) extends GameDataInterface {
 
   override def updateAttempt(index: Int, attempt: AttemptInterface): GameData = {
-    GameData(attempts.updated(index, attempt), solution)
+    GameData(attempts.updated(index, attempt), solution, turn)
   }
 
   override def toString(): String = {
-    GameBoard(GameData(attempts, solution)).gameToString().gamefield
+    GameBoard(GameData(attempts, solution, turn)).gameToString().gamefield
   }
 
   override def getAttemptSize(): Int = {
@@ -32,5 +32,13 @@ case class GameData @Inject() ( attempts: Vector[AttemptInterface],
 
   override def getAllAttempts(): Vector[AttemptInterface] = {
     attempts
+  }
+
+  override def getTurn(): Int = {
+    turn
+  }
+
+  override def setTurn(t: Int): Unit = {
+    turn = t
   }
 }
