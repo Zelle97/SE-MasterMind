@@ -51,6 +51,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
      val injector = Guice.createInjector(new MasterMindModule)
      val io = injector.getInstance(classOf[FileIOInterface])
     gameData = io.load
+    undoManager.clearList()
     publish(new InGame)
   }
 

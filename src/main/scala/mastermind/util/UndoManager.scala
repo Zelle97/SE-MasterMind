@@ -10,12 +10,14 @@ class UndoManager {
   }
 
   def undoStep(): Unit = {
-    undoStack match {
-      case Nil =>
-      case head :: stack =>
-        head.undoStep()
-        undoStack = stack
-        redoStack = head :: redoStack
+    if(undoStack.nonEmpty) {
+      undoStack match {
+        case Nil =>
+        case head :: stack =>
+          head.undoStep()
+          undoStack = stack
+          redoStack = head :: redoStack
+      }
     }
   }
 
@@ -27,5 +29,10 @@ class UndoManager {
         redoStack = stack
         undoStack = head :: undoStack
     }
+  }
+
+  def clearList():Unit = {
+    undoStack = Nil
+    redoStack = Nil
   }
 }
