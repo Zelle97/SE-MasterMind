@@ -27,17 +27,17 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         c.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "       red"
       }
       "increase the turn" in {
-        val before = c.turn
+        val before = c.gameData.getTurn()
         c.addAttempt("red blue yellow green")
-        before+1 shouldBe c.turn
+        before+1 shouldBe c.gameData.getTurn()
       }
     }
     "adding an Attempt " should {
       val c = new Controller(GameData(attempts, solution), color)
       "increase the turn" in {
-        val before = c.turn
+        val before = c.gameData.getTurn()
         c.addAttempt("red blue yellow green")
-        before+1 shouldBe c.turn
+        before+1 shouldBe c.gameData.getTurn()
       }
     }
     "changing the difficulty" should {
@@ -59,23 +59,23 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       val c = new Controller(GameData(attempts, solution), color)
       c.addAttempt("red blue yellow green")
       "undo the attempt" in {
-        val before = c.turn
+        val before = c.gameData.getTurn()
         c.undo()
         c.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "          "
-        before-1 shouldBe c.turn
+        before-1 shouldBe c.gameData.getTurn()
       }
     }
     "executing redo" should {
       "redo the previous attempt" in {
         val c = new Controller(GameData(attempts, solution), color)
         c.addAttempt("red blue yellow green")
-        val before = c.turn
+        val before = c.gameData.getTurn()
         c.undo()
         c.redo()
-        print(c.turn)
+        print(c.gameData.getTurn())
         print(c.gameData.getAllAttempts())
-        c.gameData.getAttempt(c.gameData.getAttemptSize() - c.turn).getUserPickedColor(0).getColor shouldBe "       red"
-        before shouldBe c.turn
+        c.gameData.getAttempt(c.gameData.getAttemptSize() - c.gameData.getTurn()).getUserPickedColor(0).getColor shouldBe "       red"
+        before shouldBe c.gameData.getTurn()
       }
     }
   }

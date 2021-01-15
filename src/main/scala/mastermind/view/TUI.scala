@@ -19,6 +19,8 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case difficultyPattern(_, param) => controller.setDifficulty(param)
       case "z" => controller.undo()
       case "y" => controller.redo()
+      case "s" => controller.save()
+      case "l" => controller.load()
       case _ => controller.addAttempt(input)
     }
   }

@@ -195,7 +195,7 @@ class GUI(controller: ControllerInterface) extends Frame {
           .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
         listenTo(controller)
         reactions += {
-          case _: InGame =>
+          case _: InGame | _:Win | _:GameOver =>
             Try(controller.getGameData().getAttempt(outerRow).getUserPickedColor(0).colorString) match {
               case Success(color) =>
                 background = new Color(255, 204, 51)

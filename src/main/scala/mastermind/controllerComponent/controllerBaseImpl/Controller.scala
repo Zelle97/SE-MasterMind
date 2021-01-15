@@ -14,8 +14,7 @@ import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
 class Controller @Inject()(var gameData: GameDataInterface,
-                 var color: ColorInterface,
-                 var turn: Int = 0) extends ControllerInterface with Publisher {
+                 var color: ColorInterface) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
 
@@ -33,7 +32,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
     Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), color.pickSolution())) match {
       case Success(newGameDate) =>
         gameData = newGameDate
-        turn = 0
+        gameData.setTurn(0)
         publish(new InGame)
       case Failure(exception) =>
         print("Invalid Difficulty\n")
@@ -52,7 +51,6 @@ class Controller @Inject()(var gameData: GameDataInterface,
      val injector = Guice.createInjector(new MasterMindModule)
      val io = injector.getInstance(classOf[FileIOInterface])
     gameData = io.load
-    turn = gameData.getTurn()
     publish(new InGame)
   }
 
@@ -64,10 +62,10 @@ class Controller @Inject()(var gameData: GameDataInterface,
           print("Invalid Input\n")
         } else {
           undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-          if (gameData.getAttempt(gameData.getAttemptSize() - turn).getCorrectPositions(gameData.getSolution()) == 4) {
+          if (gameData.getAttempt(gameData.getAttemptSize() - gameData.getTurn()).getCorrectPositions(gameData.getSolution()) == 4) {
             publish(new Win)
             //System.exit(1)
-          } else if (turn == gameData.getAttemptSize()) {
+          } else if (gameData.getTurn() == gameData.getAttemptSize()) {
             publish(new GameOver)
             //System.exit(1)
           } else {

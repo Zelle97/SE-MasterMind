@@ -22,13 +22,13 @@ class MasterMindModule extends AbstractModule with ScalaModule {
     val solution = color.pickSolution()
     val attempts = DifficultyStrategy.getAttempts()
     val gameData = GameData(attempts, solution)
-    val controller = new Controller(gameData, color, 0)
+    val controller = new Controller(gameData, color)
 
     bind[ColorInterface].toInstance(color)
     bind[AttemptInterface].toInstance(attempt)
     bind[GameDataInterface].toInstance(gameData)
     bind[ControllerInterface].toInstance(controller)
     bind[FileIOInterface].toInstance(new model.fileIOComponent.fileIOJsonImpl.FileIO)
-    //bind[FileIOInterface].to[model.fileIOComponent.fileIOXmlImpl.FileIO]
+
   }
 }
