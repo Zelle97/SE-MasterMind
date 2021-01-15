@@ -109,7 +109,7 @@ class GUI(controller: ControllerInterface) extends Frame {
   listenTo(controller)
   val frame: GUI = this
   title = "MasterMind"
-  preferredSize = new Dimension(600, 600)
+  preferredSize = new Dimension(800, 600)
   val items = List(
     "Choose a color",
     "<html><h2 style=\"background-color: rgb(255, 0  , 0  ); color: rgb(255, 0  , 0  )\"> &emsp &emsp &emsp red",

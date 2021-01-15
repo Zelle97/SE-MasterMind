@@ -14,7 +14,7 @@ import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
 class Controller @Inject()(var gameData: GameDataInterface,
-                 var color: ColorInterface) extends ControllerInterface with Publisher {
+                           var color: ColorInterface) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
 
@@ -42,14 +42,14 @@ class Controller @Inject()(var gameData: GameDataInterface,
   }
 
   def save(): Unit = {
-     val injector = Guice.createInjector(new MasterMindModule)
-     val io = injector.getInstance(classOf[FileIOInterface])
+    val injector = Guice.createInjector(new MasterMindModule)
+    val io = injector.getInstance(classOf[FileIOInterface])
     io.save(gameData)
   }
 
   def load(): Unit = {
-     val injector = Guice.createInjector(new MasterMindModule)
-     val io = injector.getInstance(classOf[FileIOInterface])
+    val injector = Guice.createInjector(new MasterMindModule)
+    val io = injector.getInstance(classOf[FileIOInterface])
     gameData = io.load
     undoManager.clearList()
     publish(new InGame)
@@ -59,7 +59,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
     val colors = input.split(" ").toVector
     Try(Attempt(colors.map(colorInput => color.apply(colorInput).get))) match {
       case Success(filledSuccess) =>
-        if(filledSuccess.userPickedColors.size < 4) {
+        if (filledSuccess.userPickedColors.size < 4) {
           print("Invalid Input\n")
         } else {
           undoManager.doStep(new AddCommand(gameData, filledSuccess, this))

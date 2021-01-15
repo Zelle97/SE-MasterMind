@@ -5,7 +5,7 @@ import mastermind.model.colorComponent.ColorInterface
 
 import scala.util.Random
 
-case class Color() extends ColorInterface {
+case class Color @Inject() () extends ColorInterface {
   val allColors = Vector("red", "blue", "green", "yellow", "black", "white", "orange", "brown")
 
   def apply(colorString: String): Option[Shade] = {
