@@ -1,12 +1,8 @@
 package mastermind
 
 import com.google.inject.Guice
-import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
-import mastermind.controllerComponent.controllerBaseImpl.Controller
-import mastermind.model.colorComponent.colorBaseImpl.Color
-import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.controllerComponent.ControllerInterface
 import mastermind.view.{GUI, TUI}
-import mastermind.model.fileIOComponent.fileIOXmlImpl.FileIO
 
 import scala.io.StdIn.readLine
 
@@ -17,21 +13,26 @@ object MasterMind {
 
     val injector = Guice.createInjector(new MasterMindModule)
     val controller = injector.getInstance(classOf[ControllerInterface])
-    val tui = new TUI(controller)
-    val gui = new GUI(controller)
 
 
-
-    var input: String = ""
     if (args.length != 0) {
-      input = args(0)
-      tui.processInput(input)
-    }
-    else do {
-      input = readLine()
-      tui.processInput(input)
-    } while (input != "exit")
+      val inputSwitch = args(0).toInt
+      if (inputSwitch == 0) {
+        println("Please select a difficulty with d easy/medium/mastermind")
+        val tui = new TUI(controller)
+        var input: String = ""
+        do {
+          input = readLine()
+          tui.processInput(input)
+        } while (input != "exit")
+        println("Goodbye!")
 
-    println("Goodbye!")
+      } else if (inputSwitch == 1) {
+        val gui = new GUI(controller)
+      }
+    } else {
+      println("Please provide a argument 0 or 1 for either TUI or GUI!")
+    }
+
   }
 }
