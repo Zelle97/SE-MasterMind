@@ -30,5 +30,8 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
       undoManager.redoStep()
       command.state should be(1)
     }
+    "clear both lists" in {
+      undoManager.clearList()
+    }
   }
 }

@@ -3,6 +3,8 @@ package mastermind.controllerComponent
 
 
 
+import java.nio.file.{Files, Paths}
+
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.model.colorComponent.colorBaseImpl.Color
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
@@ -76,6 +78,29 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         print(c.gameData.getAllAttempts())
         c.gameData.getAttempt(c.gameData.getAttemptSize() - c.gameData.getTurn()).getUserPickedColor(0).getColor shouldBe "       red"
         before shouldBe c.gameData.getTurn()
+      }
+    }
+    "executing save" should {
+      "save the game as a file" in {
+        val c = new Controller(GameData(attempts, solution), color)
+        c.save()
+        val jsonFile = Files.exists(Paths.get("gameData.json"))
+        val xmlFile = Files.exists(Paths.get("gameData.xml"))
+        jsonFile | xmlFile shouldBe true
+      }
+    }
+    "executing load" should {
+      "load the game data from a file" in {
+        val c = new Controller(GameData(attempts, solution), color)
+        c.addAttempt("red blue yellow green")
+        c.save()
+        val jsonFile = Files.exists(Paths.get("gameData.json"))
+        val xmlFile = Files.exists(Paths.get("gameData.xml"))
+        jsonFile | xmlFile shouldBe true
+        c.setDifficulty("easy")
+        c.getGameData().getAttempt(9).getUserPickedColor(0).getColor shouldBe("          ")
+        c.load()
+        c.getGameData().getAttempt(9).getUserPickedColor(0).getColor shouldBe("       red")
       }
     }
   }
