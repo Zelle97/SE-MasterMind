@@ -1,7 +1,7 @@
 # SE-MasterMind
 
 [![Build Status](https://travis-ci.org/Zelle97/SE-MasterMind.svg?branch=develop)](https://travis-ci.org/Zelle97/SE-MasterMind)
-[![Coverage Status](https://coveralls.io/repos/github/Zelle97/SE-MasterMind/badge.svg?branch=develop)](https://coveralls.io/github/Zelle97/SE-MasterMind?branch=feature/ci-fz)
+[![Coverage Status](https://coveralls.io/repos/github/Zelle97/SE-MasterMind/badge.svg?branch=develop)](https://coveralls.io/github/Zelle97/SE-MasterMind?branch=develop)
 
 ## Description
 Software Project for the Topic Software Engineering at HTWG-Konstanz written in Scala.
