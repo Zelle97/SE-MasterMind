@@ -6,6 +6,11 @@
 ## Description
 Software Project for the Topic Software Engineering at HTWG-Konstanz written in Scala.
 
+## Releases
+
+You can either download the jar here(TODO)
+or head over to [Docker Hub](https://hub.docker.com/r/zellesdocker/se-mastermind) and grab the container (TUI interaction only).
+
 ## The Game
 Mastermind is originally a board game. We decided to make our own digital version of it.
 Here is a link that describes the game in detail: [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)).
