@@ -1,4 +1,4 @@
-package mastermind.controller
+package mastermind.controllerComponent
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -9,13 +9,13 @@ class GameStateSpec extends AnyWordSpec with Matchers {
     "chosen GameOver" should {
       "return 'Game over'" in {
         GameState.handle(new GameOver()) shouldBe
-          "!!Game over!! You are a loser!!!"
+          "!!Game over!! You lost the game!!!"
       }
     }
     "chosen Win" should {
       "return 'win'" in {
         GameState.handle(new Win()) shouldBe
-          "!!Win!! You are a true Mastermind!!!"
+          "!!Win!! You are a true MasterMind!!!"
       }
     }
     "chosen inGame" should {

@@ -1,6 +1,7 @@
-package mastermind.model
+package mastermind.model.colorComponent
 
-import mastermind.model.Color.Shade
+import mastermind.model.colorComponent.colorBaseImpl.Shade
+
 
 trait ColorInterface {
   def apply(colorString: String): Option[Shade]

@@ -1,4 +1,4 @@
-package mastermind.controller
+package mastermind.controllerComponent
 
 import mastermind.util.{GameOver, InGame, Win}
 
@@ -18,8 +18,8 @@ object GameState {
 
   def inGame = "I am in Game"
 
-  def win = "!!Win!! You are a true Mastermind!!!"
+  def win = "!!Win!! You are a true MasterMind!!!"
 
-  def gameOver = "!!Game over!! You are a loser!!!"
+  def gameOver = "!!Game over!! You lost the game!!!"
 
 }

@@ -1,7 +1,9 @@
 package mastermind.view
 
-import mastermind.controller.{Controller, DifficultyStrategy, GameState}
-import mastermind.model.{Color, GameData}
+import mastermind.controllerComponent.controllerBaseImpl.Controller
+import mastermind.controllerComponent.{DifficultyStrategy, GameState}
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -9,7 +11,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI" when {
     val attempts = DifficultyStrategy.getAttempts("easy")
-    val color = Color
+    val color = Color()
     val solution = color.pickSolution()
     "created" should {
 
@@ -45,17 +47,17 @@ class TUISpec extends AnyWordSpec with Matchers {
     }
     "adding an Attempt and turns are over" should {
       "set the GameStatus on GameOver" in {
-        controller.turn = controller.gameData.getAttemptSize()-1
+        controller.gameData.setTurn(controller.gameData.getAttemptSize()-1)
         controller.addAttempt("red green yellow blue")
-        GameState.state shouldBe "!!Game over!! You are a loser!!!"
+        GameState.state shouldBe "!!Game over!! You lost the game!!!"
       }
     }
     "adding an Attempt and game is Won" should {
       "set the GameStatus on GameOver" in {
-        controller.turn = 9
+        controller.gameData.setTurn(9)
         val solutionAttempt = solution(0).colorString + " " + solution(1).colorString + " " + solution(2).colorString + " " + solution(3).colorString
         controller.addAttempt(solutionAttempt)
-        GameState.state shouldBe "!!Win!! You are a true Mastermind!!!"
+        GameState.state shouldBe "!!Win!! You are a true MasterMind!!!"
       }
     }
   }

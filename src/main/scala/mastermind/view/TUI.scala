@@ -1,12 +1,13 @@
 package mastermind.view
 
-import mastermind.controller.{Controller, GameState}
+import mastermind.controllerComponent.{ControllerInterface, GameState}
+import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Reactor
 import scala.util.matching.Regex
 
-class TUI(controller: Controller) extends Reactor {
+class TUI(controller: ControllerInterface) extends Reactor {
 
   listenTo(controller)
 
@@ -18,10 +19,11 @@ class TUI(controller: Controller) extends Reactor {
       case difficultyPattern(_, param) => controller.setDifficulty(param)
       case "z" => controller.undo()
       case "y" => controller.redo()
+      case "s" => controller.save()
+      case "l" => controller.load()
       case _ => controller.addAttempt(input)
     }
   }
-
   reactions += {
     case event: InGame => {
       GameState.handle(new InGame)
@@ -29,12 +31,13 @@ class TUI(controller: Controller) extends Reactor {
     }
     case event: Win => {
       GameState.handle(new Win)
+      println(controller.gameToString)
       println(GameState.state)
     }
     case event: GameOver => {
       GameState.handle(new GameOver)
+      println(controller.gameToString)
       println(GameState.state)
     }
   }
-
 }

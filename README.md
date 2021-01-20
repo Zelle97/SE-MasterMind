@@ -1,10 +1,22 @@
 # SE-MasterMind
 
 [![Build Status](https://travis-ci.org/Zelle97/SE-MasterMind.svg?branch=develop)](https://travis-ci.org/Zelle97/SE-MasterMind)
-[![Coverage Status](https://coveralls.io/repos/github/Zelle97/SE-MasterMind/badge.svg?branch=develop)](https://coveralls.io/github/Zelle97/SE-MasterMind?branch=feature/ci-fz)
+[![Coverage Status](https://coveralls.io/repos/github/Zelle97/SE-MasterMind/badge.svg?branch=develop)](https://coveralls.io/github/Zelle97/SE-MasterMind?branch=develop)
 
 ## Description
 Software Project for the Topic Software Engineering at HTWG-Konstanz written in Scala.
+
+## Releases
+
+You can either download the JAR here(TODO)
+or head over to [Docker Hub](https://hub.docker.com/r/zellesdocker/se-mastermind) and grab the container (TUI interaction only).
+
+## How to play
+
+Depending on if you play with Docker or the JAR you have different options:
+
+ - JAR: You can run the jar like this: `java -jar mastermind.jar <input>`. Input can be either 0 for TUI or 1 for GUI.
+ - Docker: With docker you only can play with the TUI. Simply run `docker run -it zellesdocker/se-mastermind`
 
 ## The Game
 Mastermind is originally a board game. We decided to make our own digital version of it.
