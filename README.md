@@ -15,12 +15,13 @@ or head over to [Docker Hub](https://hub.docker.com/r/zellesdocker/se-mastermind
 
 Depending on if you play with Docker or the JAR you have different options:
 
- - JAR: You can run the jar like this: `java -jar mastermind.jar <input>`. Input can be either 0 for TUI or 1 for GUI.
+ - JAR: You can run the jar like this: `java -jar mastermind.jar <input>`. Input can be either 0 for TUI or 1 for GUI. If no input is given it will run parallel.
  - Docker: With docker you only can play with the TUI. Simply run `docker run -it zellesdocker/se-mastermind`
 
 ### Commands
 Interacting with the GUI should be self explanatory.
 The TUI also has a help command. simply input `h` to display the help.
+
 ## The Game
 Mastermind is originally a board game. We decided to make our own digital version of it.
 Here is a link that describes the game in detail: [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)).
