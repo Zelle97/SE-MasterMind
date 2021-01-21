@@ -9,9 +9,7 @@ import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 
-import scala.io.Source
-import scala.xml.NodeSeq.seqToNodeSeq
-import scala.xml.{NodeSeq, PrettyPrinter}
+import scala.xml.PrettyPrinter
 
 class FileIO  @Inject() extends FileIOInterface {
   override def load: GameDataInterface = {

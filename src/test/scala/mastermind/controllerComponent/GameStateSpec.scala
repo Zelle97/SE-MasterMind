@@ -1,8 +1,8 @@
 package mastermind.controllerComponent
 
+import mastermind.util.{GameOver, InGame, Win}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import mastermind.util.{GameOver, InGame, Win}
 
 class GameStateSpec extends AnyWordSpec with Matchers {
   "A GameState" when {

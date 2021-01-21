@@ -8,7 +8,7 @@ import mastermind.model.colorComponent.colorBaseImpl.{Color, Shade}
 import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
-import play.api.libs.json.{JsArray, JsNumber, JsObject, JsString, JsValue, Json}
+import play.api.libs.json.{JsObject, JsString, JsValue, Json}
 
 import scala.io.Source
 
