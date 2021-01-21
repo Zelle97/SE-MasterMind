@@ -22,12 +22,14 @@ class UndoManager {
   }
 
   def redoStep(): Unit = {
-    redoStack match {
-      case Nil =>
-      case head :: stack =>
-        head.redoStep()
-        redoStack = stack
-        undoStack = head :: undoStack
+    if(redoStack.nonEmpty) {
+      redoStack match {
+        case Nil =>
+        case head :: stack =>
+          head.redoStep()
+          redoStack = stack
+          undoStack = head :: undoStack
+      }
     }
   }
 
