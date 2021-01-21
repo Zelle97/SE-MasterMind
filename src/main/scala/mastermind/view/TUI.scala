@@ -1,7 +1,6 @@
 package mastermind.view
 
 import mastermind.controllerComponent.{ControllerInterface, GameState}
-import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Reactor
@@ -21,6 +20,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case "y" => controller.redo()
       case "s" => controller.save()
       case "l" => controller.load()
+      case "h" => controller.help()
       case _ => controller.addAttempt(input)
     }
   }

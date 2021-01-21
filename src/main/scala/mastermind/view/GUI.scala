@@ -4,11 +4,10 @@ import java.awt.Color
 
 import javax.swing.border.Border
 import mastermind.controllerComponent.{ControllerInterface, GameState}
-import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Swing.LineBorder
-import scala.swing.{Action, BorderPanel, Button, ComboBox, Dialog, Dimension, FlowPanel, Frame, GridPanel, Label, Menu, MenuBar, MenuItem}
+import scala.swing._
 import scala.util.{Failure, Success, Try}
 
 class Manual extends Frame {

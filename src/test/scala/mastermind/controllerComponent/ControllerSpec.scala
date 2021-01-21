@@ -8,7 +8,6 @@ import java.nio.file.{Files, Paths}
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.model.colorComponent.colorBaseImpl.Color
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
-import mastermind.util.GameOver
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -40,6 +39,12 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         val before = c.gameData.getTurn()
         c.addAttempt("red blue yellow green")
         before+1 shouldBe c.gameData.getTurn()
+      }
+    }
+    "executing help" should {
+      "display the help" in {
+        val c = new Controller(GameData(attempts, solution), color)
+        c.help()
       }
     }
     "changing the difficulty" should {

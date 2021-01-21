@@ -22,4 +22,5 @@ trait ControllerInterface extends Publisher {
 
   def load(): Unit
 
+  def help(): Unit
 }
