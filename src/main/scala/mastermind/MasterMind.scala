@@ -31,7 +31,8 @@ object MasterMind {
         val gui = new GUI(controller)
       }
     } else {
-      println("Please provide a argument 0 or 1 for either TUI or GUI!")
+      println("No input given defaulting to GUI!")
+      val gui = new GUI(controller)
     }
 
   }
