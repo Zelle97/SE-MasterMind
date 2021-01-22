@@ -14,25 +14,32 @@ object MasterMind {
     val injector = Guice.createInjector(new MasterMindModule)
     val controller = injector.getInstance(classOf[ControllerInterface])
 
-
     if (args.length != 0) {
       val inputSwitch = args(0).toInt
       if (inputSwitch == 0) {
-        println("Please select a difficulty with d easy/medium/mastermind")
-        val tui = new TUI(controller)
-        var input: String = ""
-        do {
-          input = readLine()
-          tui.processInput(input)
-        } while (input != "exit")
-        println("Goodbye!")
-
+        runTUI(controller)
       } else if (inputSwitch == 1) {
-        val gui = new GUI(controller)
+        runGUI(controller)
       }
     } else {
-      println("Please provide a argument 0 or 1 for either TUI or GUI!")
+      println("No input given defaulting to both TUI and GUI!")
+      runGUI(controller)
+      runTUI(controller)
     }
+  }
 
+  def runGUI(controller: ControllerInterface) = {
+    val gui = new GUI(controller)
+  }
+
+  def runTUI(controller: ControllerInterface) = {
+    println("Please select a difficulty with d easy/medium/mastermind")
+    val tui = new TUI(controller)
+    var input: String = ""
+    do {
+      input = readLine()
+      tui.processInput(input)
+    } while (input != "exit")
+    println("Goodbye!")
   }
 }

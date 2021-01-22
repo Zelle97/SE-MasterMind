@@ -1,9 +1,8 @@
 package mastermind.model.gameDataComponent.gameDataBaseImpl
 
 import com.google.inject.Inject
-import com.google.inject.name.Named
-import mastermind.model.attemptComponent.AttemptInterface
 import mastermind.model.GameBoard
+import mastermind.model.attemptComponent.AttemptInterface
 import mastermind.model.colorComponent.colorBaseImpl.Shade
 import mastermind.model.gameDataComponent.GameDataInterface
 
