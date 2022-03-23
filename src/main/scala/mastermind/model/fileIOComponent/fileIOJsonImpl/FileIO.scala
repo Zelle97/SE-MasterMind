@@ -10,11 +10,13 @@ import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import play.api.libs.json.{JsObject, JsString, JsValue, Json}
 
-import scala.io.Source
+import scala.io.{BufferedSource, Source}
 
 class FileIO  @Inject() extends FileIOInterface {
   override def load: GameDataInterface = {
-    val source: String = Source.fromFile("gameData.json").getLines.mkString
+    val src: BufferedSource = Source.fromFile("gameData.json")
+    val source: String = src.getLines().mkString
+    src.close()
     val json: JsValue = Json.parse(source)
     val attemptsArray = (json \ "attempts").get.as[Array[JsObject]]
     val attemptSize = attemptsArray.size

@@ -76,7 +76,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
       case Failure(exception) =>
         print("Invalid Input\n")
         print("Please use those colors: ")
-        color.getAllColors.foreach(shade => print(shade + " "))
+        color.getAllColors.foreach(shade => print(shade.toString + " "))
         print("\n")
     }
   }

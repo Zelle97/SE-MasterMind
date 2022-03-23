@@ -290,7 +290,7 @@ class GUI(controller: ControllerInterface) extends Frame {
   }
 
   def redraw(): Unit = {
-    repaint
+    repaint()
   }
 
   def getColor(input: String): String = {
