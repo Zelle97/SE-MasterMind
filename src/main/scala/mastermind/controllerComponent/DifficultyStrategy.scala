@@ -23,6 +23,6 @@ object DifficultyStrategy {
 
   def strategy2: Vector[AttemptInterface] = createDifficultyStrategy(8)
 
-  def strategy3: Vector[AttemptInterface] = createDifficultyStrategy(6)
+  def strategy3: Vector[AttemptInterface] = createDifficultyStrategy(7)
 
 }
