@@ -15,10 +15,16 @@ object DifficultyStrategy {
     case "mastermind" => strategy3
   }
 
-  def strategy1: Vector[AttemptInterface] = Vector[AttemptInterface](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+  def createDifficultyStrategy(attemptCounter: Int): Vector[AttemptInterface] = {
+    var attemptVector = Vector[AttemptInterface]()
+    (1 to attemptCounter).foreach(c => attemptVector = attemptVector:+ Attempt())
+    attemptVector
+  }
 
-  def strategy2: Vector[AttemptInterface] = Vector[AttemptInterface](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+  def strategy1: Vector[AttemptInterface] = createDifficultyStrategy(10)
 
-  def strategy3: Vector[AttemptInterface] = Vector[AttemptInterface](Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt(), Attempt())
+  def strategy2: Vector[AttemptInterface] = createDifficultyStrategy(8)
+
+  def strategy3: Vector[AttemptInterface] = createDifficultyStrategy(6)
 
 }
