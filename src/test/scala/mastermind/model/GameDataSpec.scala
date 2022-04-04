@@ -3,6 +3,7 @@ package mastermind.model
 import mastermind.controllerComponent.DifficultyStrategy
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -11,7 +12,8 @@ import scala.collection.immutable.Vector
 
 class GameDataSpec extends AnyWordSpec with Matchers {
   "The Game Data" when {
-    val solution = Color().pickSolution()
+    val colorFactory = ColorFactory()
+    val solution = colorFactory.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
 
     "created" should {
@@ -26,7 +28,7 @@ class GameDataSpec extends AnyWordSpec with Matchers {
     }
     "a attempt is updated" should {
       "contain the updated attempt" in {
-        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(Color().apply("red").get))).attempts(0).getUserPickedColor(0).getColor shouldBe "       red"
+        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(colorFactory.getColor("red").get))).attempts(0).getUserPickedColor(0).getColor shouldBe "       red"
       }
     }
     "using toString" should {

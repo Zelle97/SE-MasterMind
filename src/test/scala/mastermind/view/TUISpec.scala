@@ -3,6 +3,7 @@ package mastermind.view
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.controllerComponent.{DifficultyStrategy, GameState}
 import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -10,9 +11,10 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class TUISpec extends AnyWordSpec with Matchers {
   "The TUI" when {
+    val colorFactory = ColorFactory()
     val attempts = DifficultyStrategy.getAttempts("easy")
-    val color = Color()
-    val solution = color.pickSolution()
+    val color = colorFactory
+    val solution = colorFactory.pickSolution()
     "created" should {
 
       val controller = new Controller(GameData(attempts, solution),color)
