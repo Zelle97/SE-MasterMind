@@ -16,9 +16,7 @@ object DifficultyStrategy {
   }
 
   def createDifficultyStrategy(attemptCounter: Int): Vector[AttemptInterface] = {
-    var attemptVector = Vector[AttemptInterface]()
-    (1 to attemptCounter).foreach(c => attemptVector = attemptVector:+ Attempt())
-    attemptVector
+    Vector.fill(attemptCounter)(Attempt())
   }
 
   def strategy1: Vector[AttemptInterface] = createDifficultyStrategy(10)
