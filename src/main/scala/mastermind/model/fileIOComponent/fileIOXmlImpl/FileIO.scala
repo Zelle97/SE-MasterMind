@@ -4,16 +4,18 @@ import com.google.inject.Inject
 import mastermind.controllerComponent.DifficultyStrategy
 import mastermind.model.attemptComponent.AttemptInterface
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
-import mastermind.model.colorComponent.colorBaseImpl.{Color, Shade}
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 
-import scala.xml.PrettyPrinter
+import scala.xml.{Elem, PrettyPrinter}
 
 class FileIO  @Inject() extends FileIOInterface {
   override def load: GameDataInterface = {
     val file = scala.xml.XML.loadFile("gameData.xml")
+    val colorFactory = ColorFactory()
     val attemptSeq = (file \\ "attempt")
     val attemptSize = attemptSeq.size
     var attempts = Vector[AttemptInterface]()
@@ -25,12 +27,12 @@ class FileIO  @Inject() extends FileIOInterface {
     var i = 0
     var turn = 0
     for(attempt <- attemptSeq) {
-      var attemptVector = Vector[Shade]()
+      var attemptVector = Vector[Color]()
       val colorSeq = (attempt \\ "color")
       for(color <- colorSeq) {
 
         if(!color.text.isBlank) {
-          val c = Color.apply(color.text.replaceAll(" ", ""))
+          val c = colorFactory.getColor(color.text.replaceAll(" ", ""))
           attemptVector = attemptVector:+ c.get
         }
       }
@@ -43,9 +45,9 @@ class FileIO  @Inject() extends FileIOInterface {
       i = i+1
     }
     val solution = (file \\ "solution" \ "color")
-    var solutionVector = Vector[Shade]()
+    var solutionVector = Vector[Color]()
     for(color <- solution) {
-      val c = Color().apply(color.text.replaceAll(" ", ""))
+      val c = colorFactory.getColor(color.text.replaceAll(" ", ""))
       solutionVector = solutionVector:+ c.get
     }
     GameData(attempts,solutionVector, turn)
@@ -57,10 +59,10 @@ class FileIO  @Inject() extends FileIOInterface {
     val prettyPrinter = new PrettyPrinter(120, 4)
     val xml = prettyPrinter.format(gameDataToXml(gameData))
     pw.write(xml)
-    pw.close
+    pw.close()
   }
 
-  def gameDataToXml(gameData: GameDataInterface) = {
+  def gameDataToXml(gameData: GameDataInterface): Elem = {
     <gamedata>
       <solution>
         {for {

@@ -2,6 +2,7 @@ package mastermind.util
 
 trait Observer {
   def update: Boolean
+  def isUpdated: Boolean
 }
 
 class Observable {
