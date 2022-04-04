@@ -12,7 +12,7 @@ case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
 
   def concatEachSlotField(): String = {
     var v = ""
-    for (i <- gamedata.getAllAttempts().indices) {
+    gamedata.getAllAttempts().indices.foreach(i => {
       v += concatHorizontalLine()
       v += concatLineBreak()
       v += concatSlotPadding()
@@ -25,7 +25,7 @@ case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
       v += concatLineBreak()
       v += concatHorizontalLine()
       v += concatLineBreak()
-    }
+    })
     v
   }
 
