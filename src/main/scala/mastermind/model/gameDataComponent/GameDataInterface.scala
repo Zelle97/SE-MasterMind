@@ -1,7 +1,7 @@
 package mastermind.model.gameDataComponent
 
 import mastermind.model.attemptComponent.AttemptInterface
-import mastermind.model.colorComponent.colorBaseImpl.Shade
+import mastermind.model.colorComponent.colorBaseImpl.Color
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 
 trait GameDataInterface {
@@ -13,7 +13,7 @@ trait GameDataInterface {
 
   def getAttempt(index: Int): AttemptInterface
 
-  def getSolution(): Vector[Shade]
+  def getSolution(): Vector[Color]
 
   def getTurn(): Int
 

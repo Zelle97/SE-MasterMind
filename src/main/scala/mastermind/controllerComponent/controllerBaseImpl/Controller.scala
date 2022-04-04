@@ -1,9 +1,9 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
-import com.google.inject.{Inject}
+import com.google.inject.Inject
 import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
-import mastermind.model.colorComponent.ColorInterface
+import mastermind.model.colorComponent.ColorFactoryInterface
 import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
@@ -12,7 +12,7 @@ import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
 class Controller @Inject()(var gameData: GameDataInterface,
-                           var color: ColorInterface) extends ControllerInterface with Publisher {
+                           var colorFactory: ColorFactoryInterface) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
 
@@ -27,7 +27,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
   def setDifficulty(difficultyInput: String): Unit = {
     val difficulty = difficultyMatcher(difficultyInput)
 
-    Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), color.pickSolution())) match {
+    Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), colorFactory.pickSolution())) match {
       case Success(newGameDate) =>
         gameData = newGameDate
         gameData.setTurn(0)
@@ -49,7 +49,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
 
   override def addAttempt(input: String): Unit =
     val colors = input.split(" ").toVector
-    Try(Attempt(colors.map(colorInput => color.apply(colorInput).get))) match {
+    Try(Attempt(colors.map(colorInput => colorFactory.getColor(colorInput).get))) match {
       case Success(filledSuccess) =>
         if filledSuccess.userPickedColors.size < 4 then
           print("Invalid Input\n")
@@ -65,7 +65,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
       case Failure(exception) =>
         print("Invalid Input\n")
         print("Please use those colors: ")
-        color.getAllColors.foreach(shade => print(shade.toString + " "))
+        colorFactory.getAllColors().foreach(shade => print(shade.toString + " "))
         print("\n")
     }
 

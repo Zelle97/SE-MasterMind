@@ -1,14 +1,14 @@
 package mastermind.model.attemptComponent
 
-import mastermind.model.colorComponent.colorBaseImpl.Shade
+import mastermind.model.colorComponent.colorBaseImpl.Color
 
 
 trait AttemptInterface {
-  def getUserPickedColor(index: Int): Shade
+  def getUserPickedColor(index: Int): Color
 
-  def getAllUserColors(): Vector[Shade]
+  def getAllUserColors(): Vector[Color]
 
-  def getCorrectColors(solution: Vector[Shade]): Int
+  def getCorrectColors(solution: Vector[Color]): Int
 
-  def getCorrectPositions(solution: Vector[Shade]): Int
+  def getCorrectPositions(solution: Vector[Color]): Int
 }

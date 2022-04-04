@@ -4,25 +4,25 @@ package mastermind.controllerComponent
 
 
 import java.nio.file.{Files, Paths}
-
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class ControllerSpec extends AnyWordSpec with Matchers {
   "A Controller" when {
-    val color = Color()
-    val solution = color.pickSolution()
+    val colorFactory = ColorFactory()
+    val solution = colorFactory.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
     "created" should {
       "printed a Gameboard" in {
-        new Controller(GameData(attempts, solution), color).gameToString shouldBe "\t\t\t\tMaster Mind\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n"
+        new Controller(GameData(attempts, solution), colorFactory).gameToString shouldBe "\t\t\t\tMaster Mind\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n------------------------------------------------\n|          ||          ||          ||          | Correct Colors: 0\n|          ||          ||          ||          |\n|          ||          ||          ||          | Correct Positions: 0\n------------------------------------------------\n"
       }
     }
     "adding an Attempt" should {
-      val c = new Controller(GameData(attempts, solution), color)
+      val c = new Controller(GameData(attempts, solution), colorFactory)
       "add a attempt" in {
         c.addAttempt("red blue yellow green")
         c.gameData.getAttempt(9).getUserPickedColor(0).getColor shouldBe "       red"
@@ -34,7 +34,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       }
     }
     "adding an Attempt " should {
-      val c = new Controller(GameData(attempts, solution), color)
+      val c = new Controller(GameData(attempts, solution), colorFactory)
       "increase the turn" in {
         val before = c.gameData.getTurn()
         c.addAttempt("red blue yellow green")
@@ -43,12 +43,12 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     }
     "executing help" should {
       "display the help" in {
-        val c = new Controller(GameData(attempts, solution), color)
+        val c = new Controller(GameData(attempts, solution), colorFactory)
         c.help()
       }
     }
     "changing the difficulty" should {
-      val c = new Controller(GameData(attempts, solution), color)
+      val c = new Controller(GameData(attempts, solution), colorFactory)
       "set the GameData size to mastermind" in {
         c.setDifficulty("mastermind")
         c.gameData.getAttemptSize() shouldBe 7
@@ -63,7 +63,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       }
     }
     "executing undo" should {
-      val c = new Controller(GameData(attempts, solution), color)
+      val c = new Controller(GameData(attempts, solution), colorFactory)
       c.addAttempt("red blue yellow green")
       "undo the attempt" in {
         val before = c.gameData.getTurn()
@@ -74,7 +74,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     }
     "executing redo" should {
       "redo the previous attempt" in {
-        val c = new Controller(GameData(attempts, solution), color)
+        val c = new Controller(GameData(attempts, solution), colorFactory)
         c.addAttempt("red blue yellow green")
         val before = c.gameData.getTurn()
         c.undo()
@@ -87,7 +87,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     }
     "executing save" should {
       "save the game as a file" in {
-        val c = new Controller(GameData(attempts, solution), color)
+        val c = new Controller(GameData(attempts, solution), colorFactory)
         c.save()
         val jsonFile = Files.exists(Paths.get("gameData.json"))
         val xmlFile = Files.exists(Paths.get("gameData.xml"))
@@ -96,7 +96,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     }
     "executing load" should {
       "load the game data from a file" in {
-        val c = new Controller(GameData(attempts, solution), color)
+        val c = new Controller(GameData(attempts, solution), colorFactory)
         c.addAttempt("red blue yellow green")
         c.save()
         val jsonFile = Files.exists(Paths.get("gameData.json"))
