@@ -30,7 +30,7 @@ class FileIO  @Inject() extends FileIOInterface {
       for(color <- colorSeq) {
 
         if(!color.text.isBlank) {
-          val c = Color().apply(color.text.replaceAll(" ", ""))
+          val c = Color.apply(color.text.replaceAll(" ", ""))
           attemptVector = attemptVector:+ c.get
         }
       }

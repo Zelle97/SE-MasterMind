@@ -1,45 +1,47 @@
 package mastermind
 
 import com.google.inject.Guice
-import mastermind.controllerComponent.ControllerInterface
+import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
+import mastermind.controllerComponent.controllerBaseImpl.Controller
+import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.view.{GUI, TUI}
 
 import scala.io.StdIn.readLine
 
 object MasterMind {
 
-  def main(args: Array[String]): Unit = {
+  @main def tui(): Unit =
+    val controller = mainRoutine()
+    runTUI(controller)
+
+  @main def gui(): Unit =
+    val controller = mainRoutine()
+    runGUI(controller)
+
+  @main def both(): Unit =
+    val controller = mainRoutine()
+    runGUI(controller)
+    runTUI(controller)
+
+  def mainRoutine(): ControllerInterface =
     println("Welcome to MasterMind!")
-
     val injector = Guice.createInjector(new MasterMindModule)
-    val controller = injector.getInstance(classOf[ControllerInterface])
+    injector.getInstance(classOf[ControllerInterface])
 
-    if (args.length != 0) {
-      val inputSwitch = args(0).toInt
-      if (inputSwitch == 0) {
-        runTUI(controller)
-      } else if (inputSwitch == 1) {
-        runGUI(controller)
-      }
-    } else {
-      println("No input given defaulting to both TUI and GUI!")
-      runGUI(controller)
-      runTUI(controller)
-    }
-  }
-
-  def runGUI(controller: ControllerInterface) = {
+  def runGUI(controller: ControllerInterface) =
     val gui = new GUI(controller)
-  }
 
-  def runTUI(controller: ControllerInterface) = {
+  def runTUI(controller: ControllerInterface) =
     println("Please select a difficulty with d easy/medium/mastermind")
     val tui = new TUI(controller)
     var input: String = ""
-    do {
+    while
       input = readLine()
       tui.processInput(input)
-    } while (input != "exit")
+      input != "exit"
+    do ()
     println("Goodbye!")
-  }
+
 }

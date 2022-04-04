@@ -1,11 +1,9 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
-import com.google.inject.{Guice, Inject}
-import mastermind.MasterMindModule
+import com.google.inject.{Inject}
 import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.colorComponent.ColorInterface
-import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.GameDataInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
@@ -19,12 +17,12 @@ class Controller @Inject()(var gameData: GameDataInterface,
   private val undoManager = new UndoManager
 
 
-  def difficultyMatcher(difficulty: String): Option[String] = difficulty match {
+  def difficultyMatcher(difficulty: String): Option[String] = difficulty match
     case "easy" => Some("easy")
     case "medium" => Some("medium")
     case "mastermind" => Some("mastermind")
     case _ => None
-  }
+
 
   def setDifficulty(difficultyInput: String): Unit = {
     val difficulty = difficultyMatcher(difficultyInput)
@@ -42,54 +40,44 @@ class Controller @Inject()(var gameData: GameDataInterface,
   }
 
   override def save(): Unit = {
-    val injector = Guice.createInjector(new MasterMindModule)
-    val io = injector.getInstance(classOf[FileIOInterface])
-    io.save(gameData)
+
   }
 
   override def load(): Unit = {
-    val injector = Guice.createInjector(new MasterMindModule)
-    val io = injector.getInstance(classOf[FileIOInterface])
-    gameData = io.load
-    undoManager.clearList()
     publish(new InGame)
   }
 
-  override def addAttempt(input: String): Unit = {
+  override def addAttempt(input: String): Unit =
     val colors = input.split(" ").toVector
     Try(Attempt(colors.map(colorInput => color.apply(colorInput).get))) match {
       case Success(filledSuccess) =>
-        if (filledSuccess.userPickedColors.size < 4) {
+        if filledSuccess.userPickedColors.size < 4 then
           print("Invalid Input\n")
-        } else {
+        else
           undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-          if (gameData.getAttempt(gameData.getAttemptSize() - gameData.getTurn()).getCorrectPositions(gameData.getSolution()) == 4) {
+          if gameData.getAttempt(gameData.getAttemptSize() - gameData.getTurn()).getCorrectPositions(gameData.getSolution()) == 4 then
             publish(new Win)
-            //System.exit(1)
-          } else if (gameData.getTurn() == gameData.getAttemptSize()) {
+          else if gameData.getTurn() == gameData.getAttemptSize() then
             publish(new GameOver)
-            //System.exit(1)
-          } else {
+          else
             publish(new InGame)
-          }
-        }
+
       case Failure(exception) =>
         print("Invalid Input\n")
         print("Please use those colors: ")
         color.getAllColors.foreach(shade => print(shade.toString + " "))
         print("\n")
     }
-  }
 
-  override def undo(): Unit = {
+
+  override def undo(): Unit =
     undoManager.undoStep()
     publish(new InGame)
-  }
 
-  override def redo(): Unit = {
+
+  override def redo(): Unit =
     undoManager.redoStep()
     publish(new InGame)
-  }
 
   override def help(): Unit = {
     print("Welcome to Mastermind!\n")
