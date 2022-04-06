@@ -141,25 +141,25 @@ class GUI(controller: ControllerInterface) extends Frame {
   }
 
 
-  var gameboard: GridPanel = new GridPanel(controller.getGameData().getAttemptSize(), 1) {
+  var gameboard: GridPanel = new GridPanel(controller.state.state.attempts.size, 1) {
     background = backgroundColor
     for {
-      outerRow <- controller.getGameData().getAllAttempts().indices   //size-1 to 0 by -1
+      outerRow <- controller.state.state.attempts.indices   //size-1 to 0 by -1
     } {
       contents += new GridPanel(1, 5) {
         background = backgroundColor
         for {
-          innerRow <- controller.getGameData().getAttempt(0).getAllUserColors().indices  //size-1 to 0 by -1
+          innerRow <- controller.state.state.attempts(0).userPickedColors.indices  //size-1 to 0 by -1
         } {
           contents += new Label {
-            text = controller.getGameData().getAttempt(outerRow).getUserPickedColor(innerRow).colorString
+            text = controller.state.state.attempts(outerRow).userPickedColors(innerRow).colorString
             background = new Color(240, 240, 240)
             border = borderColor
             opaque = true
             listenTo(controller)
             reactions += {
               case _: InGame | _: Win | _: GameOver =>
-                Try(controller.getGameData().getAttempt(outerRow).getUserPickedColor(innerRow).colorString) match {
+                Try(controller.state.state.attempts(outerRow).userPickedColors(innerRow).colorString) match {
                   case Success(color) =>
                     background = new Color(240, 240, 240)
                     border = borderColor
@@ -188,23 +188,23 @@ class GUI(controller: ControllerInterface) extends Frame {
         border = borderColor
         opaque = true
         text = "<html>Correct Positions: "
-          .concat(controller.getGameData().getAttempt(outerRow).getCorrectPositions(controller.getGameData().getSolution()).toString)
+          .concat(controller.state.state.attempts(outerRow).getCorrectPositions(controller.state.state.solution).toString)
           .concat("<br>")
           .concat("Correct Colors: ")
-          .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
+          .concat(controller.state.state.attempts(outerRow).getCorrectColors(controller.state.state.solution).toString)
         listenTo(controller)
         reactions += {
           case _: InGame | _:Win | _:GameOver =>
-            Try(controller.getGameData().getAttempt(outerRow).getUserPickedColor(0).colorString) match {
+            Try(controller.state.state.attempts(outerRow).userPickedColors(0).colorString) match {
               case Success(color) =>
                 background = new Color(255, 204, 51)
                 foreground = java.awt.Color.BLACK
                 border = borderColor
                 text = "<html>Correct Positions: "
-                  .concat(controller.getGameData().getAttempt(outerRow).getCorrectPositions(controller.getGameData().getSolution()).toString)
+                  .concat(controller.state.state.attempts(outerRow).getCorrectPositions(controller.state.state.solution).toString)
                   .concat("<br>")
                   .concat("Correct Colors: ")
-                  .concat(controller.getGameData().getAttempt(outerRow).getCorrectColors(controller.getGameData().getSolution()).toString)
+                  .concat(controller.state.state.attempts(outerRow).getCorrectColors(controller.state.state.solution).toString)
               case Failure(exception) =>
                 background = backgroundColor
                 foreground = backgroundColor
@@ -260,7 +260,7 @@ class GUI(controller: ControllerInterface) extends Frame {
           if (color1.selection.item == "Choose a color" || color2.selection.item == "Choose a color" ||
             color3.selection.item == "Choose a color" || color4.selection.item == "Choose a color") {
             new Warning
-          } else if (GameState.state.equals("I am in Game")) {
+          } else if (true) {
             controller.addAttempt(
               getColor(color1.selection.item.substring(101))
                 .concat(" " + getColor(color2.selection.item.substring(101)))
