@@ -26,18 +26,18 @@ class TUI(controller: ControllerInterface) extends Reactor {
   }
   reactions += {
     case event: InGame => {
-      GameState.handle(new InGame)
+      controller.state.handle(InGame(event.gameData))
       println(controller.gameToString)
     }
     case event: Win => {
-      GameState.handle(new Win)
+      controller.state.handle(Win(event.gameData))
       println(controller.gameToString)
-      println(GameState.state)
+      println("Win! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
     }
     case event: GameOver => {
-      GameState.handle(new GameOver)
+      controller.state.handle(GameOver(event.gameData))
       println(controller.gameToString)
-      println(GameState.state)
+      println("Game Over! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
     }
   }
 }

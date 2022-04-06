@@ -1,9 +1,9 @@
 package mastermind.util
 
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+
 trait Command {
-  def doStep(): Unit
-
-  def undoStep(): Unit
-
-  def redoStep(): Unit
+  def doStep(): GameData
+  def undoStep(): GameData
+  def redoStep(): GameData
 }

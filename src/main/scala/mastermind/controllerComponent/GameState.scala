@@ -1,25 +1,18 @@
 package mastermind.controllerComponent
 
+import mastermind.model.gameDataComponent.GameDataInterface
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.event.Event
 
-object GameState {
-  var state: String = inGame
-
-  def handle(e: Event): String = {
+case class GameState(var state: GameData) {
+  def handle(e: Event): GameState = {
     e match {
-      case d: InGame => state = inGame
-      case w: Win => state = win
-      case l: GameOver => state = gameOver
+      case d: InGame => state = d.gameData
+      case w: Win => state = w.gameData
+      case l: GameOver => state = l.gameData
     }
-    state
+    this
   }
-
-  def inGame = "I am in Game"
-
-  def win = "!!Win!! You are a true MasterMind!!!"
-
-  def gameOver = "!!Game over!! You lost the game!!!"
-
 }

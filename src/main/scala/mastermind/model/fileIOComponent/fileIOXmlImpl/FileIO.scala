@@ -66,20 +66,20 @@ class FileIO  @Inject() extends FileIOInterface {
     <gamedata>
       <solution>
         {for {
-        index <- gameData.getSolution().indices
+        index <- gameData.solution.indices
       } yield {
-        <color>{gameData.getSolution()(index).colorString}</color>
+        <color>{gameData.solution(index).colorString}</color>
       }}
       </solution>
       <attempts>
       {for {
-        attempt <- gameData.getAllAttempts().indices
+        attempt <- gameData.attempts.indices
       } yield {
         <attempt>
           {for {
-          color <- gameData.getAttempt(attempt).getAllUserColors().indices
+          color <- gameData.getAttempt(attempt).userPickedColors.indices
         } yield {
-          <color>{gameData.getAttempt(attempt).getUserPickedColor(color).colorString}</color>
+          <color>{gameData.getAttempt(attempt).userPickedColors(color).colorString}</color>
         }}
         </attempt>
       }}

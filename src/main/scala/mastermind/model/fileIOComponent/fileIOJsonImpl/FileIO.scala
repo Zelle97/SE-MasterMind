@@ -59,24 +59,24 @@ class FileIO  @Inject() extends FileIOInterface {
     Json.obj(
       "solution" -> Json.toJson(
         for {
-          index <- gameData.getSolution().indices
+          index <- gameData.solution.indices
         } yield {
           Json.obj(
-            "color" -> Json.toJson(gameData.getSolution()(index).colorString)
+            "color" -> Json.toJson(gameData.solution(index).colorString)
           )
         }),
       "attempts" -> Json.toJson(
         for {
-          attempt <- gameData.getAllAttempts().indices
+          attempt <- gameData.attempts.indices
         } yield {
           Json.obj(
             "index" -> attempt,
             "attempt" -> Json.toJson(
               for {
-                color <- gameData.getAttempt(attempt).getAllUserColors().indices
+                color <- gameData.getAttempt(attempt).userPickedColors.indices
               } yield {
                 Json.obj(
-                  "color" -> Json.toJson(gameData.getAttempt(attempt).getUserPickedColor(color).colorString)
+                  "color" -> Json.toJson(gameData.getAttempt(attempt).userPickedColors(color).colorString)
                 )
               })
           )

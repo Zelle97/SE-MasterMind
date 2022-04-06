@@ -1,21 +1,19 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
 import com.google.inject.Inject
-import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
+import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy, GameState}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.colorComponent.ColorFactoryInterface
-import mastermind.model.gameDataComponent.GameDataInterface
+import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
 import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
-class Controller @Inject()(var gameData: GameDataInterface,
-                           var colorFactory: ColorFactoryInterface) extends ControllerInterface with Publisher {
+class Controller @Inject()(override val state: GameState, override val colorFactory: ColorFactoryInterface) extends ControllerInterface with Publisher {
 
   private val undoManager = new UndoManager
-
 
   def difficultyMatcher(difficulty: String): Option[String] = difficulty match
     case "easy" => Some("easy")
@@ -26,12 +24,9 @@ class Controller @Inject()(var gameData: GameDataInterface,
 
   def setDifficulty(difficultyInput: String): Unit = {
     val difficulty = difficultyMatcher(difficultyInput)
-
     Try(GameData(DifficultyStrategy.getAttempts(difficulty.get), colorFactory.pickSolution())) match {
-      case Success(newGameDate) =>
-        gameData = newGameDate
-        gameData.setTurn(0)
-        publish(new InGame)
+      case Success(newGameData) =>
+        publish(InGame(newGameData))
       case Failure(exception) =>
         print("Invalid Difficulty\n")
         print("Please use easy, medium or mastermind")
@@ -44,7 +39,7 @@ class Controller @Inject()(var gameData: GameDataInterface,
   }
 
   override def load(): Unit = {
-    publish(new InGame)
+    publish(InGame(state.state))
   }
 
   override def addAttempt(input: String): Unit =
@@ -54,13 +49,15 @@ class Controller @Inject()(var gameData: GameDataInterface,
         if filledSuccess.userPickedColors.size < 4 then
           print("Invalid Input\n")
         else
-          undoManager.doStep(new AddCommand(gameData, filledSuccess, this))
-          if gameData.getAttempt(gameData.getAttemptSize() - gameData.getTurn()).getCorrectPositions(gameData.getSolution()) == 4 then
-            publish(new Win)
-          else if gameData.getTurn() == gameData.getAttemptSize() then
-            publish(new GameOver)
+          val newState = undoManager.doStep(new AddCommand(state, filledSuccess))
+          println(newState.solution)
+          println(newState.getCurrentTurn)
+          if newState.getCurrentTurn == -1 then
+            publish(GameOver(newState))
+          else if newState.getAttempt(newState.getCurrentTurn+1).getCorrectPositions(newState.solution) == 4 then
+            publish(Win(newState))
           else
-            publish(new InGame)
+            publish(InGame(newState))
 
       case Failure(exception) =>
         print("Invalid Input\n")
@@ -71,13 +68,13 @@ class Controller @Inject()(var gameData: GameDataInterface,
 
 
   override def undo(): Unit =
-    undoManager.undoStep()
-    publish(new InGame)
+    println("TODO")
+    //publish(InGame(undoManager.undoStep()))
 
 
   override def redo(): Unit =
-    undoManager.redoStep()
-    publish(new InGame)
+    println("TODO")
+    //publish(InGame(undoManager.redoStep()))
 
   override def help(): Unit = {
     print("Welcome to Mastermind!\n")
@@ -93,12 +90,8 @@ class Controller @Inject()(var gameData: GameDataInterface,
     print("You are the codebreaker: Try to guess the pattern in order and color.\nThere are three different difficulties:\neasy -> 10 turns\nmedium -> 8 turns\nmastermind -> 7 turns\nEach guess is made by placing a row of code pegs on the decoding board.\nOnce placed, you are provided with some feedback on the right side of the row with your guess.\nGood Luck!!\n")
   }
 
-  override def getGameData(): GameDataInterface = {
-    gameData
-  }
-
   def gameToString: String = {
-    gameData.toString()
+    state.state.toString()
   }
 
 }

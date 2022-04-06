@@ -4,15 +4,13 @@ import mastermind.model.gameDataComponent.GameDataInterface
 
 case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
 
-
   def gameToString(): GameBoard = {
     GameBoard(gamedata, concatTitle() +  concatLineBreak() +concatEachSlotField())
   }
 
-
   def concatEachSlotField(): String = {
     var v = ""
-    gamedata.getAllAttempts().indices.foreach(i => {
+    gamedata.attempts.indices.foreach(i => {
       v += concatHorizontalLine()
       v += concatLineBreak()
       v += concatSlotPadding()
@@ -33,7 +31,7 @@ case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
     var v = ""
     for (i <- 0 to 3) {
       v += concatVerticalLine()
-      v += gamedata.getAttempt(slotField).getUserPickedColor(i).getColor
+      v += gamedata.getAttempt(slotField).userPickedColors(i).getColor
       v += concatVerticalLine()
     }
     v
@@ -66,11 +64,11 @@ case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
   }
 
   def concatCorrectPositions(slotField: Int): String = {
-    " Correct Positions: " + gamedata.getAttempt(slotField).getCorrectPositions(gamedata.getSolution())
+    " Correct Positions: " + gamedata.getAttempt(slotField).getCorrectPositions(gamedata.solution)
   }
 
   def concatCorrectColors(slotField: Int): String = {
-    " Correct Colors: " + gamedata.getAttempt(slotField).getCorrectColors(gamedata.getSolution())
+    " Correct Colors: " + gamedata.getAttempt(slotField).getCorrectColors(gamedata.solution)
   }
 
   def concatLineBreak(): String = {
