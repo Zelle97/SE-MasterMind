@@ -6,12 +6,12 @@ import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.event.Event
 
-case class GameState(var state: GameData) {
+case class GameState(var gameData: GameData) {
   def handle(e: Event): GameState = {
     e match {
-      case d: InGame => state = d.gameData
-      case w: Win => state = w.gameData
-      case l: GameOver => state = l.gameData
+      case d: InGame => gameData = d.gameData
+      case w: Win => gameData = w.gameData
+      case l: GameOver => gameData = l.gameData
     }
     this
   }

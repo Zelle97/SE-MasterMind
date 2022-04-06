@@ -141,25 +141,25 @@ class GUI(controller: ControllerInterface) extends Frame {
   }
 
 
-  var gameboard: GridPanel = new GridPanel(controller.state.state.attempts.size, 1) {
+  var gameboard: GridPanel = new GridPanel(controller.gameState.gameData.attempts.size, 1) {
     background = backgroundColor
     for {
-      outerRow <- controller.state.state.attempts.indices   //size-1 to 0 by -1
+      outerRow <- controller.gameState.gameData.attempts.indices   //size-1 to 0 by -1
     } {
       contents += new GridPanel(1, 5) {
         background = backgroundColor
         for {
-          innerRow <- controller.state.state.attempts(0).userPickedColors.indices  //size-1 to 0 by -1
+          innerRow <- controller.gameState.gameData.attempts(0).userPickedColors.indices  //size-1 to 0 by -1
         } {
           contents += new Label {
-            text = controller.state.state.attempts(outerRow).userPickedColors(innerRow).colorString
+            text = controller.gameState.gameData.attempts(outerRow).userPickedColors(innerRow).colorString
             background = new Color(240, 240, 240)
             border = borderColor
             opaque = true
             listenTo(controller)
             reactions += {
               case _: InGame | _: Win | _: GameOver =>
-                Try(controller.state.state.attempts(outerRow).userPickedColors(innerRow).colorString) match {
+                Try(controller.gameState.gameData.attempts(outerRow).userPickedColors(innerRow).colorString) match {
                   case Success(color) =>
                     background = new Color(240, 240, 240)
                     border = borderColor
@@ -188,23 +188,23 @@ class GUI(controller: ControllerInterface) extends Frame {
         border = borderColor
         opaque = true
         text = "<html>Correct Positions: "
-          .concat(controller.state.state.attempts(outerRow).getCorrectPositions(controller.state.state.solution).toString)
+          .concat(controller.gameState.gameData.attempts(outerRow).getCorrectPositions(controller.gameState.gameData.solution).toString)
           .concat("<br>")
           .concat("Correct Colors: ")
-          .concat(controller.state.state.attempts(outerRow).getCorrectColors(controller.state.state.solution).toString)
+          .concat(controller.gameState.gameData.attempts(outerRow).getCorrectColors(controller.gameState.gameData.solution).toString)
         listenTo(controller)
         reactions += {
           case _: InGame | _:Win | _:GameOver =>
-            Try(controller.state.state.attempts(outerRow).userPickedColors(0).colorString) match {
+            Try(controller.gameState.gameData.attempts(outerRow).userPickedColors(0).colorString) match {
               case Success(color) =>
                 background = new Color(255, 204, 51)
                 foreground = java.awt.Color.BLACK
                 border = borderColor
                 text = "<html>Correct Positions: "
-                  .concat(controller.state.state.attempts(outerRow).getCorrectPositions(controller.state.state.solution).toString)
+                  .concat(controller.gameState.gameData.attempts(outerRow).getCorrectPositions(controller.gameState.gameData.solution).toString)
                   .concat("<br>")
                   .concat("Correct Colors: ")
-                  .concat(controller.state.state.attempts(outerRow).getCorrectColors(controller.state.state.solution).toString)
+                  .concat(controller.gameState.gameData.attempts(outerRow).getCorrectColors(controller.gameState.gameData.solution).toString)
               case Failure(exception) =>
                 background = backgroundColor
                 foreground = backgroundColor
