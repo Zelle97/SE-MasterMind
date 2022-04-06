@@ -13,6 +13,5 @@ object DifficultyStrategy {
   def createDifficultyStrategy(attemptCounter: Int): Vector[Attempt] = Vector.fill(attemptCounter)(Attempt())
   def strategy1: Vector[Attempt] = createDifficultyStrategy(10)
   def strategy2: Vector[Attempt] = createDifficultyStrategy(8)
-  def strategy3: Vector[Attempt] = createDifficultyStrategy(6)
-
+  def strategy3: Vector[Attempt] = createDifficultyStrategy(7)
 }
