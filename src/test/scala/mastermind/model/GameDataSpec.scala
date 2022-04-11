@@ -28,7 +28,7 @@ class GameDataSpec extends AnyWordSpec with Matchers {
     }
     "a attempt is updated" should {
       "contain the updated attempt" in {
-        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(colorFactory.getColor("red").get))).attempts(0).getUserPickedColor(0).getColor shouldBe "       red"
+        GameData(attempts, solution).updateAttempt(0, Attempt(Vector(colorFactory.getColor("red").get))).attempts(0).userPickedColors(0).getColor shouldBe "       red"
       }
     }
     "using toString" should {
@@ -38,14 +38,7 @@ class GameDataSpec extends AnyWordSpec with Matchers {
     }
     "using getTurn()" should {
       "return the turn" in {
-        GameData(attempts, solution, turn = 5).getTurn() shouldBe 5
-      }
-    }
-    "using setTurn()" should {
-      "set the turn" in {
-        val gd = GameData(attempts, solution, turn = 5)
-        gd.setTurn(20)
-        gd.getTurn() shouldBe 20
+        GameData(attempts, solution, turn = 5).turn shouldBe 5
       }
     }
   }

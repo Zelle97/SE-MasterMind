@@ -1,10 +1,13 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
-import com.google.inject.Inject
+import com.google.inject.{Guice, Inject}
+import mastermind.MasterMindModule
+import net.codingwell.scalaguice.ScalaModule
 import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy, GameState}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.colorComponent.ColorFactoryInterface
 import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
@@ -24,7 +27,7 @@ class Controller @Inject()(override val gameState: GameState, override val color
   def setDifficulty(difficultyInput: String): Unit =
     Try(GameData(DifficultyStrategy.getAttempts(difficultyMatcher(difficultyInput).get), colorFactory.pickSolution())) match {
       case Success(newGameData) =>
-        publish(InGame(newGameData))
+        gameState.gameData = newGameData
       case Failure(exception) =>
         print("Invalid Difficulty\n")
         print("Please use easy, medium or mastermind")
@@ -38,13 +41,13 @@ class Controller @Inject()(override val gameState: GameState, override val color
         if filledSuccess.userPickedColors.size < 4 then
           print("Invalid Input\n")
         else
-          val newGameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))
-          if newGameData.getCurrentTurn == -1 then
-            publish(GameOver(newGameData))
-          else if newGameData.getAttempt(newGameData.getCurrentTurn+1).getCorrectPositions(newGameData.solution) == 4 then
-            publish(Win(newGameData))
+          gameState.gameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))
+          if gameState.gameData.getCurrentTurn == -1 then
+            publish(GameOver(gameState.gameData))
+          else if gameState.gameData.getAttempt(gameState.gameData.getCurrentTurn+1).getCorrectPositions(gameState.gameData.solution) == 4 then
+            publish(Win(gameState.gameData))
           else
-            publish(InGame(newGameData))
+            publish(InGame(gameState.gameData))
 
       case Failure(exception) =>
         print("Invalid Input\n")
@@ -53,15 +56,23 @@ class Controller @Inject()(override val gameState: GameState, override val color
         print("\n")
     }
 
-  override def undo(): Unit =
-    println("TODO")
-    //publish(InGame(undoManager.undoStep()))
-  override def redo(): Unit =
-    println("TODO")
-    //publish(InGame(undoManager.redoStep()))
-  override def save(): Unit =
-    println("TODO")
-  override def load(): Unit =
-    println("TODO")
 
+  override def undo(): Unit =
+    gameState.gameData = undoManager.undoStep(gameState.gameData)
+    publish(InGame(gameState.gameData))
+  override def redo(): Unit =
+    gameState.gameData = undoManager.redoStep(gameState.gameData)
+    publish(InGame(gameState.gameData))
+
+  override def save(): Unit =
+    val injector = Guice.createInjector(new MasterMindModule)
+    val io = injector.getInstance(classOf[FileIOInterface])
+    io.save(gameState.gameData)
+    
+  override def load(): Unit =
+    val injector = Guice.createInjector(new MasterMindModule)
+    val io = injector.getInstance(classOf[FileIOInterface])
+    gameState.gameData = io.load
+    undoManager.clearList()
+    publish(InGame(gameState.gameData))
 }
