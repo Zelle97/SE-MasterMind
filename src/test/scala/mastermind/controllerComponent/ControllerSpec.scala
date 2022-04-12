@@ -8,8 +8,11 @@ import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.model.colorComponent.colorBaseImpl.Color
 import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.util.InGame
+import org.mockito.ArgumentMatchers.any
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import org.mockito.Mockito.*
 
 class ControllerSpec extends AnyWordSpec with Matchers {
   "A Controller" when {
@@ -17,15 +20,16 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     val solution = colorFactory.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")
     "adding an Attempt" should {
-      val c = new Controller(GameState(new GameData(attempts, solution)), colorFactory)
+      val controllerMock = mock(classOf[ControllerInterface])
       "add a attempt" in {
-        c.addAttempt("red blue yellow green")
-        c.gameState.gameData.getAttempt(9).userPickedColors(0).getColor shouldBe "       red"
+        controllerMock.addAttempt("red blue yellow green")
+        verify(controllerMock.gameState.handle(InGame(any())), times(1));
+        //c.gameState.gameData.getAttempt(9).userPickedColors(0).getColor shouldBe "       red"
       }
       "increase the turn" in {
-        val before = c.gameState.gameData.turn
-        c.addAttempt("red blue yellow green")
-        before+1 shouldBe c.gameState.gameData.turn
+        val before = controllerMock.gameState.gameData.turn
+        controllerMock.addAttempt("red blue yellow green")
+        before+1 shouldBe controllerMock.gameState.gameData.turn
       }
     }
     "adding another Attempt" should {

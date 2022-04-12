@@ -46,17 +46,10 @@ case class GameBoard(gamedata: GameDataInterface, gamefield: String = "") {
     builder.toString()
 
 
-  def concatTitle(): String =
-    "\t\t\t\tMaster Mind"
-
-  def concatVerticalLine(): String =
-    "|"
-
-  def concatHorizontalLine(): String =
-    "------------------------------------------------"
-
-  def concatEmptySpace(): String =
-    "          "
+  def concatTitle(): String = "\t\t\t\tMaster Mind"
+  def concatVerticalLine(): String = "|"
+  def concatHorizontalLine(): String = "------------------------------------------------"
+  def concatEmptySpace(): String = "          "
 
   def concatCorrectPositions(slotField: Int): String =
     " Correct Positions: " + gamedata.getAttempt(slotField).getCorrectPositions(gamedata.solution)

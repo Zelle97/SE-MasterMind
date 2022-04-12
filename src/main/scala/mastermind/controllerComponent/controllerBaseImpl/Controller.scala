@@ -27,7 +27,7 @@ class Controller @Inject()(override val gameState: GameState, override val color
   def setDifficulty(difficultyInput: String): Unit =
     Try(GameData(DifficultyStrategy.getAttempts(difficultyMatcher(difficultyInput).get), colorFactory.pickSolution())) match {
       case Success(newGameData) =>
-        gameState.gameData = newGameData
+        publish(InGame(newGameData))
       case Failure(exception) =>
         print("Invalid Difficulty\n")
         print("Please use easy, medium or mastermind")
@@ -41,13 +41,13 @@ class Controller @Inject()(override val gameState: GameState, override val color
         if filledSuccess.userPickedColors.size < 4 then
           print("Invalid Input\n")
         else
-          gameState.gameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))
-          if gameState.gameData.getCurrentTurn == -1 then
-            publish(GameOver(gameState.gameData))
-          else if gameState.gameData.getAttempt(gameState.gameData.getCurrentTurn+1).getCorrectPositions(gameState.gameData.solution) == 4 then
-            publish(Win(gameState.gameData))
+          val newGameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))
+          if newGameData.getCurrentTurn == -1 then
+            publish(GameOver(newGameData))
+          else if newGameData.getAttempt(newGameData.getCurrentTurn+1).getCorrectPositions(newGameData.solution) == 4 then
+            publish(Win(newGameData))
           else
-            publish(InGame(gameState.gameData))
+            publish(InGame(newGameData))
 
       case Failure(exception) =>
         print("Invalid Input\n")
@@ -58,11 +58,11 @@ class Controller @Inject()(override val gameState: GameState, override val color
 
 
   override def undo(): Unit =
-    gameState.gameData = undoManager.undoStep(gameState.gameData)
-    publish(InGame(gameState.gameData))
+    val newGameData = undoManager.undoStep(gameState.gameData)
+    publish(InGame(newGameData))
   override def redo(): Unit =
-    gameState.gameData = undoManager.redoStep(gameState.gameData)
-    publish(InGame(gameState.gameData))
+    val newGameData = undoManager.redoStep(gameState.gameData)
+    publish(InGame(newGameData))
 
   override def save(): Unit =
     val injector = Guice.createInjector(new MasterMindModule)
@@ -72,7 +72,7 @@ class Controller @Inject()(override val gameState: GameState, override val color
   override def load(): Unit =
     val injector = Guice.createInjector(new MasterMindModule)
     val io = injector.getInstance(classOf[FileIOInterface])
-    gameState.gameData = io.load
+    val newGameData = io.load
     undoManager.clearList()
-    publish(InGame(gameState.gameData))
+    publish(InGame(newGameData))
 }

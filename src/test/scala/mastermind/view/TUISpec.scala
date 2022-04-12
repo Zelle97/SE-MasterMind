@@ -47,21 +47,6 @@ class TUISpec extends AnyWordSpec with Matchers {
           testTUI.processInput("a b c d")
         }
       }
-      /*   "adding an Attempt and turns are over" should { TODO ?
-      "set the GameStatus on GameOver" in {
-        controller.gameState.gameData.setTurn(controller.gameData.getAttemptSize()-1)
-        controller.addAttempt("red green yellow blue")
-        GameState.state shouldBe "!!Game over!! You lost the game!!!"
-      }
-    }
-    "adding an Attempt and game is Won" should {
-      "set the GameStatus on GameOver" in {
-        controller.gameData.setTurn(9)
-        val solutionAttempt = solution(0).colorString + " " + solution(1).colorString + " " + solution(2).colorString + " " + solution(3).colorString
-        controller.addAttempt(solutionAttempt)
-        GameState.state shouldBe "!!Win!! You are a true MasterMind!!!"
-      }
-    }*/
 
   }
 }
