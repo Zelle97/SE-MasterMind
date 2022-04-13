@@ -13,7 +13,7 @@ import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import scala.xml.{Elem, PrettyPrinter}
 
 class FileIO  @Inject() extends FileIOInterface {
-  override def load: GameDataInterface = {
+  override def load: GameData = {
     val file = scala.xml.XML.loadFile("gameData.xml")
     val colorFactory = ColorFactory()
     val attemptSeq = (file \\ "attempt")

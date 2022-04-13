@@ -26,11 +26,11 @@ class FileIOSpec extends AnyWordSpec with Matchers {
     "gameData is Loaded" should {
       "create GameData" in {
         val gameData = io.load
-        gameData.getAllAttempts().size shouldBe 10
-        gameData.getAllAttempts()(0).getUserPickedColor(0).colorString shouldBe "red"
-        gameData.getAllAttempts()(0).getUserPickedColor(1).colorString shouldBe "green"
-        gameData.getAllAttempts()(0).getUserPickedColor(2).colorString shouldBe "yellow"
-        gameData.getAllAttempts()(0).getUserPickedColor(3).colorString shouldBe "black"
+        gameData.attempts.size shouldBe 10
+        gameData.attempts(0).userPickedColors(0).colorString shouldBe "red"
+        gameData.attempts(0).userPickedColors(1).colorString shouldBe "green"
+        gameData.attempts(0).userPickedColors(2).colorString shouldBe "yellow"
+        gameData.attempts(0).userPickedColors(3).colorString shouldBe "black"
       }
     }
   }
@@ -51,11 +51,11 @@ class FileIOSpec extends AnyWordSpec with Matchers {
     "gameData is Loaded" should {
       "create GameData" in {
         val gameData = io.load
-        gameData.getAllAttempts().size shouldBe 10
-        gameData.getAllAttempts()(0).getUserPickedColor(0).colorString shouldBe "red"
-        gameData.getAllAttempts()(0).getUserPickedColor(1).colorString shouldBe "green"
-        gameData.getAllAttempts()(0).getUserPickedColor(2).colorString shouldBe "yellow"
-        gameData.getAllAttempts()(0).getUserPickedColor(3).colorString shouldBe "black"
+        gameData.attempts.size shouldBe 10
+        gameData.attempts(0).userPickedColors(0).colorString shouldBe "red"
+        gameData.attempts(0).userPickedColors(1).colorString shouldBe "green"
+        gameData.attempts(0).userPickedColors(2).colorString shouldBe "yellow"
+        gameData.attempts(0).userPickedColors(3).colorString shouldBe "black"
       }
     }
 

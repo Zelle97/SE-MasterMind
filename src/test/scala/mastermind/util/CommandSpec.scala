@@ -1,16 +1,29 @@
 package mastermind.util
 
+import mastermind.controllerComponent.DifficultyStrategy
+import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class incrCommand extends Command {
   var state: Int = 0
+  val colorFactory = ColorFactory()
+  val solution = colorFactory.pickSolution()
+  val attempts = DifficultyStrategy.getAttempts("easy")
 
-  override def doStep(): Unit = state += 1
+  override def doStep() : GameData =
+    state += 1
+    return GameData(attempts, solution)
 
-  override def undoStep(): Unit = state -= 1
 
-  override def redoStep(): Unit = state += 1
+  override def undoStep(): GameData =
+    state -= 1
+    GameData(attempts, solution)
+
+  override def redoStep(): GameData =
+    state += 1
+    GameData(attempts, solution)
 }
 
 class CommandSpec extends AnyWordSpec with Matchers {

@@ -25,7 +25,7 @@ class AttemptSpec extends AnyWordSpec with Matchers {
       }
       "contain 4 fields" in {
         val testAttempt = Attempt(Vector(colorFactory.getColor("red").get, colorFactory.getColor("green").get, colorFactory.getColor("blue").get, colorFactory.getColor("yellow").get))
-        testAttempt.getAllUserColors().size shouldBe 4
+        testAttempt.userPickedColors.size shouldBe 4
       }
       "get the correct number of colors" in {
         val testAttempt = Attempt(Vector(colorFactory.getColor("green").get, colorFactory.getColor("red").get, colorFactory.getColor("yellow").get, colorFactory.getColor("blue").get))

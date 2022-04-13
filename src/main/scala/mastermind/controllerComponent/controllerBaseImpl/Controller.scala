@@ -1,10 +1,13 @@
 package mastermind.controllerComponent.controllerBaseImpl
 
-import com.google.inject.Inject
+import com.google.inject.{Guice, Inject}
+import mastermind.MasterMindModule
+import net.codingwell.scalaguice.ScalaModule
 import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy, GameState}
 import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.model.colorComponent.ColorFactoryInterface
 import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.model.fileIOComponent.FileIOInterface
 import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, UndoManager, Win}
 
@@ -53,15 +56,23 @@ class Controller @Inject()(override val gameState: GameState, override val color
         print("\n")
     }
 
-  override def undo(): Unit =
-    println("TODO")
-    //publish(InGame(undoManager.undoStep()))
-  override def redo(): Unit =
-    println("TODO")
-    //publish(InGame(undoManager.redoStep()))
-  override def save(): Unit =
-    println("TODO")
-  override def load(): Unit =
-    println("TODO")
 
+  override def undo(): Unit =
+    val newGameData = undoManager.undoStep(gameState.gameData)
+    publish(InGame(newGameData))
+  override def redo(): Unit =
+    val newGameData = undoManager.redoStep(gameState.gameData)
+    publish(InGame(newGameData))
+
+  override def save(): Unit =
+    val injector = Guice.createInjector(new MasterMindModule)
+    val io = injector.getInstance(classOf[FileIOInterface])
+    io.save(gameState.gameData)
+    
+  override def load(): Unit =
+    val injector = Guice.createInjector(new MasterMindModule)
+    val io = injector.getInstance(classOf[FileIOInterface])
+    val newGameData = io.load
+    undoManager.clearList()
+    publish(InGame(newGameData))
 }

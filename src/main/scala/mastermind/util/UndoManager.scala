@@ -11,28 +11,32 @@ class UndoManager {
     command.doStep()
   }
 
-  def undoStep(): Unit = {
+  def undoStep(gameData: GameData): GameData = {
     if(undoStack.nonEmpty) {
       undoStack match {
         case Nil =>
         case head :: stack =>
-          head.undoStep()
+          val newGameData = head.undoStep()
           undoStack = stack
           redoStack = head :: redoStack
+          return newGameData
       }
     }
+    gameData
   }
 
-  def redoStep(): Unit = {
+  def redoStep(gameData: GameData): GameData = {
     if(redoStack.nonEmpty) {
       redoStack match {
         case Nil =>
         case head :: stack =>
-          head.redoStep()
+          val newGameData = head.redoStep()
           redoStack = stack
           undoStack = head :: undoStack
+          return newGameData
       }
     }
+    gameData
   }
 
   def clearList():Unit = {

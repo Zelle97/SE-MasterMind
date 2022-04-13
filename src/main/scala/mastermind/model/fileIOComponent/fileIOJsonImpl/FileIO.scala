@@ -14,7 +14,7 @@ import play.api.libs.json.{JsObject, JsString, JsValue, Json}
 import scala.io.{BufferedSource, Source}
 
 class FileIO  @Inject() extends FileIOInterface {
-  override def load: GameDataInterface = {
+  override def load: GameData = {
     val src: BufferedSource = Source.fromFile("gameData.json")
     val colorFactory = ColorFactory()
     val source: String = src.getLines().mkString
