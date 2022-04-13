@@ -15,60 +15,60 @@ import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
 class Controller @Inject()(override val gameState: GameState, override val colorFactory: ColorFactoryInterface) extends ControllerInterface with Publisher {
-
   private val undoManager = new UndoManager
-
   def difficultyMatcher(difficulty: String): Option[String] = difficulty match
     case "easy" => Some("easy")
     case "medium" => Some("medium")
     case "mastermind" => Some("mastermind")
     case _ => None
-
-  def setDifficulty(difficultyInput: String): Unit =
+  def setDifficulty(difficultyInput: String): Try[String] =
     Try(GameData(DifficultyStrategy.getAttempts(difficultyMatcher(difficultyInput).get), colorFactory.pickSolution())) match {
       case Success(newGameData) =>
         publish(InGame(newGameData))
+        Success
       case Failure(exception) =>
-        print("Invalid Difficulty\n")
-        print("Please use easy, medium or mastermind")
-        print("\n")
+        Failure(
+          s"""
+            |Invalid Difficulty
+            |Please use easy, medium or mastermind
+            |""".stripMargin)
     }
-
-  override def addAttempt(input: String): Unit =
+  override def addAttempt(input: String): Try[String] =
     val colors = input.split(" ").toVector
     Try(Attempt(colors.map(colorInput => colorFactory.getColor(colorInput).get))) match {
       case Success(filledSuccess) =>
         if filledSuccess.userPickedColors.size < 4 then
-          print("Invalid Input\n")
+          Failure("Invalid Input")
         else
           val newGameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))
           if newGameData.getCurrentTurn == -1 then
             publish(GameOver(newGameData))
+            Success
           else if newGameData.getAttempt(newGameData.getCurrentTurn+1).getCorrectPositions(newGameData.solution) == 4 then
             publish(Win(newGameData))
+            Success
           else
             publish(InGame(newGameData))
-
+            Success
       case Failure(exception) =>
-        print("Invalid Input\n")
-        print("Please use those colors: ")
-        colorFactory.getAllColors().foreach(shade => print(shade.toString + " "))
-        print("\n")
+        val allColors = colorFactory.getAllColors().foreach(shade => print(shade.toString + " "))
+        Failure(
+          s"""
+            |Invalid Input
+            |Please use those colors:
+            |$allColors
+            |""".stripMargin)
     }
-
-
   override def undo(): Unit =
     val newGameData = undoManager.undoStep(gameState.gameData)
     publish(InGame(newGameData))
   override def redo(): Unit =
     val newGameData = undoManager.redoStep(gameState.gameData)
     publish(InGame(newGameData))
-
   override def save(): Unit =
     val injector = Guice.createInjector(new MasterMindModule)
     val io = injector.getInstance(classOf[FileIOInterface])
     io.save(gameState.gameData)
-    
   override def load(): Unit =
     val injector = Guice.createInjector(new MasterMindModule)
     val io = injector.getInstance(classOf[FileIOInterface])
