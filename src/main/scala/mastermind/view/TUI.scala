@@ -4,6 +4,7 @@ import mastermind.controllerComponent.{ControllerInterface, GameState}
 import mastermind.util.{GameOver, InGame, Win}
 
 import scala.swing.Reactor
+import scala.util.{Failure, Success}
 import scala.util.matching.Regex
 
 class TUI(controller: ControllerInterface) extends Reactor {
@@ -15,28 +16,43 @@ class TUI(controller: ControllerInterface) extends Reactor {
   def processInput(input: String): Unit = {
     input match {
       case "exit" =>
-      case difficultyPattern(_, param) => controller.setDifficulty(param)
+      case difficultyPattern(_, param) => controller.setDifficulty(param) match {
+        case Failure(exception) => println(exception.getMessage)
+        case Success(value) =>
+      }
       case "z" => controller.undo()
       case "y" => controller.redo()
       case "s" => controller.save()
       case "l" => controller.load()
-      case "h" => help()
-      case _ => controller.addAttempt(input)
+      case "h" => println(help())
+      case _ => controller.addAttempt(input) match {
+        case Failure(exception) => println(exception.getMessage)
+        case Success(value) =>
+      }
     }
   }
 
-  def help(): Unit =
-    print("Welcome to Mastermind!\n")
-    print("These are the available commands:\n")
-    print("color1 color2 color3 color4 -> Input colors\n")
-    print("s -> Save your Game\n")
-    print("l -> Load your saved Game\n")
-    print("z -> Undo your last Step\n")
-    print("y -> Redo your last Step\n")
-    print("h -> Display this help\n")
-    print("exit -> Exit the game\n")
-    print("And here is described how mastermind works:\n")
-    print("You are the codebreaker: Try to guess the pattern in order and color.\nThere are three different difficulties:\neasy -> 10 turns\nmedium -> 8 turns\nmastermind -> 7 turns\nEach guess is made by placing a row of code pegs on the decoding board.\nOnce placed, you are provided with some feedback on the right side of the row with your guess.\nGood Luck!!\n")
+  def help(): String =
+    """
+    |Welcome to Mastermind!
+    |These are the available commands:
+    |color1 color2 color3 color4 -> Input colors
+    |s -> Save your Game
+    |l -> Load your saved Game
+    |z -> Undo your last Step
+    |y -> Redo your last Step
+    |h -> Display this help
+    |exit -> Exit the game
+    |And here is described how mastermind works:
+    |You are the codebreaker: Try to guess the pattern in order and color.
+    |There are three different difficulties:
+    |easy -> 10 turns
+    |medium -> 8 turns
+    |mastermind -> 7 turns
+    |Each guess is made by placing a row of code pegs on the decoding board.
+    |Once placed, you are provided with some feedback on the right side of the row with your guess.
+    |Good Luck!!
+    |""".stripMargin
 
 
   reactions += {
