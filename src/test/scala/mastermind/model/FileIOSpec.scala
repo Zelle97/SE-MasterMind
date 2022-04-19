@@ -1,10 +1,14 @@
 package mastermind.model
 
 import mastermind.controllerComponent.DifficultyStrategy
-import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
-import mastermind.model.colorComponent.colorBaseImpl.{Color}
-import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
-import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.core.model.attemptComponent.attemptBaseImpl
+import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.core.model.colorComponent.colorBaseImpl.Color
+import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.core.model.fileIOComponent.fileIOJsonImpl.FileIO
+import mastermind.core.model.fileIOComponent.fileIOXmlImpl
+import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.model.colorComponent.colorBaseImpl.Color
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -15,9 +19,9 @@ class FileIOSpec extends AnyWordSpec with Matchers {
     var attempts = DifficultyStrategy.getAttempts("easy")
     var userAttempt = Vector[Color]()
     userAttempt = userAttempt :+ colorFactory.getColor("red").get :+ colorFactory.getColor("green").get :+ colorFactory.getColor("yellow").get :+ colorFactory.getColor("black").get
-    attempts = attempts.updated(0, Attempt(userAttempt))
+    attempts = attempts.updated(0, attemptBaseImpl.Attempt(userAttempt))
     val testData = GameData(attempts,solution)
-    val io = new mastermind.model.fileIOComponent.fileIOJsonImpl.FileIO
+    val io = new FileIO
     "gameData is Saved" should {
       "create a JSON Object" in {
         io.save(testData)
@@ -40,9 +44,9 @@ class FileIOSpec extends AnyWordSpec with Matchers {
     var attempts = DifficultyStrategy.getAttempts("easy")
     var userAttempt = Vector[Color]()
     userAttempt = userAttempt :+ colorFactory.getColor("red").get :+ colorFactory.getColor("green").get :+ colorFactory.getColor("yellow").get :+ colorFactory.getColor("black").get
-    attempts = attempts.updated(0, Attempt(userAttempt))
+    attempts = attempts.updated(0, attemptBaseImpl.Attempt(userAttempt))
     val testData = GameData(attempts,solution)
-    val io = new mastermind.model.fileIOComponent.fileIOXmlImpl.FileIO
+    val io = new fileIOXmlImpl.FileIO
     "gameData is Saved" should {
       "create a XML Object" in {
         io.save(testData)

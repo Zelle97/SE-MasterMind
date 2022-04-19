@@ -1,13 +1,14 @@
 package mastermind.view
 
-import java.awt.Color
+import mastermind.core.ControllerInterface
 
+import java.awt.Color
 import javax.swing.border.Border
-import mastermind.controllerComponent.{ControllerInterface, GameState}
-import mastermind.util.{GameOver, InGame, Win}
+import mastermind.core.GameState
+import mastermind.core.util.{GameOver, InGame, Win}
 
 import scala.swing.Swing.LineBorder
-import scala.swing._
+import scala.swing.*
 import scala.util.{Failure, Success, Try}
 
 class Manual extends Frame {

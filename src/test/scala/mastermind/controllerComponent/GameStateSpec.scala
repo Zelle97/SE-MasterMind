@@ -1,10 +1,10 @@
 package mastermind.controllerComponent
 
+import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.util.{GameOver, InGame, Win}
-import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
 
 class GameStateSpec extends AnyWordSpec with Matchers {
   // TODO Tests ergeben kein Sinn (Rückgabewert?)

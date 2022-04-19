@@ -5,8 +5,8 @@ version := "0.1"
 scalaVersion := "3.1.1"
 
 lazy val view = project in file("view")
-lazy val core = project in file("controllerComponent, model, util")
-lazy val persistence = project in file("model.fileIOComponent")
+lazy val core = project in file("core")
+lazy val persistence = project in file("persistence")
 lazy val root = (project in file(".")).aggregate(view, core, persistence)
 
 mainClass := Some("mastermind.MasterMind")
@@ -24,8 +24,8 @@ libraryDependencies += "org.mockito" % "mockito-core" % "2.7.19" % Test
 
 coverageExcludedPackages := "<empty>;mastermind.view.*;<empty>;mastermind.MasterMindModule\\.*;<empty>;mastermind.MasterMind\\.*"
 
-assemblyJarName in assembly := "mastermind.jar"
-assemblyMergeStrategy in assembly := {
+assembly / assemblyJarName := "mastermind.jar"
+assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }

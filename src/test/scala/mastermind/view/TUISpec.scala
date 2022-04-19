@@ -2,9 +2,9 @@ package mastermind.view
 
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.controllerComponent.{DifficultyStrategy, GameState}
-import mastermind.model.colorComponent.colorBaseImpl.Color
-import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
-import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.core.model.colorComponent.colorBaseImpl.Color
+import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

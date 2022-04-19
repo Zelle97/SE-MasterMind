@@ -1,16 +1,17 @@
 package mastermind
 
 import com.google.inject.AbstractModule
-import mastermind.controllerComponent.controllerBaseImpl.Controller
-import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy, GameState}
-import mastermind.model.attemptComponent.AttemptInterface
-import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
-import mastermind.model.colorComponent.ColorFactoryInterface
-import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
-import mastermind.model.fileIOComponent.FileIOInterface
-import mastermind.model.fileIOComponent.fileIOXmlImpl.FileIO
-import mastermind.model.gameDataComponent.GameDataInterface
-import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.core.{ControllerInterface, DifficultyStrategy, GameState}
+import mastermind.core.controllerBaseImpl.Controller
+import mastermind.core.GameState
+import mastermind.core.model.attemptComponent.AttemptInterface
+import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.core.model.colorComponent.ColorFactoryInterface
+import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.persistence.fileIOComponent.FileIOInterface
+import mastermind.persistence.fileIOComponent.fileIOXmlImpl.FileIO
+import mastermind.core.model.gameDataComponent.GameDataInterface
+import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import net.codingwell.scalaguice.ScalaModule
 
 class MasterMindModule extends AbstractModule {
@@ -22,7 +23,7 @@ class MasterMindModule extends AbstractModule {
     val gameData = GameData(attempts, solution)
     val gameState = GameState(gameData)
 
-    
+
     bind(classOf[ColorFactoryInterface]).toInstance(colorFactory)
     bind(classOf[AttemptInterface]).toInstance(attempt)
     bind(classOf[GameDataInterface]).toInstance(gameData)

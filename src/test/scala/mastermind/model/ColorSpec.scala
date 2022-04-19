@@ -1,7 +1,7 @@
 package mastermind.model
 
-import mastermind.model.colorComponent.colorBaseImpl.Color
-import mastermind.model.colorComponent.colorFactoryBaseImpl.ColorFactory
+import mastermind.core.model.colorComponent.colorBaseImpl.Color
+import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

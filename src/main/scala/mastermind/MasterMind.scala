@@ -1,11 +1,12 @@
 package mastermind
 
 import com.google.inject.Guice
-import mastermind.controllerComponent.{ControllerInterface, DifficultyStrategy}
-import mastermind.controllerComponent.controllerBaseImpl.Controller
-import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
-import mastermind.model.colorComponent.colorBaseImpl.Color
-import mastermind.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.core.ControllerInterface
+import mastermind.core.DifficultyStrategy
+import mastermind.core.controllerBaseImpl.Controller
+import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.core.model.colorComponent.colorBaseImpl.Color
+import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.view.{GUI, TUI}
 
 import scala.io.StdIn.readLine

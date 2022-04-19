@@ -1,6 +1,6 @@
 package mastermind.controllerComponent
 
-import mastermind.model.attemptComponent.attemptBaseImpl.Attempt
+import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
