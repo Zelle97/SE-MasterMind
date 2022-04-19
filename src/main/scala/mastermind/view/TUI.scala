@@ -15,7 +15,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
 
   def processInput(input: String): Unit = {
     input match {
-      case "exit" =>
+      case "exit" =>  println("Goodbye!")
       case difficultyPattern(_, param) => controller.setDifficulty(param) match {
         case Failure(exception) => println(exception.getMessage)
         case Success(value) =>
@@ -32,6 +32,12 @@ class TUI(controller: ControllerInterface) extends Reactor {
     }
   }
 
+  def welcome(): Unit = 
+    println("""
+      |Welcome to Mastermind!
+      |Please select a difficulty with d easy/medium/mastermind
+      |""".stripMargin)
+    
   def help(): String =
     """
     |Welcome to Mastermind!

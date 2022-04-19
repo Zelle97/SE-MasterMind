@@ -42,7 +42,7 @@ class Controller @Inject()(override val gameState: GameState, override val color
           Failure(new Exception(
             """
               |Invalid Input
-              |To many colors
+              |Wrong amount of colors
               |""".stripMargin))
         else
           val newGameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))

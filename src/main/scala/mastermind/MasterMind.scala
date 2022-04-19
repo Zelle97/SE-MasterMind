@@ -26,7 +26,6 @@ object MasterMind {
     runTUI(controller)
 
   def mainRoutine(): ControllerInterface =
-    println("Welcome to MasterMind!")
     val injector = Guice.createInjector(new MasterMindModule)
     injector.getInstance(classOf[ControllerInterface])
 
@@ -34,14 +33,13 @@ object MasterMind {
     val gui = new GUI(controller)
 
   def runTUI(controller: ControllerInterface) =
-    println("Please select a difficulty with d easy/medium/mastermind")
     val tui = new TUI(controller)
+    tui.welcome()
     var input: String = ""
     while
       input = readLine()
       tui.processInput(input)
       input != "exit"
     do ()
-    println("Goodbye!")
 
 }
