@@ -4,6 +4,11 @@ version := "0.1"
 
 scalaVersion := "3.1.1"
 
+lazy val view = project in file("view")
+lazy val core = project in file("controllerComponent, model, util")
+lazy val persistence = project in file("model.fileIOComponent")
+lazy val root = (project in file(".")).aggregate(view, core, persistence)
+
 mainClass := Some("mastermind.MasterMind")
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
