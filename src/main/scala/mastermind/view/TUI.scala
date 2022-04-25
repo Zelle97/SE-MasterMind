@@ -19,7 +19,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case "exit" =>  println("Goodbye!")
       case difficultyPattern(_, param) => controller.setDifficulty(param) match {
         case Failure(exception) => println(exception.getMessage)
-        case Success(value) =>
+        case Success(_) =>
       }
       case "z" => controller.undo()
       case "y" => controller.redo()
@@ -28,7 +28,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case "h" => println(help())
       case _ => controller.addAttempt(input) match {
         case Failure(exception) => println(exception.getMessage)
-        case Success(value) =>
+        case Success(_) =>
       }
     }
   }
@@ -62,20 +62,23 @@ class TUI(controller: ControllerInterface) extends Reactor {
     |""".stripMargin
 
 
+  def gameOverPrint(): Unit =
+    println("GameOver")
+
+  def winPrint(): Unit =
+    println("Win")
+
   reactions += {
-    case event: InGame => {
+    case event: InGame =>
       controller.gameState.handle(InGame(event.gameData))
       println(controller.gameState.gameData.toString())
-    }
-    case event: Win => {
+    case event: Win =>
       controller.gameState.handle(Win(event.gameData))
       println(controller.gameState.gameData.toString())
       println("Win! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
-    }
-    case event: GameOver => {
+    case event: GameOver =>
       controller.gameState.handle(GameOver(event.gameData))
       println(controller.gameState.gameData.toString())
       println("Game Over! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
-    }
   }
 }
