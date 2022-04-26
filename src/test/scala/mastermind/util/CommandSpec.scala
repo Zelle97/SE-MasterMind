@@ -3,6 +3,7 @@ package mastermind.util
 import mastermind.controllerComponent.DifficultyStrategy
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
+import mastermind.core.util.Command
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

@@ -1,6 +1,5 @@
 package mastermind.view
 
-import mastermind.core.ControllerInterface
 import mastermind.core.GameState
 import mastermind.core.util.{GameOver, InGame, Win}
 
@@ -8,12 +7,11 @@ import scala.swing.Reactor
 import scala.util.{Failure, Success}
 import scala.util.matching.Regex
 
-class TUI(controller: ControllerInterface) extends Reactor {
-
-  listenTo(controller)
+class TUI() {
 
   val difficultyPattern: Regex = "(d )(.*)".r
 
+/*
   def processInput(input: String): Unit = {
     input match {
       case "exit" =>  println("Goodbye!")
@@ -32,6 +30,14 @@ class TUI(controller: ControllerInterface) extends Reactor {
       }
     }
   }
+*/
+  def processInput(input: String): Unit = {
+    input match {
+      case "h" => println(help());
+    }
+  }
+
+
 
   def welcome(): Unit =
     println("""
@@ -62,23 +68,23 @@ class TUI(controller: ControllerInterface) extends Reactor {
     |""".stripMargin
 
 
-  def gameOverPrint(): Unit =
-    println("GameOver")
+  def gameOver(gameString : String): Unit =
+    printGame(gameString)
+    println("Game Over! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
 
-  def winPrint(): Unit =
-    println("Win")
+  def win(gameString : String): Unit =
+    printGame(gameString)
+    println("Win! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
 
-  reactions += {
-    case event: InGame =>
-      controller.gameState.handle(InGame(event.gameData))
-      println(controller.gameState.gameData.toString())
-    case event: Win =>
-      controller.gameState.handle(Win(event.gameData))
-      println(controller.gameState.gameData.toString())
-      println("Win! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
-    case event: GameOver =>
-      controller.gameState.handle(GameOver(event.gameData))
-      println(controller.gameState.gameData.toString())
-      println("Game Over! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
+  def printGame(gameString : String) : Unit =
+    println(gameString)
+
+  def reactToGameState(gameStateView: GameStateView): Unit = {
+    gameStateView.state match {
+      case "InGame" => printGame(gameStateView.gameString)
+      case "Win" => win(gameStateView.gameString)
+      case "GameOver" => gameOver(gameStateView.gameString)
+
+    }
   }
 }

@@ -12,9 +12,11 @@ import com.google.inject.Guice
 import play.api.libs.json.Json
 import spray.json.*
 import spray.json.DefaultJsonProtocol.*
-
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
+import mastermind.core.controllerBaseImpl.Controller
 
 import scala.io.StdIn
+import scala.io.StdIn.readLine
 
 object ViewInterface {
 
@@ -24,13 +26,12 @@ object ViewInterface {
     // needed for the future flatMap/onComplete in the end
     implicit val executionContext = system.executionContext
 
+    val tui = new TUI
 
     def viewStateRoute: Route = post {
       path("viewState") {
-        entity(as[String]) { str =>
-          // TODO Difficulty as Json -> Serialize new class for difficulty
-          println(str.parseJson.prettyPrint)
-
+        (entity(as[GameStateView])) { gameStateView =>
+          tui.reactToGameState(gameStateView)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
 
         }
@@ -44,7 +45,14 @@ object ViewInterface {
     val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
 
     println(s"Server now online. Please navigate to http://localhost:8080/hello\nPress RETURN to stop...")
-    StdIn.readLine() // let it run until user presses return
+    //StdIn.readLine() // let it run until user presses return
+    tui.welcome()
+    var input: String = ""
+    while
+      input = readLine()
+      tui.processInput(input)
+      input != "exit"
+    do ()
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port
       .onComplete(_ => system.terminate()) // and shutdown when done
