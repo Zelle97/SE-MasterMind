@@ -68,6 +68,11 @@ class TUI(controller: ControllerInterface) extends Reactor {
   def winPrint(): Unit =
     println("Win")
 
+  def printGameState(): Unit =
+
+    println()
+
+
   reactions += {
     case event: InGame =>
       controller.gameState.handle(InGame(event.gameData))

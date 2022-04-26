@@ -8,12 +8,9 @@ import akka.http.scaladsl.model.StatusCodes.*
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.unmarshalling.Unmarshaller
-import com.google.inject.Guice
-import play.api.libs.json.Json
 import spray.json.*
 import spray.json.DefaultJsonProtocol.*
-
-
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._ // <-- new --------------
 import scala.io.StdIn
 
 object ViewInterface {
@@ -24,20 +21,18 @@ object ViewInterface {
     // needed for the future flatMap/onComplete in the end
     implicit val executionContext = system.executionContext
 
-
     def viewStateRoute: Route = post {
       path("viewState") {
-        entity(as[String]) { str =>
+        entity(as[GameStateView]) { json =>
+
           // TODO Difficulty as Json -> Serialize new class for difficulty
-          println(str.parseJson.prettyPrint)
 
+          println(json.gameString)
+          //println(json.parseJson.prettyPrint)
           complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
-
         }
       }
     }
-
-
 
     val routes = viewStateRoute
 
@@ -48,8 +43,5 @@ object ViewInterface {
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port
       .onComplete(_ => system.terminate()) // and shutdown when done
-
   }
-
-
 }
