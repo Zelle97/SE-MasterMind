@@ -28,3 +28,9 @@ object ColorView {
   implicit val colorJsonFormat: RootJsonFormat[ColorView] =
     jsonFormat1(ColorView.apply)
 }
+
+case class DifficultyView (diff: String) {}
+object DifficultyView {
+  implicit val difficultyJsonFormat: RootJsonFormat[DifficultyView] =
+    jsonFormat1(DifficultyView.apply)
+}

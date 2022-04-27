@@ -2,6 +2,7 @@ package mastermind.view
 
 import mastermind.core.GameState
 import mastermind.core.util.{GameOver, InGame, Win}
+import mastermind.view.ViewInterface
 
 import scala.swing.Reactor
 import scala.util.{Failure, Success}
@@ -34,10 +35,10 @@ class TUI() {
   def processInput(input: String): Unit = {
     input match {
       case "h" => println(help());
+      case "exit" =>  println("Goodbye!"); System.exit(0) //TODO
+      case difficultyPattern(_, param) => ViewInterface.postDifficulty(param);
     }
   }
-
-
 
   def welcome(): Unit =
     println("""

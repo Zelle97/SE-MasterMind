@@ -14,6 +14,8 @@ import mastermind.MasterMindModule
 import play.api.libs.json.Json
 import spray.json.*
 import spray.json.DefaultJsonProtocol.*
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
+
 
 import scala.io.StdIn
 
@@ -49,9 +51,9 @@ object CoreInterface {
     def difficultyRoutes:Route = {
       path("difficulty") {
         post {
-          entity(as[String]) { str =>
+          entity(as[Difficulty]) { difficulty =>
             // TODO Difficulty as Json -> Serialize new class for difficulty
-            println(str.parseJson.prettyPrint)
+            println(difficulty.diff)
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
           }
         }

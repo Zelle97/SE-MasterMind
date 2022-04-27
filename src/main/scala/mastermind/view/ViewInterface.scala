@@ -3,6 +3,7 @@ package mastermind.view
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.client.RequestBuilding.Post
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.model.StatusCodes.*
 import akka.http.scaladsl.server.Directives.*
@@ -13,7 +14,9 @@ import play.api.libs.json.Json
 import spray.json.*
 import spray.json.DefaultJsonProtocol.*
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
-import mastermind.core.controllerBaseImpl.Controller
+
+import akka.actor.TypedActor.dispatcher
+import concurrent.ExecutionContext.Implicits.global
 
 import scala.io.StdIn
 import scala.io.StdIn.readLine
@@ -42,9 +45,9 @@ object ViewInterface {
 
     val routes = viewStateRoute
 
-    val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
+    val bindingFuture = Http().newServerAt("localhost", 8081).bind(routes)
 
-    println(s"Server now online. Please navigate to http://localhost:8080/hello\nPress RETURN to stop...")
+    println(s"Server now online.Please navigate to http://localhost:8081/\nType 'exit' to stop...")
     //StdIn.readLine() // let it run until user presses return
     tui.welcome()
     var input: String = ""
@@ -57,6 +60,10 @@ object ViewInterface {
       .flatMap(_.unbind()) // trigger unbinding from the port
       .onComplete(_ => system.terminate()) // and shutdown when done
 
+  }
+
+  def postDifficulty(diff: String): Unit = {
+    Post("http://localhost:8080/difficulty", new DifficultyView(diff))
   }
 
 
