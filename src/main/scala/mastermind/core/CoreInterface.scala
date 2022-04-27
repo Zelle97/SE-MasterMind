@@ -2,7 +2,7 @@ package mastermind.core
 
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.model.StatusCodes._
+import akka.http.scaladsl.model.StatusCodes.*
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.*
 import akka.http.scaladsl.server.Directives.*
@@ -16,16 +16,16 @@ import spray.json.*
 import spray.json.DefaultJsonProtocol.*
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
 
-
+import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 
 object CoreInterface {
 
   def main(args: Array[String]): Unit = {
 
-    implicit val system = ActorSystem(Behaviors.empty, "my-system")
+    implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "core")
     // needed for the future flatMap/onComplete in the end
-    implicit val executionContext = system.executionContext
+    implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
 
     val injector = Guice.createInjector(new MasterMindModule)
