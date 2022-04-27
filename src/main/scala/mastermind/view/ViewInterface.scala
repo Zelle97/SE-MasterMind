@@ -40,9 +40,6 @@ object ViewInterface {
         }
       }
     }
-
-
-
     val routes = viewStateRoute
 
     val bindingFuture = Http().newServerAt("localhost", 8081).bind(routes)
@@ -63,8 +60,13 @@ object ViewInterface {
   }
 
   def postDifficulty(diff: String): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SinglePostRequest")
+    // needed for the future flatMap/onComplete in the end
+    implicit val executionContext = system.executionContext
     Post("http://localhost:8080/difficulty", new DifficultyView(diff))
   }
+
+
 
 
 }
