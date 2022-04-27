@@ -34,3 +34,9 @@ object DifficultyView {
   implicit val difficultyJsonFormat: RootJsonFormat[DifficultyView] =
     jsonFormat1(DifficultyView.apply)
 }
+
+case class InputView (input: String) {}
+object InputView {
+  implicit val inputJsonFormat: RootJsonFormat[InputView] =
+    jsonFormat1(InputView.apply)
+}

@@ -42,8 +42,11 @@ object CoreInterface {
     def attemptRoutes:Route = {
       path("attempt") {
         post {
-          controller.addAttempt("red red red red")
-          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
+          entity(as[Input]) { obj =>
+            controller.addAttempt(obj.input)
+            //println(obj.input)
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
+          }
         }
       }
     }
@@ -51,9 +54,9 @@ object CoreInterface {
     def difficultyRoutes:Route = {
       path("difficulty") {
         post {
-          entity(as[Difficulty]) { difficulty =>
-            // TODO Difficulty as Json -> Serialize new class for difficulty
-            println(difficulty.diff)
+          entity(as[Difficulty]) { obj =>
+            controller.setDifficulty(obj.diff)
+            //println(obj.diff)
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
           }
         }
