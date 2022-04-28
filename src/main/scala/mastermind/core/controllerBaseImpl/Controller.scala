@@ -12,10 +12,9 @@ import mastermind.persistence.fileIOComponent.FileIOInterface
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.core.util.{GameOver, InGame, UndoManager, Win}
 
-import scala.swing.Publisher
 import scala.util.{Failure, Success, Try}
 
-class Controller @Inject()(override val gameState: GameState, override val colorFactory: ColorFactoryInterface) extends ControllerInterface with Publisher {
+class Controller @Inject()(override val gameState: GameState, override val colorFactory: ColorFactoryInterface) extends ControllerInterface {
   private val undoManager = new UndoManager
   def difficultyMatcher(difficulty: String): Option[String] = difficulty match
     case "easy" => Some("easy")
@@ -48,11 +47,11 @@ class Controller @Inject()(override val gameState: GameState, override val color
         else
           val newGameData = undoManager.doStep(new AddCommand(gameState, filledSuccess))
           if newGameData.getCurrentTurn == -1 then
-            publish(GameOver(newGameData))
+            gameState.handle(GameOver(newGameData))
           else if newGameData.getAttempt(newGameData.getCurrentTurn+1).getCorrectPositions(newGameData.solution) == 4 then
-            publish(Win(newGameData))
+            gameState.handle(Win(newGameData))
           else
-            publish(InGame(newGameData))
+            gameState.handle(InGame(newGameData))
           Success("")
       case Failure(exception) =>
         val allColors = new StringBuilder
@@ -68,10 +67,10 @@ class Controller @Inject()(override val gameState: GameState, override val color
     }
   override def undo(): Unit =
     val newGameData = undoManager.undoStep(gameState.gameData)
-    publish(InGame(newGameData))
+    gameState.handle(InGame(newGameData))
   override def redo(): Unit =
     val newGameData = undoManager.redoStep(gameState.gameData)
-    publish(InGame(newGameData))
+    gameState.handle(InGame(newGameData))
   override def save(): Unit =
     val injector = Guice.createInjector(new MasterMindModule)
     val io = injector.getInstance(classOf[FileIOInterface])
@@ -81,5 +80,5 @@ class Controller @Inject()(override val gameState: GameState, override val color
     val io = injector.getInstance(classOf[FileIOInterface])
     val newGameData = io.load
     undoManager.clearList()
-    publish(InGame(newGameData))
+    gameState.handle(InGame(newGameData))
 }

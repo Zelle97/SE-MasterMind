@@ -22,51 +22,53 @@ import scala.io.StdIn
 object CoreInterface {
 
   def main(args: Array[String]): Unit = {
-
     implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "core")
-    // needed for the future flatMap/onComplete in the end
     implicit val executionContext: ExecutionContextExecutor = system.executionContext
-
-
     val injector = Guice.createInjector(new MasterMindModule)
     val controller = injector.getInstance(classOf[ControllerInterface])
-
     def gameRoutes:Route = {
-      path("game") {
-        get {
-          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, controller.gameState.gameData.toString()))
+      concat(
+        path("game") {
+          get {
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, controller.gameState.gameData.toString()))
+          }
+        },
+        path("game"/"undo") {
+          post {
+            controller.undo()
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
+          }
+        },
+        path("game"/"redo") {
+          post {
+            controller.redo()
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
+          }
         }
-      }
+      )
     }
-
     def attemptRoutes:Route = {
       path("attempt") {
         post {
           entity(as[Input]) { obj =>
             controller.addAttempt(obj.input)
-            //println(obj.input)
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
           }
         }
       }
     }
-
     def difficultyRoutes:Route = {
       path("difficulty") {
         post {
           entity(as[Difficulty]) { obj =>
             controller.setDifficulty(obj.diff)
-            //println(obj.diff)
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
           }
         }
       }
     }
-
     val routes = gameRoutes ~ attemptRoutes ~ difficultyRoutes
-
     val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
-
     println(s"Server now online. Please navigate to http://localhost:8080/\nPress RETURN to stop...")
     StdIn.readLine() // let it run until user presses return
     bindingFuture

@@ -1,43 +1,86 @@
 package mastermind.view
 
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
 import mastermind.core.GameState
 import mastermind.core.util.{GameOver, InGame, Win}
 import mastermind.view.ViewInterface
-
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.*
+import scala.util.{ Failure, Success }
+import scala.concurrent.Future
 import scala.swing.Reactor
 import scala.util.{Failure, Success}
 import scala.util.matching.Regex
+import akka.http.scaladsl.client.RequestBuilding.Post
+import spray.json.*
+import spray.json.DefaultJsonProtocol.*
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequest, HttpResponse}
+
+import scala.concurrent.{ExecutionContext, Future}
+
+implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
 
 class TUI() {
 
   val difficultyPattern: Regex = "(d )(.*)".r
 
-/*
+
   def processInput(input: String): Unit = {
     input match {
       case "exit" =>  println("Goodbye!")
-      case difficultyPattern(_, param) => controller.setDifficulty(param) match {
-        case Failure(exception) => println(exception.getMessage)
-        case Success(_) =>
-      }
-      case "z" => controller.undo()
-      case "y" => controller.redo()
-      case "s" => controller.save()
-      case "l" => controller.load()
+      case difficultyPattern(_, param) => postDifficulty(param)
+      case "z" => postUndo()
+      case "y" => postRedo()
+      case "s" => //controller.save()
+      case "l" => //controller.load()
       case "h" => println(help())
-      case _ => controller.addAttempt(input) match {
-        case Failure(exception) => println(exception.getMessage)
-        case Success(_) =>
-      }
+      case _ => postInput(input)
     }
   }
-*/
-  def processInput(input: String): Unit = {
-    input match {
-      case "h" => println(help());
-      case "exit" =>  println("Goodbye!"); System.exit(0) //TODO
-      case difficultyPattern(_, param) => ViewInterface.postDifficulty(param);
-    }
+
+  def postUndo(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = "http://localhost:8080/game/undo",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postRedo(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = "http://localhost:8080/game/redo",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postInput(input: String): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = "http://localhost:8080/attempt",
+      entity = HttpEntity(ContentTypes.`application/json`, new InputView(input).toJson.prettyPrint)
+    ))
+  }
+
+  def postDifficulty(diff: String): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = "http://localhost:8080/difficulty",
+      entity = HttpEntity(ContentTypes.`application/json`, new DifficultyView(diff).toJson.prettyPrint)
+    ))
   }
 
   def welcome(): Unit =
