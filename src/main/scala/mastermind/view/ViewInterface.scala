@@ -29,10 +29,11 @@ import scala.io.StdIn.readLine
 
 object ViewInterface {
 
-  val connectionInterface = "0.0.0.0"
-  val connectionPort: Int = sys.env.getOrElse("FILE_IO_PORT", 8081).toString.toInt
-
-
+  val viewInterface = sys.env.getOrElse("VIEW_INTERFACE", "localhost")
+  val viewPort: Int = sys.env.getOrElse("VIEW_PORT", 8081).toString.toInt
+  val coreInterface = sys.env.getOrElse("CORE_INTERFACE", "localhost")
+  val corePort: Int = sys.env.getOrElse("CORE_PORT", 8080).toString.toInt
+  
   def main(args: Array[String]): Unit = {
     implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "SingleRequest")
     implicit val executionContext: ExecutionContextExecutor = system.executionContext
@@ -46,8 +47,9 @@ object ViewInterface {
       }
     }
     val routes = viewStateRoute
-    val bindingFuture = Http().newServerAt("localhost", 8081).bind(routes)
-    println(s"Server now online.Please navigate to http://localhost:8081/\nType 'exit' to stop...")
+    val bindingFuture = Http().newServerAt(viewInterface, viewPort).bind(routes)
+    println(s"Settings for core: http://$coreInterface:$corePort/")
+    println(s"Server now online.Please navigate to http://$viewInterface:$viewPort/\nType 'exit' to stop...")
     tui.welcome()
     var input: String = ""
     while

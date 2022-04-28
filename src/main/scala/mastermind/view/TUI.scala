@@ -28,7 +28,8 @@ implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionC
 class TUI() {
 
   val difficultyPattern: Regex = "(d )(.*)".r
-
+  val coreInterface = sys.env.getOrElse("CORE_INTERFACE", "localhost")
+  val corePort: Int = sys.env.getOrElse("CORE_PORT", 8080).toString.toInt
 
   def processInput(input: String): Unit = {
     input match {
@@ -48,7 +49,7 @@ class TUI() {
     implicit val executionContext = system.executionContext
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8080/game/undo",
+      uri = s"http://$coreInterface:$corePort/game/undo",
       entity = HttpEntity(ContentTypes.`application/json`,"")
     ))
   }
@@ -58,7 +59,7 @@ class TUI() {
     implicit val executionContext = system.executionContext
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8080/game/redo",
+      uri = s"http://$coreInterface:$corePort/game/redo",
       entity = HttpEntity(ContentTypes.`application/json`,"")
     ))
   }
@@ -68,7 +69,7 @@ class TUI() {
     implicit val executionContext = system.executionContext
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8080/attempt",
+      uri = s"http://$coreInterface:$corePort/attempt",
       entity = HttpEntity(ContentTypes.`application/json`, new InputView(input).toJson.prettyPrint)
     ))
   }
@@ -78,7 +79,7 @@ class TUI() {
     implicit val executionContext = system.executionContext
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8080/difficulty",
+      uri = s"http://$coreInterface:$corePort/difficulty",
       entity = HttpEntity(ContentTypes.`application/json`, new DifficultyView(diff).toJson.prettyPrint)
     ))
   }

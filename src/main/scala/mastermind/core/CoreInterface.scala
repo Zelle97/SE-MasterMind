@@ -15,11 +15,19 @@ import play.api.libs.json.Json
 import spray.json.*
 import spray.json.DefaultJsonProtocol.*
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
+import mastermind.view.ViewInterface.{coreInterface, corePort}
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 
+
+
 object CoreInterface {
+
+  val viewInterface = sys.env.getOrElse("VIEW_INTERFACE", "localhost")
+  val viewPort: Int = sys.env.getOrElse("VIEW_PORT", 8081).toString.toInt
+  val coreInterface = sys.env.getOrElse("CORE_INTERFACE", "localhost")
+  val corePort: Int = sys.env.getOrElse("CORE_PORT", 8080).toString.toInt
 
   def main(args: Array[String]): Unit = {
     implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "core")
@@ -68,8 +76,9 @@ object CoreInterface {
       }
     }
     val routes = gameRoutes ~ attemptRoutes ~ difficultyRoutes
-    val bindingFuture = Http().newServerAt("localhost", 8080).bind(routes)
-    println(s"Server now online. Please navigate to http://localhost:8080/\nPress RETURN to stop...")
+    val bindingFuture = Http().newServerAt(coreInterface,corePort).bind(routes)
+    println(s"Settings for view: http://$viewInterface:$viewPort/")
+    println(s"Server now online. Please navigate to http://$coreInterface:$corePort/\nPress RETURN to stop...")
     StdIn.readLine() // let it run until user presses return
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port

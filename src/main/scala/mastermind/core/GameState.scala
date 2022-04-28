@@ -16,6 +16,9 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequ
 import scala.concurrent.Future
 import scala.swing.event.Event
 
+val viewInterface = sys.env.getOrElse("VIEW_INTERFACE", "localhost")
+val viewPort: Int = sys.env.getOrElse("VIEW_PORT", 8081).toString.toInt
+
 case class GameState(var gameData: GameData){
   def handle(e: Event): GameState = {
     e match {
@@ -36,7 +39,7 @@ case class GameState(var gameData: GameData){
     implicit val executionContext = system.executionContext
     val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
       method = HttpMethods.POST,
-      uri = "http://localhost:8081/viewState",
+      uri = s"http://$viewInterface:$viewPort/viewState",
       entity = HttpEntity(ContentTypes.`application/json`, new GameStateCore(gameData, gameData.toString(), state).toJson.prettyPrint)
     ))
   }

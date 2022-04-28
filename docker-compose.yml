@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  core:
+    container_name: mastermind-core
+    image: mastermind-core:latest
+    build:
+      context: .
+      dockerfile: DockerfileCore
+    stdin_open: true
+    tty: true
+    environment:
+      - VIEW_INTERFACE=view
+      - CORE_INTERFACE=core
+    networks:
+      - mastermind-network
+  view:
+    container_name: mastermind-view
+    image: mastermind-view:latest
+    stdin_open: true
+    tty: true
+    environment:
+      - CORE_INTERFACE=core
+      - VIEW_INTERFACE=view
+    build:
+      context: .
+      dockerfile: DockerfileView
+    networks:
+      - mastermind-network
+networks:
+  mastermind-network:
+    driver: bridge
+    ipam:
+      driver: default
