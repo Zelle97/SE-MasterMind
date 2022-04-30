@@ -1,10 +1,19 @@
 package mastermind.core.controllerBaseImpl
 
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.*
+import akka.util.ByteString
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequest, HttpResponse}
 import com.google.inject.{Guice, Inject}
 import mastermind.MasterMindModule
-import mastermind.core.{ControllerInterface, DifficultyStrategy, GameState}
+import spray.json.*
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import spray.json.DefaultJsonProtocol.*
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
+import mastermind.core.{ControllerInterface, DifficultyStrategy, GameState, GameStateCore}
 import net.codingwell.scalaguice.ScalaModule
-import mastermind.core.GameState
 import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.core.model.colorComponent.ColorFactoryInterface
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
@@ -12,7 +21,11 @@ import mastermind.persistence.fileIOComponent.FileIOInterface
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.core.util.{GameOver, InGame, UndoManager, Win}
 
+import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
+
+val persistenceInterface = sys.env.getOrElse("PERSISTENCE_INTERFACE", "localhost")
+val persistencePort: Int = sys.env.getOrElse("PERSISTENCE_PORT", 8082).toString.toInt
 
 class Controller @Inject()(override val gameState: GameState, override val colorFactory: ColorFactoryInterface) extends ControllerInterface {
   private val undoManager = new UndoManager
@@ -24,7 +37,7 @@ class Controller @Inject()(override val gameState: GameState, override val color
   def setDifficulty(difficultyInput: String): Try[String] =
     Try(GameData(DifficultyStrategy.getAttempts(difficultyMatcher(difficultyInput).get), colorFactory.pickSolution())) match {
       case Success(newGameData) =>
-        publish(InGame(newGameData))
+        gameState.handle(InGame(newGameData))
         Success("")
       case Failure(exception) =>
         Failure(
@@ -72,13 +85,27 @@ class Controller @Inject()(override val gameState: GameState, override val color
     val newGameData = undoManager.redoStep(gameState.gameData)
     gameState.handle(InGame(newGameData))
   override def save(): Unit =
-    val injector = Guice.createInjector(new MasterMindModule)
-    val io = injector.getInstance(classOf[FileIOInterface])
-    io.save(gameState.gameData)
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$persistenceInterface:$persistencePort/game/save",
+      entity = HttpEntity(ContentTypes.`application/json`, gameState.gameData.toJson.prettyPrint)
+    ))
   override def load(): Unit =
-    val injector = Guice.createInjector(new MasterMindModule)
-    val io = injector.getInstance(classOf[FileIOInterface])
-    val newGameData = io.load
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val response: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.GET,
+      uri = s"http://$persistenceInterface:$persistencePort/game/load",
+      entity = HttpEntity(ContentTypes.`application/json`, "")
+    ))
     undoManager.clearList()
-    gameState.handle(InGame(newGameData))
+    response.onComplete {
+      case Success(response) =>
+        Unmarshal(response.entity).to[GameData].onComplete{
+          case Success(gameData) => gameState.handle(InGame(gameData))
+        }
+      case Failure(exception) => println(exception)
+    }
 }

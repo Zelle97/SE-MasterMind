@@ -52,6 +52,18 @@ object CoreInterface {
             controller.redo()
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
           }
+        },
+          path("game"/"save") {
+          post {
+            controller.save()
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
+          }
+        },
+        path("game"/"load") {
+          post {
+            controller.load()
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
+          }
         }
       )
     }

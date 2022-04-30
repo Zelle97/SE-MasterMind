@@ -37,11 +37,31 @@ class TUI() {
       case difficultyPattern(_, param) => postDifficulty(param)
       case "z" => postUndo()
       case "y" => postRedo()
-      case "s" => //controller.save()
-      case "l" => //controller.load()
+      case "s" => postSave()
+      case "l" => postLoad()
       case "h" => println(help())
       case _ => postInput(input)
     }
+  }
+
+  def postSave(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/game/save",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postLoad(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/game/load",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
   }
 
   def postUndo(): Unit = {

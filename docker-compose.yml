@@ -1,18 +1,5 @@
 version: '3.9'
 services:
-  core:
-    container_name: mastermind-core
-    image: mastermind-core:latest
-    build:
-      context: .
-      dockerfile: DockerfileCore
-    stdin_open: true
-    tty: true
-    environment:
-      - VIEW_INTERFACE=view
-      - CORE_INTERFACE=core
-    networks:
-      - mastermind-network
   view:
     container_name: mastermind-view
     image: mastermind-view:latest
@@ -26,6 +13,34 @@ services:
       dockerfile: DockerfileView
     networks:
       - mastermind-network
+  core:
+    container_name: mastermind-core
+    image: mastermind-core:latest
+    build:
+      context: .
+      dockerfile: DockerfileCore
+    stdin_open: true
+    tty: true
+    environment:
+      - VIEW_INTERFACE=view
+      - CORE_INTERFACE=core
+      - PERSISTENCE_INTERFACE=persistence
+    networks:
+      - mastermind-network
+  persistence:
+    container_name: mastermind-persistence
+    image: mastermind-persistence:latest
+    stdin_open: true
+    tty: true
+    environment:
+      - PERSISTENCE_INTERFACE=persistence
+      - CORE_INTERFACE=core
+    build:
+      context: .
+      dockerfile: DockerfilePersistence
+    networks:
+      - mastermind-network
+
 networks:
   mastermind-network:
     driver: bridge
