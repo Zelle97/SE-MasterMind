@@ -1,8 +1,5 @@
 package mastermind.controllerComponent
 
-
-
-
 import java.nio.file.{Files, Paths}
 import mastermind.controllerComponent.controllerBaseImpl.Controller
 import mastermind.core.model.colorComponent.colorBaseImpl.Color

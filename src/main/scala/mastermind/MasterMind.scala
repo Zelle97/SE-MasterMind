@@ -34,7 +34,8 @@ object MasterMind {
     val gui = new GUI(controller)
 
   def runTUI(controller: ControllerInterface) =
-    val tui = new TUI(controller)
+    //val tui = new TUI(controller)
+    val tui = new TUI
     tui.welcome()
     var input: String = ""
     while

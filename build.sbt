@@ -4,8 +4,8 @@ version := "0.1"
 
 scalaVersion := "3.1.1"
 
-lazy val view = project in file("view")
-lazy val core = project in file("core")
+lazy val view = project.in(file("view")).settings(mainClass in Compile := Some("mastermind.view.ViewInterface"))
+lazy val core = project.in(file("core")).settings(mainClass in Compile := Some("mastermind.core.CoreInterface"))
 lazy val persistence = project in file("persistence")
 lazy val root = (project in file(".")).aggregate(view, core, persistence)
 

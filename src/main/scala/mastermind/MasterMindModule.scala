@@ -9,7 +9,7 @@ import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.core.model.colorComponent.ColorFactoryInterface
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.persistence.fileIOComponent.FileIOInterface
-import mastermind.persistence.fileIOComponent.fileIOXmlImpl.FileIO
+import mastermind.persistence.fileIOComponent.fileIOJsonImpl.FileIO
 import mastermind.core.model.gameDataComponent.GameDataInterface
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import net.codingwell.scalaguice.ScalaModule
