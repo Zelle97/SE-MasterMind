@@ -45,3 +45,5 @@ assembly / assemblyMergeStrategy := {
 }
 
 scalacOptions += "-deprecation"
+
+resolvers += "jitpack" at "https://jitpack.io"
