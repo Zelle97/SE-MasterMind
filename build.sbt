@@ -19,6 +19,11 @@ libraryDependencies ++= Seq(
   ("com.typesafe.akka" %% "akka-http" % AkkaHttpVersion).cross(CrossVersion.for3Use2_13),
   ("com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion).cross(CrossVersion.for3Use2_13)
 )
+libraryDependencies += ("com.typesafe.slick" %% "slick" % "3.3.3").cross(CrossVersion.for3Use2_13)
+libraryDependencies += "org.postgresql" % "postgresql" % "42.3.4"
+libraryDependencies += "org.slf4j" % "slf4j-nop" % "2.0.0-alpha7"
+libraryDependencies += ("com.typesafe.slick" %% "slick-hikaricp" % "3.3.3").cross(CrossVersion.for3Use2_13)
+
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
 libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0"
