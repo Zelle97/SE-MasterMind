@@ -1,6 +1,5 @@
 package mastermind.persistence.fileIOComponent.dataBase.slickImpl
 
-import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import slick.jdbc.PostgresProfile.api.*
 
 class GameDataTable(tag: Tag) extends Table[(Int, Int)](tag, "GAMEDATA"){
