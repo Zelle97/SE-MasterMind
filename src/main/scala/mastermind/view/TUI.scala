@@ -1,7 +1,8 @@
 package mastermind.view
 
-import mastermind.controllerComponent.{ControllerInterface, GameState}
-import mastermind.util.{GameOver, InGame, Win}
+import mastermind.core.ControllerInterface
+import mastermind.core.GameState
+import mastermind.core.util.{GameOver, InGame, Win}
 
 import scala.swing.Reactor
 import scala.util.{Failure, Success}
@@ -32,12 +33,12 @@ class TUI(controller: ControllerInterface) extends Reactor {
     }
   }
 
-  def welcome(): Unit = 
+  def welcome(): Unit =
     println("""
       |Welcome to Mastermind!
       |Please select a difficulty with d easy/medium/mastermind
       |""".stripMargin)
-    
+
   def help(): String =
     """
     |Welcome to Mastermind!
