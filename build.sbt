@@ -19,6 +19,14 @@ libraryDependencies ++= Seq(
   ("com.typesafe.akka" %% "akka-http" % AkkaHttpVersion).cross(CrossVersion.for3Use2_13),
   ("com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion).cross(CrossVersion.for3Use2_13)
 )
+//libraryDependencies += ("com.typesafe.slick" %% "slick" % "3.3.3").cross(CrossVersion.for3Use2_13)
+//libraryDependencies += ("com.typesafe.slick" %% "slick" % "3.4.0-M1").cross(CrossVersion.for3Use2_13)
+libraryDependencies += ("com.github.slick.slick" % "slick_3" % "nafg~dottyquery-SNAPSHOT")
+libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "3.0.4"
+libraryDependencies += "org.postgresql" % "postgresql" % "42.3.4"
+libraryDependencies += "org.slf4j" % "slf4j-nop" % "2.0.0-alpha7"
+libraryDependencies += ("com.typesafe.slick" %% "slick-hikaricp" % "3.3.3").cross(CrossVersion.for3Use2_13)
+
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
 libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0"
@@ -29,7 +37,6 @@ libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.0-RC5"
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.0.1"
 libraryDependencies += "org.mockito" % "mockito-core" % "2.7.19" % Test
 
-
 coverageExcludedPackages := "<empty>;mastermind.view.*;<empty>;mastermind.MasterMindModule\\.*;<empty>;mastermind.MasterMind\\.*"
 
 assembly / assemblyJarName := "mastermind.jar"
@@ -39,3 +46,5 @@ assembly / assemblyMergeStrategy := {
 }
 
 scalacOptions += "-deprecation"
+
+resolvers += "jitpack" at "https://jitpack.io"

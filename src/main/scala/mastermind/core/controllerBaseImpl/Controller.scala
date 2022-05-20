@@ -105,6 +105,7 @@ class Controller @Inject()(override val gameState: GameState, override val color
       case Success(response) =>
         Unmarshal(response.entity).to[GameData].onComplete{
           case Success(gameData) => gameState.handle(InGame(gameData))
+          case _ =>
         }
       case Failure(exception) => println(exception)
     }
