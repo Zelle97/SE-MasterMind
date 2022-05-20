@@ -15,6 +15,7 @@ import spray.json.DefaultJsonProtocol.*
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.core.{ControllerInterface, Difficulty, Input}
+import mastermind.persistence.dbComponent.DaoInterface
 import mastermind.persistence.fileIOComponent.FileIOInterface
 
 import scala.concurrent.ExecutionContextExecutor
@@ -29,19 +30,20 @@ object PersistenceInterface {
     implicit val executionContext: ExecutionContextExecutor = system.executionContext
     val injector = Guice.createInjector(new MasterMindModule)
     val fileIO = injector.getInstance(classOf[FileIOInterface])
+    val dbIO = injector.getInstance(classOf[DaoInterface])
     def routes:Route = {
       concat(
         path("game"/"save") {
           post {
             entity(as[GameData]) { gameData =>
-              fileIO.save(gameData)
+              dbIO.save(gameData)
               complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Success"))
             }
           }
         },
         path("game"/"load") {
           get {
-            complete(HttpEntity(ContentTypes.`application/json`, fileIO.load.toJson.prettyPrint))
+            complete(HttpEntity(ContentTypes.`application/json`, dbIO.load.toJson.prettyPrint))
           }
         }
       )

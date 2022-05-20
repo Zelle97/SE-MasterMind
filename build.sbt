@@ -22,6 +22,7 @@ libraryDependencies ++= Seq(
 //libraryDependencies += ("com.typesafe.slick" %% "slick" % "3.3.3").cross(CrossVersion.for3Use2_13)
 //libraryDependencies += ("com.typesafe.slick" %% "slick" % "3.4.0-M1").cross(CrossVersion.for3Use2_13)
 libraryDependencies += ("com.github.slick.slick" % "slick_3" % "nafg~dottyquery-SNAPSHOT")
+libraryDependencies += "org.mariadb.jdbc" % "mariadb-java-client" % "3.0.4"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.3.4"
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "2.0.0-alpha7"
 libraryDependencies += ("com.typesafe.slick" %% "slick-hikaricp" % "3.3.3").cross(CrossVersion.for3Use2_13)

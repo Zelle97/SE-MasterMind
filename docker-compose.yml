@@ -41,6 +41,18 @@ services:
     networks:
       - mastermind-network
 
+  database:
+    container_name: database
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: changeThisForProd
+      MARIADB_USER: dbuser
+      MARIADB_PASSWORD: dbpass
+      MARIADB_DATABASE: mastermind
+    networks:
+      - mastermind-network
+
 networks:
   mastermind-network:
     driver: bridge
