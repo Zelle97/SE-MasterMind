@@ -13,6 +13,7 @@ import mastermind.persistence.fileIOComponent.fileIOJsonImpl.FileIO
 import mastermind.core.model.gameDataComponent.GameDataInterface
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.persistence.dbComponent.DaoInterface
+import mastermind.persistence.dbComponent.mongoImpl.MongoImpl
 import mastermind.persistence.dbComponent.slickImpl.SlickImpl
 import net.codingwell.scalaguice.ScalaModule
 
@@ -31,6 +32,6 @@ class MasterMindModule extends AbstractModule {
     bind(classOf[GameDataInterface]).toInstance(gameData)
     bind(classOf[ControllerInterface]).toInstance(new Controller(gameState, colorFactory))
     bind(classOf[FileIOInterface]).toInstance(new FileIO)
-    bind(classOf[DaoInterface]).toInstance(new SlickImpl)
+    bind(classOf[DaoInterface]).toInstance(new MongoImpl)
   }
 }
