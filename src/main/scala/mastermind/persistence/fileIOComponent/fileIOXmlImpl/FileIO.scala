@@ -9,6 +9,7 @@ import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.persistence.fileIOComponent.FileIOInterface
 import mastermind.core.model.gameDataComponent.GameDataInterface
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
+import play.api.libs.json.JsObject
 
 import scala.xml.{Elem, PrettyPrinter}
 
@@ -60,6 +61,10 @@ class FileIO  @Inject() extends FileIOInterface {
     val xml = prettyPrinter.format(gameDataToXml(gameData))
     pw.write(xml)
     pw.close()
+  }
+
+  override def gameDataToJson(gameData: GameDataInterface): JsObject = {
+    null
   }
 
   def gameDataToXml(gameData: GameDataInterface): Elem = {

@@ -41,15 +41,25 @@ services:
     networks:
       - mastermind-network
 
+#  database:
+#    container_name: database
+#    image: mariadb
+#    restart: always
+#    environment:
+#      MARIADB_ROOT_PASSWORD: changeThisForProd
+#      MARIADB_USER: dbuser
+#      MARIADB_PASSWORD: dbpass
+#      MARIADB_DATABASE: mastermind
+#    networks:
+#      - mastermind-network
+
   database:
     container_name: database
-    image: mariadb
     restart: always
+    image: mongo:5.0
     environment:
-      MARIADB_ROOT_PASSWORD: changeThisForProd
-      MARIADB_USER: dbuser
-      MARIADB_PASSWORD: dbpass
-      MARIADB_DATABASE: mastermind
+      MONGO_INITDB_ROOT_USERNAME: dbuser
+      MONGO_INITDB_ROOT_PASSWORD: dbpass
     networks:
       - mastermind-network
 
