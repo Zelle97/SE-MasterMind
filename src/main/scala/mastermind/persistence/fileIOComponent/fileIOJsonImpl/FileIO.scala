@@ -16,10 +16,15 @@ import scala.io.{BufferedSource, Source}
 class FileIO  @Inject() extends FileIOInterface {
   override def load: GameData = {
     val src: BufferedSource = Source.fromFile("gameData.json")
-    val colorFactory = ColorFactory()
     val source: String = src.getLines().mkString
     src.close()
     val json: JsValue = Json.parse(source)
+    loadFromString(json.toString)
+  }
+
+  def loadFromString(inputString: String) = {
+    val json = Json.parse(inputString)
+    val colorFactory = ColorFactory()
     val attemptsArray = (json \ "attempts").get.as[Array[JsObject]]
     val attemptSize = attemptsArray.size
     var attempts = Vector[AttemptInterface]()
@@ -31,7 +36,7 @@ class FileIO  @Inject() extends FileIOInterface {
     var turn = 0
     attemptsArray
       .foreach(attemptObject => {
-        if(!(attemptObject \ "attempt" \ 0 \ "color").get.as[JsString].value.isBlank){
+        if (!(attemptObject \ "attempt" \ 0 \ "color").get.as[JsString].value.isBlank) {
           val attemptIndex = (attemptObject \ "index").get.toString().toInt
           val attempt = (attemptObject \ "attempt").get.as[Array[JsValue]]
           var attemptVector = Vector[Color]()
@@ -55,7 +60,7 @@ class FileIO  @Inject() extends FileIOInterface {
 
   }
 
-  def gameDataToJson(gameData: GameDataInterface): JsValue = {
+  override def gameDataToJson(gameData: GameDataInterface): JsObject = {
     Json.obj(
       "solution" -> Json.toJson(
         for {

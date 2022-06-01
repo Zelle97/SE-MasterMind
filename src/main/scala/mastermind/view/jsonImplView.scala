@@ -3,8 +3,7 @@ package mastermind.view
 import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.core.model.colorComponent.colorBaseImpl.Color
 import spray.json.RootJsonFormat
-import spray.json.DefaultJsonProtocol._
-
+import spray.json.DefaultJsonProtocol.*
 
 case class GameStateView(gameData: GameDataView, gameString: String, state: String) {}
 object GameStateView {
@@ -28,4 +27,16 @@ case class ColorView(colorString: String) {}
 object ColorView {
   implicit val colorJsonFormat: RootJsonFormat[ColorView] =
     jsonFormat1(ColorView.apply)
+}
+
+case class DifficultyView (diff: String) {}
+object DifficultyView {
+  implicit val difficultyJsonFormat: RootJsonFormat[DifficultyView] =
+    jsonFormat1(DifficultyView.apply)
+}
+
+case class InputView (input: String) {}
+object InputView {
+  implicit val inputJsonFormat: RootJsonFormat[InputView] =
+    jsonFormat1(InputView.apply)
 }

@@ -1,36 +1,107 @@
 package mastermind.view
 
-import mastermind.core.ControllerInterface
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
 import mastermind.core.GameState
 import mastermind.core.util.{GameOver, InGame, Win}
-
+import mastermind.view.ViewInterface
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.*
+import scala.util.{ Failure, Success }
+import scala.concurrent.Future
 import scala.swing.Reactor
 import scala.util.{Failure, Success}
 import scala.util.matching.Regex
+import akka.http.scaladsl.client.RequestBuilding.Post
+import spray.json.*
+import spray.json.DefaultJsonProtocol.*
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport.*
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequest, HttpResponse}
 
-class TUI(controller: ControllerInterface) extends Reactor {
+import scala.concurrent.{ExecutionContext, Future}
 
-  listenTo(controller)
+implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
+
+class TUI() {
 
   val difficultyPattern: Regex = "(d )(.*)".r
+  val coreInterface = sys.env.getOrElse("CORE_INTERFACE", "localhost")
+  val corePort: Int = sys.env.getOrElse("CORE_PORT", 8080).toString.toInt
 
   def processInput(input: String): Unit = {
     input match {
       case "exit" =>  println("Goodbye!")
-      case difficultyPattern(_, param) => controller.setDifficulty(param) match {
-        case Failure(exception) => println(exception.getMessage)
-        case Success(_) =>
-      }
-      case "z" => controller.undo()
-      case "y" => controller.redo()
-      case "s" => controller.save()
-      case "l" => controller.load()
+      case difficultyPattern(_, param) => postDifficulty(param)
+      case "z" => postUndo()
+      case "y" => postRedo()
+      case "s" => postSave()
+      case "l" => postLoad()
       case "h" => println(help())
-      case _ => controller.addAttempt(input) match {
-        case Failure(exception) => println(exception.getMessage)
-        case Success(_) =>
-      }
+      case _ => postInput(input)
     }
+  }
+
+  def postSave(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/game/save",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postLoad(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/game/load",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postUndo(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/game/undo",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postRedo(): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/game/redo",
+      entity = HttpEntity(ContentTypes.`application/json`,"")
+    ))
+  }
+
+  def postInput(input: String): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/attempt",
+      entity = HttpEntity(ContentTypes.`application/json`, new InputView(input).toJson.prettyPrint)
+    ))
+  }
+
+  def postDifficulty(diff: String): Unit = {
+    implicit val system = ActorSystem(Behaviors.empty, "SingleRequest")
+    implicit val executionContext = system.executionContext
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(
+      method = HttpMethods.POST,
+      uri = s"http://$coreInterface:$corePort/difficulty",
+      entity = HttpEntity(ContentTypes.`application/json`, new DifficultyView(diff).toJson.prettyPrint)
+    ))
   }
 
   def welcome(): Unit =
@@ -62,28 +133,23 @@ class TUI(controller: ControllerInterface) extends Reactor {
     |""".stripMargin
 
 
-  def gameOverPrint(): Unit =
-    println("GameOver")
+  def gameOver(gameString : String): Unit =
+    printGame(gameString)
+    println("Game Over! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
 
-  def winPrint(): Unit =
-    println("Win")
+  def win(gameString : String): Unit =
+    printGame(gameString)
+    println("Win! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
 
-  def printGameState(): Unit =
+  def printGame(gameString : String) : Unit =
+    println(gameString)
 
-    println()
+  def reactToGameState(gameStateView: GameStateView): Unit = {
+    gameStateView.state match {
+      case "InGame" => printGame(gameStateView.gameString)
+      case "Win" => win(gameStateView.gameString)
+      case "GameOver" => gameOver(gameStateView.gameString)
 
-
-  reactions += {
-    case event: InGame =>
-      controller.gameState.handle(InGame(event.gameData))
-      println(controller.gameState.gameData.toString())
-    case event: Win =>
-      controller.gameState.handle(Win(event.gameData))
-      println(controller.gameState.gameData.toString())
-      println("Win! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
-    case event: GameOver =>
-      controller.gameState.handle(GameOver(event.gameData))
-      println(controller.gameState.gameData.toString())
-      println("Game Over! Play again by choosing a difficulty: d easy/medium/mastermind or type exit.")
+    }
   }
 }
