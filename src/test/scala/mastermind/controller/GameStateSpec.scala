@@ -1,8 +1,9 @@
-package mastermind.controllerComponent
+package mastermind.controller
 
+import mastermind.core.{DifficultyStrategy, GameState}
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
-import mastermind.util.{GameOver, InGame, Win}
+import mastermind.core.util.{GameOver, InGame, Win}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

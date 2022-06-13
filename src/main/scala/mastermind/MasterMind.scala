@@ -3,7 +3,7 @@ package mastermind
 import com.google.inject.Guice
 import mastermind.core.ControllerInterface
 import mastermind.core.DifficultyStrategy
-import mastermind.core.controllerBaseImpl.Controller
+import mastermind.core.controller.Controller
 import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.core.model.colorComponent.colorBaseImpl.Color
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData

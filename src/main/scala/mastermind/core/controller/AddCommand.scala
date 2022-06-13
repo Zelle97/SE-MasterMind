@@ -1,4 +1,4 @@
-package mastermind.core.controllerBaseImpl
+package mastermind.core.controller
 
 import mastermind.core.GameState
 import mastermind.core.model.attemptComponent.AttemptInterface

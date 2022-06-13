@@ -1,14 +1,15 @@
-package mastermind.model
+package mastermind.persistence
 
-import mastermind.controllerComponent.DifficultyStrategy
+import mastermind.core.DifficultyStrategy
 import mastermind.core.model.attemptComponent.attemptBaseImpl
 import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import mastermind.core.model.colorComponent.colorBaseImpl.Color
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
-import mastermind.core.model.fileIOComponent.fileIOJsonImpl.FileIO
-import mastermind.core.model.fileIOComponent.fileIOXmlImpl
+//import mastermind.persistence.fileIOComponent.fileIOXmlImpl.FileIO
+import mastermind.core.model.colorComponent.colorBaseImpl.Color
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
-import mastermind.model.colorComponent.colorBaseImpl.Color
+import mastermind.persistence.fileIOComponent.fileIOJsonImpl.FileIO
+import mastermind.persistence.fileIOComponent.fileIOXmlImpl
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

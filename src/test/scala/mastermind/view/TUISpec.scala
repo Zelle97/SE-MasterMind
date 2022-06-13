@@ -1,7 +1,8 @@
 package mastermind.view
 
-import mastermind.controllerComponent.controllerBaseImpl.Controller
-import mastermind.controllerComponent.{DifficultyStrategy, GameState}
+import mastermind.core.controller.Controller
+import mastermind.core.GameState
+import mastermind.core.DifficultyStrategy
 import mastermind.core.model.colorComponent.colorBaseImpl.Color
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
@@ -16,32 +17,30 @@ class TUISpec extends AnyWordSpec with Matchers {
     val color = colorFactory
     val solution = colorFactory.pickSolution()
     "created" should {
-
-      val controller = new Controller(GameState(new GameData(attempts, solution)), color)
       "have a controller" in {
-        new TUI(controller)
+        new TUI()
       }
     }
     val controller = new Controller(GameState(new GameData(attempts, solution)), color)
-    val testTUI = new TUI(controller)
+    val testTUI = new TUI()
     "input exit is given" should {
       "exit the game" in {
         //testTUI.processInput("exit")
       }
     }
-    "input z is given" should {
+/*    "input z is given" should {
             "undo the last action" in {
         controller.addAttempt("red blue green yellow")
         testTUI.processInput("z")
         controller.gameState.gameData.getAttempt(9).userPickedColors(0).getColor shouldBe "          "
       }
-    }
-    "input y is given" should {
+    }*/
+/*    "input y is given" should {
       "redo the last action" in {
         testTUI.processInput("y")
         controller.gameState.gameData.getAttempt(9).userPickedColors(0).getColor shouldBe "       red"
       }
-    }
+    }*/
       "any other input is given" should {
         "process the input" in {
           testTUI.processInput("a b c d")
