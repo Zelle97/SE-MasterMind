@@ -37,6 +37,7 @@ libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.0.2").cross(Cross
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.0-RC5"
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.0.1"
 libraryDependencies += "org.mockito" % "mockito-core" % "2.7.19" % Test
+libraryDependencies += "org.scalatestplus" %% "mockito-4-5" % "3.2.12.0" % "test"
 
 coverageExcludedPackages := "<empty>;mastermind.view.*;<empty>;mastermind.MasterMindModule\\.*;<empty>;mastermind.MasterMind\\.*"
 
