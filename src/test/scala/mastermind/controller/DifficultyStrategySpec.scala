@@ -1,5 +1,6 @@
-package mastermind.controllerComponent
+package mastermind.controller
 
+import mastermind.core.DifficultyStrategy
 import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec

@@ -11,7 +11,8 @@ lazy val root = (project in file(".")).aggregate(view, core, persistence)
 
 mainClass := Some("mastermind.MasterMind")
 
-val AkkaVersion = "2.6.8"
+//val AkkaVersion = "2.6.8"
+val AkkaVersion = "2.6.9"
 val AkkaHttpVersion = "10.2.9"
 libraryDependencies ++= Seq(
   ("com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion).cross(CrossVersion.for3Use2_13),
@@ -36,6 +37,7 @@ libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.0.2").cross(Cross
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.0-RC5"
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.0.1"
 libraryDependencies += "org.mockito" % "mockito-core" % "2.7.19" % Test
+libraryDependencies += "org.scalatestplus" %% "mockito-4-5" % "3.2.12.0" % "test"
 
 coverageExcludedPackages := "<empty>;mastermind.view.*;<empty>;mastermind.MasterMindModule\\.*;<empty>;mastermind.MasterMind\\.*"
 

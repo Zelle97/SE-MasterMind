@@ -2,7 +2,7 @@ package mastermind
 
 import com.google.inject.AbstractModule
 import mastermind.core.{ControllerInterface, DifficultyStrategy, GameState}
-import mastermind.core.controllerBaseImpl.Controller
+import mastermind.core.controller.Controller
 import mastermind.core.GameState
 import mastermind.core.model.attemptComponent.AttemptInterface
 import mastermind.core.model.attemptComponent.attemptBaseImpl.Attempt

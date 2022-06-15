@@ -1,6 +1,6 @@
 package mastermind.util
 
-import mastermind.controllerComponent.DifficultyStrategy
+import mastermind.core.DifficultyStrategy
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import mastermind.core.util.Command

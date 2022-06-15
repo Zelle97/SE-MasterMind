@@ -1,4 +1,4 @@
-package mastermind.core.controllerBaseImpl
+package mastermind.core.controller
 
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors

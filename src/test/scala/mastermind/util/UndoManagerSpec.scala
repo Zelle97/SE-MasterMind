@@ -1,6 +1,7 @@
 package mastermind.util
 
-import mastermind.controllerComponent.DifficultyStrategy
+import mastermind.core.DifficultyStrategy
+import mastermind.core.util.UndoManager
 import mastermind.core.model.colorComponent.colorFactoryBaseImpl.ColorFactory
 import mastermind.core.model.gameDataComponent.gameDataBaseImpl.GameData
 import org.scalatest.matchers.should.Matchers
@@ -8,7 +9,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class UndoManagerSpec extends AnyWordSpec with Matchers {
   "An UndoManager" should {
-    val undoManager = new UndoManager
+    val undoManager = UndoManager()
     val colorFactory = ColorFactory()
     val solution = colorFactory.pickSolution()
     val attempts = DifficultyStrategy.getAttempts("easy")

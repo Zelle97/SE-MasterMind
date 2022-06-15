@@ -33,7 +33,7 @@ object ViewInterface {
   val viewPort: Int = sys.env.getOrElse("VIEW_PORT", 8081).toString.toInt
   val coreInterface = sys.env.getOrElse("CORE_INTERFACE", "localhost")
   val corePort: Int = sys.env.getOrElse("CORE_PORT", 8080).toString.toInt
-  
+
   def main(args: Array[String]): Unit = {
     implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "SingleRequest")
     implicit val executionContext: ExecutionContextExecutor = system.executionContext
